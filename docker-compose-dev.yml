@@ -1,0 +1,28 @@
+version: "3"
+
+services:
+
+  spring-boot:
+    build:
+      context: .
+      dockerfile: dockerfile.dev
+    ports:
+      - 8080:8080
+    depends_on:
+     - mysql
+    platform: linux/x86_64
+
+  mysql:
+    image: mysql:latest
+    restart: always
+    volumes:
+      - ./dbdata:/var/lib/mysql
+    ports:
+      - 3309:3306
+    cap_add:
+      - SYS_NICE
+    environment:
+      - MYSQL_DATABASE=pangta
+      - MYSQL_ROOT_PASSWORD=pangta
+      - MYSQL_USER=pangta
+      - MYSQL_PASSWORD=pangta
