@@ -1,0 +1,18 @@
+spring:
+  datasource:
+
+    url: jdbc:mysql://localhost:3309/pangta?serverTimezone=UTC&characterEncoding=UTF-8
+    username: pangta
+    password: pangta
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        format_sql: true
+#        show_sql: true
+
+logging.level:
+  org.hibernate.SQL: debug
+  org.hibernate.type: trace
