@@ -10,15 +10,19 @@ public class Advertisement extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "advertisement_id")
+    @Column(name = "id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
+    @Column(name = "title")
     private String title;
+
+    @Column(name="content")
     private String content;
-    private Integer view_cnt;
+    @Column(name = "view_cnt")
+    private Integer viewCnt;
 
 }

@@ -13,7 +13,7 @@ public class Prize extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "prize_id")
+    @Column(name = "id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -28,8 +28,10 @@ public class Prize extends BaseEntity {
     @JoinColumn(name="comment_id")
     private Comment comment;
 
+    @Column(name = "price")
     private Long price;
 
+    @Column(name = "ranking")
     private Integer ranking;
 
 }

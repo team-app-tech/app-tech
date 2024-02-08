@@ -10,7 +10,7 @@ public class File extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "file_id")
+    @Column(name = "id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -21,7 +21,11 @@ public class File extends BaseEntity {
     @JoinColumn(name = "comment_id")
     private Comment comment;
 
+    @Column(name = "file_type")
     private FileType fileType;
+    @Column(name = "uuid")
     private String uuid;
+
+    @Column(name = "url")
     private String url;
 }
