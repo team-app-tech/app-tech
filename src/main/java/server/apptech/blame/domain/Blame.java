@@ -1,0 +1,18 @@
+package server.apptech.blame.domain;
+
+import jakarta.persistence.*;
+import server.apptech.comment.comment.Comment;
+import server.apptech.global.domain.BaseEntity;
+
+@Entity
+public class Blame extends BaseEntity {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "blame_id")
+    private Long id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name= "comment_id")
+    private Comment comment;
+}
