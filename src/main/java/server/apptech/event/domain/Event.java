@@ -2,12 +2,19 @@ package server.apptech.event.domain;
 
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
+import server.apptech.advertisement.AdCreateRequest;
 import server.apptech.advertisement.domain.Advertisement;
 import server.apptech.global.domain.BaseEntity;
 
 import java.time.LocalDateTime;
 
 @Entity
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Event extends BaseEntity {
 
     @Id
@@ -15,9 +22,9 @@ public class Event extends BaseEntity {
     @Column(name = "id")
     private Long id;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "advertisement_id")
-    private Advertisement advertisement;
+//    @OneToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "advertisement_id")
+//    private Advertisement advertisement;
 
     @Column(name = "total_price")
     private Long totalPrice;
@@ -38,4 +45,12 @@ public class Event extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private EventStatus eventStatus;
 
+    public static Event of(AdCreateRequest adCreateRequest) {
+        return Event.builder()
+                .totalPrice(adCreateRequest.getTotalPrice())
+                .prizeWinnerCnt(adCreateRequest.getPrizeWinnerCnt())
+                .companyName(adCreateRequest.getCompanyName())
+                .startDate(adCreateRequest.getStartDate())
+                .endDate(adCreateRequest.getEndDate()).build();
+    }
 }
