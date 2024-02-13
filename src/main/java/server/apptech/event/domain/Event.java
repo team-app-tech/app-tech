@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 import server.apptech.advertisement.AdCreateRequest;
 import server.apptech.advertisement.domain.Advertisement;
 import server.apptech.global.domain.BaseEntity;
@@ -22,10 +23,6 @@ public class Event extends BaseEntity {
     @Column(name = "id")
     private Long id;
 
-//    @OneToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "advertisement_id")
-//    private Advertisement advertisement;
-
     @Column(name = "total_price")
     private Long totalPrice;
 
@@ -36,9 +33,11 @@ public class Event extends BaseEntity {
     private String companyName;
 
     @Column(name = "start_date")
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime startDate;
 
     @Column(name = "end_date")
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime endDate;
 
     @Column(name = "event_status")
