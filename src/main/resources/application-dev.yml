@@ -1,4 +1,7 @@
 spring:
+  config:
+    activate:
+      on-profile: dev
   datasource:
     url: jdbc:mysql://mysql:3306/pangta?serverTimezone=UTC&characterEncoding=UTF-8
     username: pangta
