@@ -53,6 +53,7 @@ public class Advertisement extends BaseEntity {
                 .event(event)
                 .files(new ArrayList<>())
                 .content(adCreateRequest.getContent())
+                .viewCnt(0)
                 .build();
     }
 
