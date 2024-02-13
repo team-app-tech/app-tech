@@ -4,6 +4,7 @@ package server.apptech.event.domain;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import server.apptech.advertisement.AdCreateRequest;
@@ -16,6 +17,7 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
 public class Event extends BaseEntity {
 
     @Id
