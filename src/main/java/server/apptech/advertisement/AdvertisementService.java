@@ -12,6 +12,7 @@ import server.apptech.user.UserRepository;
 import server.apptech.user.domain.User;
 
 import java.io.IOException;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -25,7 +26,7 @@ public class AdvertisementService {
 
     private final FIleUploadService fIleUploadService;
 
-    public Long createAdvertisement(AdCreateRequest adCreateRequest, MultipartFile[] multipartFiles) throws IOException {
+    public Long createAdvertisement(AdCreateRequest adCreateRequest, List<MultipartFile> multipartFiles) throws IOException {
 
 
         User tempUser = User.createTempuser();
