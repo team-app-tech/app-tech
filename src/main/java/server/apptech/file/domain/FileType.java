@@ -1,5 +1,6 @@
 package server.apptech.file.domain;
 
 public enum FileType {
-    IMAGE, RECORD
+
+    IMAGE_JPEG,IMAGE_JPG ,IMAGE_PNG, AUDIO_MP4
 }
