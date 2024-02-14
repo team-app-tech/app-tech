@@ -1,4 +1,4 @@
-package server.apptech.advertisement;
+package server.apptech.advertisement.dto;
 
 import lombok.Builder;
 import lombok.Getter;

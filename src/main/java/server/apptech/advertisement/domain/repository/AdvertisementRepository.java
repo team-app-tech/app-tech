@@ -1,4 +1,4 @@
-package server.apptech.advertisement;
+package server.apptech.advertisement.domain.repository;
 
 
 import org.springframework.data.domain.Page;

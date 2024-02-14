@@ -1,4 +1,4 @@
-package server.apptech.advertisement;
+package server.apptech.advertisement.controller;
 
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -12,7 +12,12 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import server.apptech.event.domain.EventStatus;
+import server.apptech.advertisement.domain.type.SortOption;
+import server.apptech.advertisement.dto.AdCreateRequest;
+import server.apptech.advertisement.dto.AdResponse;
+import server.apptech.advertisement.domain.type.EventStatus;
+import server.apptech.advertisement.dto.PageAdResponse;
+import server.apptech.advertisement.service.AdvertisementService;
 
 import java.io.IOException;
 import java.util.List;

@@ -1,4 +1,4 @@
-package server.apptech.advertisement;
+package server.apptech.advertisement.domain.type;
 
 public enum SortOption {
 

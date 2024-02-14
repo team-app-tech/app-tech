@@ -1,4 +1,4 @@
-package server.apptech.event.domain;
+package server.apptech.advertisement.domain.type;
 
 public enum EventStatus {
 

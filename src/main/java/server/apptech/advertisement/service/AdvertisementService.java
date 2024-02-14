@@ -1,4 +1,4 @@
-package server.apptech.advertisement;
+package server.apptech.advertisement.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -8,7 +8,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import server.apptech.advertisement.domain.Advertisement;
-import server.apptech.event.domain.EventStatus;
+import server.apptech.advertisement.domain.type.SortOption;
+import server.apptech.advertisement.dto.AdCreateRequest;
+import server.apptech.advertisement.dto.AdResponse;
+import server.apptech.advertisement.domain.repository.AdvertisementRepository;
+import server.apptech.advertisement.domain.type.EventStatus;
 import server.apptech.file.FIleUploadService;
 import server.apptech.user.UserRepository;
 import server.apptech.user.domain.User;
