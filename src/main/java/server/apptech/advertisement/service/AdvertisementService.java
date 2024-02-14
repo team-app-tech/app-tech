@@ -49,7 +49,7 @@ public class AdvertisementService {
         return advertisementRepository.save(advertisement).getId();
     }
 
-    public Page<AdResponse> getAdvertisements(int page, int size, EventStatus eventStatus, SortOption sortOption) {
+    public Page<AdResponse> getAdvertisements(int page, int size, EventStatus eventStatus, SortOption sortOption, String keyword) {
 
         PageRequest pageable = PageRequest.of(page, size);
 
@@ -58,54 +58,54 @@ public class AdvertisementService {
         switch (sortOption){
             case PRIZE_DESCENDING:
                 if(eventStatus == EventStatus.UPCOMING){
-                    advertisements =advertisementRepository.findByUpComingOrderByPrizeDesc(pageable,LocalDateTime.now());
+                    advertisements =advertisementRepository.findByUpComingOrderByPrizeDesc(pageable,LocalDateTime.now(),keyword);
 
                 }
                 if(eventStatus == EventStatus.ONGOING){
-                    advertisements =advertisementRepository.findByOnGoingOrderByPrizeDesc(pageable,LocalDateTime.now());
+                    advertisements =advertisementRepository.findByOnGoingOrderByPrizeDesc(pageable,LocalDateTime.now(), keyword);
 
                 }
                 if(eventStatus == EventStatus.FINISHED){
-                    advertisements = advertisementRepository.findByFinishedOrderByPrizeDesc(pageable,LocalDateTime.now());
+                    advertisements = advertisementRepository.findByFinishedOrderByPrizeDesc(pageable,LocalDateTime.now(), keyword);
                 }
                 break;
             case START_ASCENDING:
                 if(eventStatus == EventStatus.UPCOMING){
-                    advertisements =advertisementRepository.findByUpComingOrderByStartDateAsc(pageable,LocalDateTime.now());
+                    advertisements =advertisementRepository.findByUpComingOrderByStartDateAsc(pageable,LocalDateTime.now(), keyword);
 
                 }
                 if(eventStatus == EventStatus.ONGOING){
-                    advertisements =advertisementRepository.findByOnGoingOrderByStartDateAsc(pageable,LocalDateTime.now());
+                    advertisements =advertisementRepository.findByOnGoingOrderByStartDateAsc(pageable,LocalDateTime.now(), keyword);
 
                 }
                 if(eventStatus == EventStatus.FINISHED){
-                    advertisements =advertisementRepository.findByFinishedOrderByStartDateAsc(pageable,LocalDateTime.now());
+                    advertisements =advertisementRepository.findByFinishedOrderByStartDateAsc(pageable,LocalDateTime.now(), keyword);
                 }
                 break;
             case END_ASCENDING:
                 if(eventStatus == EventStatus.UPCOMING){
-                    advertisements =advertisementRepository.findByUpComingOrderByEndDateAsc(pageable,LocalDateTime.now());
+                    advertisements =advertisementRepository.findByUpComingOrderByEndDateAsc(pageable,LocalDateTime.now(), keyword);
 
                 }
                 if(eventStatus == EventStatus.ONGOING){
-                    advertisements =advertisementRepository.findByOnGoingOrderByEndDateAsc(pageable,LocalDateTime.now());
+                    advertisements =advertisementRepository.findByOnGoingOrderByEndDateAsc(pageable,LocalDateTime.now(), keyword);
 
                 }
                 if(eventStatus == EventStatus.FINISHED){
-                    advertisements =advertisementRepository.findByFinishedOrderByEndDateAsc(pageable,LocalDateTime.now());
+                    advertisements =advertisementRepository.findByFinishedOrderByEndDateAsc(pageable,LocalDateTime.now(), keyword);
                 }
                 break;
             case VIEWS_DESCENDING:
                 if(eventStatus == EventStatus.UPCOMING){
-                    advertisements =  advertisementRepository.findByUpComingOrderByViewCnt(pageable, LocalDateTime.now());
+                    advertisements =  advertisementRepository.findByUpComingOrderByViewCnt(pageable, LocalDateTime.now(), keyword);
 
                 }
                 if(eventStatus == EventStatus.ONGOING){
-                    advertisements =  advertisementRepository.findByOngoingOrderByViewCnt(pageable, LocalDateTime.now());
+                    advertisements =  advertisementRepository.findByOngoingOrderByViewCnt(pageable, LocalDateTime.now(), keyword);
 
                 }
                 if(eventStatus == EventStatus.FINISHED){
-                    advertisements =  advertisementRepository.findByFinishedOrderByViewCnt(pageable, LocalDateTime.now());
+                    advertisements =  advertisementRepository.findByFinishedOrderByViewCnt(pageable, LocalDateTime.now(), keyword);
                 }
                 break;
             //case COMMENTS_DESCENDING:

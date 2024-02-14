@@ -42,9 +42,10 @@ public class AdvertisementController {
             @RequestParam(value = "page", required = false,defaultValue = "0") int page,
             @RequestParam(value = "size", required = false, defaultValue = "5") int size,
             @RequestParam(value = "eventStatus", required = false, defaultValue = "ONGOING") EventStatus eventStatus,
-            @RequestParam(value = "sortOption", required = false, defaultValue = "PRIZE_DESCENDING") SortOption sortOption) {
+            @RequestParam(value = "sortOption", required = false, defaultValue = "PRIZE_DESCENDING") SortOption sortOption,
+            @RequestParam(value = "keyword", required = false, defaultValue = "") String keyword
+    ) {
         return ResponseEntity.ok()
-                .body(PageAdResponse.of(advertisementService.getAdvertisements(page,size, eventStatus, sortOption)));
+                .body(PageAdResponse.of(advertisementService.getAdvertisements(page,size, eventStatus, sortOption, keyword)));
     }
-
 }
