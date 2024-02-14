@@ -3,6 +3,7 @@ package server.apptech.file.domain;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import server.apptech.advertisement.domain.Advertisement;
 import server.apptech.comment.comment.Comment;
@@ -12,6 +13,7 @@ import server.apptech.global.domain.BaseEntity;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
 public class File extends BaseEntity {
 
     @Id
