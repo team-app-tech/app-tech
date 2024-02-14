@@ -19,12 +19,15 @@ public class AdResponse {
     private Integer commentCnt;
     private Integer likeCnt;
 
+    private String fileUrl;
+
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime startDate;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime endDate;
 
+    //후에 getAdvertisementLikes().size(), getComments().size() 수정
     public static AdResponse of (Advertisement advertisement){
         return AdResponse.builder()
                 .title(advertisement.getTitle())
@@ -32,8 +35,10 @@ public class AdResponse {
                 .prizeWinnerCnt(advertisement.getPrizeWinnerCnt())
                 .viewCnt(advertisement.getViewCnt())
                 .likeCnt(advertisement.getAdvertisementLikes().size())
+                .commentCnt(advertisement.getComments().size())
                 .startDate(advertisement.getStartDate())
                 .endDate(advertisement.getEndDate())
+                .fileUrl(advertisement.getFiles().stream().map(file -> file.getUrl()).findAny().orElse("null"))
                 .build();
     }
 }
