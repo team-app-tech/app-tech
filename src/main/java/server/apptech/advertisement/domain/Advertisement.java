@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import server.apptech.advertisement.AdCreateRequest;
 import server.apptech.advertisementlike.domain.AdvertisementLike;
+import server.apptech.comment.comment.Comment;
 import server.apptech.event.domain.EventStatus;
 import server.apptech.file.domain.File;
 import server.apptech.global.domain.BaseEntity;
@@ -69,6 +70,9 @@ public class Advertisement extends BaseEntity {
     @OneToMany(mappedBy = "advertisement", fetch = FetchType.LAZY)
     private List<AdvertisementLike> advertisementLikes = new ArrayList<>();
 
+    @OneToMany(mappedBy = "advertisement", fetch = FetchType.LAZY)
+    private List<Comment> comments = new ArrayList<>();
+
     public static Advertisement of(AdCreateRequest adCreateRequest, User user){
         return Advertisement.builder()
                 .user(user)
@@ -80,6 +84,9 @@ public class Advertisement extends BaseEntity {
                 .companyName(adCreateRequest.getCompanyName())
                 .startDate(adCreateRequest.getStartDate())
                 .endDate(adCreateRequest.getEndDate())
+                .files(new ArrayList<>())
+                .advertisementLikes(new ArrayList<>())
+                .comments(new ArrayList<>())
                 .build();
     }
 
