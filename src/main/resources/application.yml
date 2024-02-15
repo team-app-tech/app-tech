@@ -3,6 +3,7 @@ spring:
     import:
       - classpath:application-dev.yml
       - classpath:application-local.yml
+      - classpath:aws.yml
   servlet:
     multipart:
       maxFileSize: 10MB # 파일 하나의 최대 크기
@@ -17,3 +18,16 @@ springdoc:
 
   swagger-ui:
     path: /swagger-ui.html
+
+#cloud:
+#  aws:
+#    s3:
+#      bucket: pangta-bucket
+#    credentials:
+#      access-key: AKIA4NTQYQ5NHUUK5MN3
+#      secret-key: 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
+#    region:
+#      static: ap-northeast-2
+#      auto: false
+#    stack:
+#      auto: false
