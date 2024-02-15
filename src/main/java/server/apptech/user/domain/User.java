@@ -1,12 +1,16 @@
 package server.apptech.user.domain;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.NoArgsConstructor;
 import server.apptech.global.domain.BaseEntity;
 
 @Entity
 @Table(name = "users")
 @NoArgsConstructor
+@Builder
+@AllArgsConstructor
 public class User extends BaseEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,7 +22,7 @@ public class User extends BaseEntity {
     private SocialType socialType;
 
     @Column(name = "auth_id")
-    private Long authId;
+    private String authId;
 
     @Column(name = "email")
     private String email;
