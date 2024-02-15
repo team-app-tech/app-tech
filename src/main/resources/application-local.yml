@@ -1,4 +1,7 @@
 spring:
+  config:
+    activate:
+      on-profile: local
   datasource:
     url: jdbc:h2:tcp://localhost/~/pangta
     username: sa
@@ -10,6 +13,7 @@ spring:
     properties:
       hibernate:
         format_sql: true
+    defer-datasource-initialization: true
 #        show_sql: true
 
 logging.level:

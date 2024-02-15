@@ -1,10 +1,12 @@
 package server.apptech.user.domain;
 
 import jakarta.persistence.*;
+import lombok.NoArgsConstructor;
 import server.apptech.global.domain.BaseEntity;
 
 @Entity
 @Table(name = "users")
+@NoArgsConstructor
 public class User extends BaseEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,5 +32,11 @@ public class User extends BaseEntity {
     @Column(name = "role")
     @Enumerated(value = EnumType.STRING)
     private UserAuthority role;
+
+    public static User createTempuser(){
+
+        User user = new User();
+        return user;
+    }
 
 }

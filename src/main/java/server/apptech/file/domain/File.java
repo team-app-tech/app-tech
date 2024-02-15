@@ -1,11 +1,19 @@
 package server.apptech.file.domain;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import server.apptech.advertisement.domain.Advertisement;
 import server.apptech.comment.comment.Comment;
 import server.apptech.global.domain.BaseEntity;
 
 @Entity
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
 public class File extends BaseEntity {
 
     @Id
@@ -22,10 +30,19 @@ public class File extends BaseEntity {
     private Comment comment;
 
     @Column(name = "file_type")
+    @Enumerated(EnumType.STRING)
     private FileType fileType;
     @Column(name = "uuid")
     private String uuid;
 
     @Column(name = "url")
     private String url;
+
+    public void belongToAdvertisement(Advertisement advertisement){
+        this.advertisement = advertisement;
+    }
+
+    public void assignFileType(FileType fileType){
+        this.fileType = fileType;
+    }
 }

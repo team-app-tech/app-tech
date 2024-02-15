@@ -1,12 +1,10 @@
 package server.apptech.prize.domain;
 
 import jakarta.persistence.*;
+import server.apptech.advertisement.domain.Advertisement;
 import server.apptech.comment.comment.Comment;
-import server.apptech.event.domain.Event;
 import server.apptech.global.domain.BaseEntity;
 import server.apptech.user.domain.User;
-
-import java.awt.*;
 
 @Entity
 public class Prize extends BaseEntity {
@@ -17,8 +15,8 @@ public class Prize extends BaseEntity {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "event_id")
-    private Event event;
+    @JoinColumn(name = "advertisement_id")
+    private Advertisement advertisement;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name= "user_id")
