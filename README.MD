@@ -1,5 +1,5 @@
 ## Prerequisites
-* Docker
+* docker
 
 ## start 
 ```agsl
