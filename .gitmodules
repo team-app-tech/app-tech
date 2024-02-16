@@ -1,0 +1,3 @@
+[submodule "secret-submodule"]
+	path = secret-submodule
+	url = https://github.com/team-app-tech/secret-submodule.git
