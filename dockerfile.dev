@@ -1,16 +1,9 @@
-FROM gradle:8.6.0-jdk17-alpine as builder
-
-WORKDIR /app
-COPY . .
-
-RUN ["gradle", "-x", "test" , "build"]
-
 FROM openjdk:17-alpine AS runner
 
 WORKDIR /app
-ARG JAR_FILE=/app/build/libs/app-tech-0.0.1-SNAPSHOT.jar
+ARG JAR_FILE=build/libs/app-tech-0.0.1-SNAPSHOT.jar
 ENV TZ=Asia/Seoul
-COPY --from=builder ${JAR_FILE} /app/app.jar
+COPY ${JAR_FILE} /app/app.jar
 
 EXPOSE 8080
 
