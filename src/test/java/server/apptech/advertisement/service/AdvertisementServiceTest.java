@@ -1,5 +1,6 @@
 package server.apptech.advertisement.service;
 
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -11,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 import server.apptech.advertisement.domain.Advertisement;
 import server.apptech.advertisement.domain.repository.AdvertisementRepository;
 import server.apptech.advertisement.dto.AdCreateRequest;
+import server.apptech.advertisement.dto.AdDetailResponse;
 import server.apptech.file.FIleUploadService;
 import server.apptech.file.domain.File;
 import server.apptech.file.domain.FileType;
@@ -18,6 +20,8 @@ import server.apptech.user.UserRepository;
 import server.apptech.user.domain.SocialType;
 import server.apptech.user.domain.User;
 import server.apptech.user.domain.UserAuthority;
+
+import javax.swing.text.html.Option;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.*;
@@ -27,6 +31,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 
 @ExtendWith(MockitoExtension.class)
@@ -41,7 +46,7 @@ class AdvertisementServiceTest {
 
     @Mock
     FIleUploadService fIleUploadService;
-
+    
     @Test
     @DisplayName("광고가 정상 저장된후 아이디 반환(이미지 없음)")
     void createAdvertisement() throws IOException {
@@ -68,7 +73,25 @@ class AdvertisementServiceTest {
     @Test
     @DisplayName("광고글 목록 반환")
     void getAdvertisements(){
+        
+    }
 
+    @Test
+    @DisplayName("광고글 단건조회")
+    void getAdvertisement(){
+
+        //given
+        AdCreateRequest adCreateRequest = createtAdCreateRequest();
+        User user = createUser();
+        Advertisement advertisement = createAdvertisement(adCreateRequest, user);
+        given(advertisementRepository.findById(any(Long.class))).willReturn(Optional.of(advertisement));
+
+        //when
+        AdDetailResponse adDetailResponse = advertisementService.getAdvertisementById(1L);
+
+        //thena
+        Assertions.assertThat(AdDetailResponse.of(advertisement)).usingRecursiveComparison()
+                .isEqualTo(adDetailResponse);
     }
 
     private static MockMultipartFile createMockMultipartFile() {
@@ -134,6 +157,5 @@ class AdvertisementServiceTest {
                 .build();
         return adCreateRequest;
     }
-
 
 }
