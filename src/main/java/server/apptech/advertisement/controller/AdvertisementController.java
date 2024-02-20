@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 import server.apptech.advertisement.domain.type.SortOption;
 import server.apptech.advertisement.dto.AdCreateRequest;
 import server.apptech.advertisement.domain.type.EventStatus;
+import server.apptech.advertisement.dto.AdDetailResponse;
 import server.apptech.advertisement.dto.PageAdResponse;
 import server.apptech.advertisement.service.AdvertisementService;
 
@@ -38,7 +39,7 @@ public class AdvertisementController {
 
     @Operation(summary = "광고글 목록 조회", description = "광고글 목록을 조회합니다", responses = {@ApiResponse(responseCode = "200", description = "정상적으로 조회", content = @Content(mediaType = "application/json", schema = @Schema(implementation = PageAdResponse.class)))})
     @GetMapping("/api/advertisement")
-    public ResponseEntity<?> getAdvertisements(
+    public ResponseEntity<PageAdResponse> getAdvertisements(
             @RequestParam(value = "page", required = false,defaultValue = "0") int page,
             @RequestParam(value = "size", required = false, defaultValue = "5") int size,
             @RequestParam(value = "eventStatus", required = false, defaultValue = "ONGOING") EventStatus eventStatus,
@@ -48,4 +49,17 @@ public class AdvertisementController {
         return ResponseEntity.ok()
                 .body(PageAdResponse.of(advertisementService.getAdvertisements(page,size, eventStatus, sortOption, keyword)));
     }
+
+    @Operation(summary = "광고 상세 조회", description = "광고글 단건 상세 조회합니다", responses = {
+            @ApiResponse(responseCode = "200",
+                    description = "정상적으로 조회", content = @Content(mediaType = "application/json", schema = @Schema(implementation = AdDetailResponse.class)))})
+    @GetMapping("/api/advertisement/{advertisementId}")
+    public ResponseEntity<AdDetailResponse> getAdvertisementDetail(
+            @PathVariable(value = "advertisementId", required = true) Long advertisementId
+    ) {
+        return ResponseEntity.ok()
+                .body(advertisementService.getAdvertisementById(advertisementId));
+    }
+
+
 }

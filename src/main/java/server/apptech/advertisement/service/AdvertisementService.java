@@ -13,6 +13,7 @@ import server.apptech.advertisement.dto.AdCreateRequest;
 import server.apptech.advertisement.dto.AdResponse;
 import server.apptech.advertisement.domain.repository.AdvertisementRepository;
 import server.apptech.advertisement.domain.type.EventStatus;
+import server.apptech.advertisement.dto.AdDetailResponse;
 import server.apptech.file.FIleUploadService;
 import server.apptech.user.UserRepository;
 import server.apptech.user.domain.User;
@@ -116,5 +117,10 @@ public class AdvertisementService {
                 throw new RuntimeException("존재하지 않는 타입");
         }
         return advertisements.map(advertisement -> AdResponse.of(advertisement));
+    }
+
+    public AdDetailResponse getAdvertisementById(Long advertisementId) {
+
+        return AdDetailResponse.of(advertisementRepository.findById(advertisementId).orElseThrow(() -> new RuntimeException("게시글 없음")));
     }
 }
