@@ -1,4 +1,4 @@
-package server.apptech.global;
+package server.apptech.global.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
