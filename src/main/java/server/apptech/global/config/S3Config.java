@@ -1,4 +1,4 @@
-package server.apptech.global;
+package server.apptech.global.config;
 
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;

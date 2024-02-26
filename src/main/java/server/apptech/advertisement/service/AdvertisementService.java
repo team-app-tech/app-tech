@@ -15,6 +15,8 @@ import server.apptech.advertisement.domain.repository.AdvertisementRepository;
 import server.apptech.advertisement.domain.type.EventStatus;
 import server.apptech.advertisement.dto.AdDetailResponse;
 import server.apptech.file.FIleUploadService;
+import server.apptech.global.exception.ErrorCode;
+import server.apptech.global.exception.RestApiException;
 import server.apptech.user.UserRepository;
 import server.apptech.user.domain.User;
 
@@ -120,7 +122,6 @@ public class AdvertisementService {
     }
 
     public AdDetailResponse getAdvertisementById(Long advertisementId) {
-
-        return AdDetailResponse.of(advertisementRepository.findById(advertisementId).orElseThrow(() -> new RuntimeException("게시글 없음")));
+        return AdDetailResponse.of(advertisementRepository.findById(advertisementId).orElseThrow(() -> new RestApiException(ErrorCode.NOT_FOUND_ADVERTISEMENT_ID)));
     }
 }
