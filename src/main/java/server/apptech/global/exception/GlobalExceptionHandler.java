@@ -18,35 +18,35 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(RestApiException.class)
     public ResponseEntity<Object> handleCustomException(RestApiException e){
-        ErrorCode errorCode = e.getErrorCode();
+        ExceptionCode errorCode = e.getExceptionCode();
         return handleExceptionInternal(errorCode);
     }
 
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
-        ErrorCode errorCode = ErrorCode.VALID_CHECK_FAIL;
+        ExceptionCode errorCode = ExceptionCode.VALID_CHECK_FAIL;
         return handleExceptionInternal(ex, errorCode);
     }
 
-    private ResponseEntity<Object> handleExceptionInternal(ErrorCode errorCode){
-        return ResponseEntity.status(errorCode.getHttpStatus())
-                .body(ErrorResponse.builder()
-                        .code(errorCode.name())
-                        .message(errorCode.getMessage())
+    private ResponseEntity<Object> handleExceptionInternal(ExceptionCode exceptionCode){
+        return ResponseEntity.status(exceptionCode.getHttpStatus())
+                .body(ExceptionResponse.builder()
+                        .code(exceptionCode.name())
+                        .message(exceptionCode.getMessage())
                         .build());
     }
 
-    private ResponseEntity<Object> handleExceptionInternal(MethodArgumentNotValidException ex, ErrorCode errorCode){
+    private ResponseEntity<Object> handleExceptionInternal(MethodArgumentNotValidException ex, ExceptionCode exceptionCode){
         List<ValidationError> validationErrors = ex.getBindingResult()
                 .getFieldErrors()
                 .stream()
                 .map((fieldError) -> ValidationError.of(fieldError))
                 .collect(Collectors.toList());
 
-        return ResponseEntity.status(errorCode.getHttpStatus())
-                .body(ErrorResponse.builder()
-                        .code(errorCode.name())
-                        .message(errorCode.getMessage())
+        return ResponseEntity.status(exceptionCode.getHttpStatus())
+                .body(ExceptionResponse.builder()
+                        .code(exceptionCode.name())
+                        .message(exceptionCode.getMessage())
                         .errors(validationErrors)
                         .build());
     }
