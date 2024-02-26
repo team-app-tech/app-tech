@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 @Builder
 public class AdResponse {
 
+    private Long advertisementId;
     private String title;
     private Long totalPrice;
     private Integer prizeWinnerCnt;
@@ -30,6 +31,7 @@ public class AdResponse {
     //후에 getAdvertisementLikes().size(), getComments().size() 수정
     public static AdResponse of (Advertisement advertisement){
         return AdResponse.builder()
+                .advertisementId(advertisement.getId())
                 .title(advertisement.getTitle())
                 .totalPrice(advertisement.getTotalPrice())
                 .prizeWinnerCnt(advertisement.getPrizeWinnerCnt())
