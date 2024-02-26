@@ -16,4 +16,7 @@ public class ErrorResponse {
     private final String code;
     private final String message;
 
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
+    private final List<ValidationError> errors;
+
 }
