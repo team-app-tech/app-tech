@@ -17,6 +17,7 @@ import server.apptech.advertisement.domain.type.EventStatus;
 import server.apptech.advertisement.dto.AdDetailResponse;
 import server.apptech.advertisement.dto.PageAdResponse;
 import server.apptech.advertisement.service.AdvertisementService;
+import server.apptech.global.exception.ExceptionResponse;
 
 import java.io.IOException;
 import java.util.List;
@@ -51,12 +52,11 @@ public class AdvertisementController {
     }
 
     @Operation(summary = "광고 상세 조회", description = "광고글 단건 상세 조회합니다", responses = {
-            @ApiResponse(responseCode = "200",
-                    description = "정상적으로 조회", content = @Content(mediaType = "application/json", schema = @Schema(implementation = AdDetailResponse.class)))})
+            @ApiResponse(responseCode = "200", description = "정상적으로 조회", content = @Content(mediaType = "application/json", schema = @Schema(implementation = AdDetailResponse.class))),
+            @ApiResponse(responseCode = "400", description = "존재하지 않는 광고에 대한 조회 ", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ExceptionResponse.class))
+            )})
     @GetMapping("/api/advertisement/{advertisementId}")
-    public ResponseEntity<AdDetailResponse> getAdvertisementDetail(
-            @PathVariable(value = "advertisementId", required = true) Long advertisementId
-    ) {
+    public ResponseEntity<AdDetailResponse> getAdvertisementDetail(@PathVariable(value = "advertisementId", required = true) Long advertisementId) {
         return ResponseEntity.ok()
                 .body(advertisementService.getAdvertisementById(advertisementId));
     }
