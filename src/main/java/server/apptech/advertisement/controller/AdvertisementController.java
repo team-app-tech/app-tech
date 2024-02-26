@@ -1,11 +1,11 @@
 package server.apptech.advertisement.controller;
 
-
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -31,7 +31,7 @@ public class AdvertisementController {
 
     @PostMapping(value = "/api/advertisement", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE} )
     @Operation(summary = "광고 생성", description = "광고를 생성합니다.", responses = {@ApiResponse(responseCode = "200", description = "정상적으로 생성")})
-    public ResponseEntity<?> createAdvertisement(@RequestPart(value = "adCreateRequest") AdCreateRequest adCreateRequest, @RequestPart(value = "file", required = false) List<MultipartFile> multipartFiles) throws IOException {
+    public ResponseEntity<?> createAdvertisement(@RequestPart(value = "adCreateRequest") @Valid AdCreateRequest adCreateRequest, @RequestPart(value = "image", required = false) List<MultipartFile> multipartFiles) throws IOException {
         Long advertisementId = advertisementService.createAdvertisement(adCreateRequest, multipartFiles);
         return ResponseEntity.ok()
                 .body(advertisementId);
