@@ -1,12 +1,13 @@
 package server.apptech.login.infrastructrue;
 
-import io.jsonwebtoken.Header;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import server.apptech.global.exception.AuthException;
+import server.apptech.global.exception.ExceptionCode;
 import server.apptech.login.domain.UserToken;
+import server.apptech.login.dto.AccessTokenResponse;
 
 import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
@@ -28,7 +29,6 @@ public class JwtProvider {
         this.accessExpirationTime = accessExpirationTime;
         this.refreshExpirationTime = refreshExpirationTime;
     }
-
 
 
     public UserToken generateLoginToken(String subject) {
@@ -53,5 +53,28 @@ public class JwtProvider {
                 .setExpiration(validityDate)
                 .signWith(secretKey, SignatureAlgorithm.HS256)
                 .compact();
+    }
+
+    public boolean isValidRefreshToken(String refreshToken) {
+        try {
+            parseToken(refreshToken);
+        } catch (final ExpiredJwtException e) {
+            throw new AuthException(ExceptionCode.EXPIRED_PERIOD_REFRESH_TOKEN);
+        } catch (final JwtException | IllegalArgumentException e) {
+            throw new AuthException(ExceptionCode.INVALID_REFRESH_TOKEN);
+        }
+        return true;
+    }
+
+    public AccessTokenResponse regenerateAccessToken(String userId){
+        String accessToken = createToken(userId, accessExpirationTime);
+        return new AccessTokenResponse(accessToken, accessExpirationTime);
+    }
+
+    private Jws<Claims> parseToken(final String token) {
+        return Jwts.parserBuilder()
+                .setSigningKey(secretKey)
+                .build()
+                .parseClaimsJws(token);
     }
 }
