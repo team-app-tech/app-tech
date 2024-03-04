@@ -3,14 +3,17 @@ package server.apptech.user.domain;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import server.apptech.global.domain.BaseEntity;
+import server.apptech.login.domain.OauthUserInfo;
 
 @Entity
 @Table(name = "users")
 @NoArgsConstructor
 @Builder
 @AllArgsConstructor
+@Getter
 public class User extends BaseEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,6 +36,9 @@ public class User extends BaseEntity {
     @Column(name = "nickname")
     private String nickName;
 
+    @Column(name = "profile_image_url")
+    private String profileImageUrl;
+
     @Column(name = "role")
     @Enumerated(value = EnumType.STRING)
     private UserAuthority role;
@@ -41,6 +47,16 @@ public class User extends BaseEntity {
 
         User user = new User();
         return user;
+    }
+
+    public static User of(OauthUserInfo oauthUserInfo){
+        return User.builder()
+                .authId(oauthUserInfo.getAuthId())
+                .socialType(oauthUserInfo.getSocialType())
+                .email(oauthUserInfo.getEmail())
+                .nickName(oauthUserInfo.getNickname())
+                .profileImageUrl(oauthUserInfo.getImageUrl())
+                .build();
     }
 
 }
