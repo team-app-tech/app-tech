@@ -10,9 +10,10 @@ import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import server.apptech.login.dto.AccessTokenResponse;
+import server.apptech.login.dto.LoginResponse;
+import server.apptech.login.domain.LoginUser;
 import server.apptech.login.service.LoginService;
 import server.apptech.login.dto.LoginRequest;
-import server.apptech.login.domain.UserToken;
 
 @RestController
 @RequiredArgsConstructor
@@ -24,14 +25,21 @@ public class LoginController {
     private final LoginService loginService;
 
     @PostMapping(value = "/api/login")
-    @Operation(summary = "로그인", description = "accessToken으로  로그인 합니다.", responses = {})
-    public ResponseEntity<AccessTokenResponse> login(@RequestBody LoginRequest loginRequest){
+    @Operation(summary = "로그인", description = "accessToken으로 로그인 합니다.", responses = {})
+    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest loginRequest){
 
-        UserToken userToken = loginService.login(loginRequest);
+        LoginUser loginUser = loginService.login(loginRequest);
 
         return ResponseEntity.status(HttpStatus.OK)
-                .header(HttpHeaders.SET_COOKIE, createRefreshTokenCookie(userToken.getRefreshToken()).toString())
-                .body(new AccessTokenResponse(userToken.getAccessToken(), userToken.getAccessExpirationTime()));
+                .header(HttpHeaders.SET_COOKIE, createRefreshTokenCookie(loginUser.getRefreshToken()).toString())
+                .body(LoginResponse.of(loginUser));
+    }
+
+    @PostMapping(value = "/api/token")
+    @Operation(summary = "토큰 갱신", description = "refresh token으로 access token 재발급")
+    public ResponseEntity<AccessTokenResponse>  extendLogin(@CookieValue("refresh-token") String refreshToken){
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(loginService.renewalAccessToken(refreshToken));
     }
 
     private ResponseCookie createRefreshTokenCookie(String refreshToken){
