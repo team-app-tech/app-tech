@@ -1,6 +1,8 @@
 package server.apptech.login.domain;
 
 import org.springframework.stereotype.Component;
+import server.apptech.global.exception.AuthException;
+import server.apptech.global.exception.ExceptionCode;
 import server.apptech.user.domain.SocialType;
 
 import java.util.List;
@@ -18,7 +20,7 @@ public class OauthProviders {
         return providers.stream()
                 .filter(provider -> provider.is(socialType))
                 .findFirst()
-                .orElseThrow(() -> new RuntimeException("not exist"));
+                .orElseThrow(() -> new AuthException(ExceptionCode.INVALID_SOCIAL_TYPE));
     }
 
 

@@ -1,6 +1,9 @@
 package server.apptech.login.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -9,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import server.apptech.global.exception.ExceptionResponse;
 import server.apptech.login.dto.AccessTokenResponse;
 import server.apptech.login.dto.LoginResponse;
 import server.apptech.login.domain.LoginUser;
@@ -25,7 +29,10 @@ public class LoginController {
     private final LoginService loginService;
 
     @PostMapping(value = "/api/login")
-    @Operation(summary = "로그인", description = "accessToken으로 로그인 합니다.", responses = {})
+    @Operation(summary = "로그인", description = "accessToken으로 로그인 합니다.", responses = {
+            @ApiResponse(responseCode = "200", description = "정상적으로 로그인 성공", content = @Content(mediaType = "application/json", schema = @Schema(implementation = LoginResponse.class))),
+            @ApiResponse(responseCode = "400", description = "유효하지 않은 Social Type ", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ExceptionResponse.class)))
+    })
     public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest loginRequest){
 
         LoginUser loginUser = loginService.login(loginRequest);
@@ -36,8 +43,10 @@ public class LoginController {
     }
 
     @PostMapping(value = "/api/token")
-    @Operation(summary = "토큰 갱신", description = "refresh token으로 access token 재발급")
-    public ResponseEntity<AccessTokenResponse>  extendLogin(@CookieValue("refresh-token") String refreshToken){
+    @Operation(summary = "토큰 갱신", description = "refresh token으로 access token 재발급", responses = {
+            @ApiResponse(responseCode = "201", description = "정상적으로 토큰 갱신", content = @Content(mediaType = "application/json", schema = @Schema(implementation = AccessTokenResponse.class))),
+    })
+    public ResponseEntity<AccessTokenResponse> extendLogin(@CookieValue("refresh-token") String refreshToken){
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(loginService.renewalAccessToken(refreshToken));
     }

@@ -14,7 +14,8 @@ public enum ExceptionCode {
 
     FAIL_TO_VALIDATE_TOKEN(HttpStatus.BAD_REQUEST, "토큰 유효성 검사 실패"),
     EXPIRED_PERIOD_REFRESH_TOKEN(HttpStatus.BAD_REQUEST, "Refresh Token 유효기간 만료"),
-    INVALID_REFRESH_TOKEN(HttpStatus.BAD_REQUEST,  "유효하지 않은 Refresh Token");
+    INVALID_REFRESH_TOKEN(HttpStatus.BAD_REQUEST,  "유효하지 않은 Refresh Token"),
+    INVALID_SOCIAL_TYPE(HttpStatus.BAD_REQUEST, "유효하지 않은 Social Type" );
 
     private final HttpStatus httpStatus;
     private final String message;
