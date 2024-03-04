@@ -44,7 +44,7 @@ public class LoginService {
 
         // refresh token 유효한지 검증
         if (jwtProvider.isValidRefreshToken(refreshTokenRequest)) {
-            Long userId = refreshTokenRepository.findById(refreshTokenRequest).orElseThrow(()-> new RuntimeException("존재하지 않는 refresh token"));
+            Long userId = refreshTokenRepository.findById(refreshTokenRequest).orElseThrow(()-> new AuthException(ExceptionCode.INVALID_REFRESH_TOKEN));
             return jwtProvider.regenerateAccessToken(userId.toString());
         }
         throw new AuthException(ExceptionCode.FAIL_TO_VALIDATE_TOKEN);
