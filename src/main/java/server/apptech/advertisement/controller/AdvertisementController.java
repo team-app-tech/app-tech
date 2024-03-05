@@ -18,6 +18,8 @@ import server.apptech.advertisement.dto.AdDetailResponse;
 import server.apptech.advertisement.dto.PageAdResponse;
 import server.apptech.advertisement.service.AdvertisementService;
 import server.apptech.global.exception.ExceptionResponse;
+import server.apptech.auth.AuthUser;
+import server.apptech.auth.Auth;
 
 import java.io.IOException;
 import java.util.List;
@@ -29,11 +31,12 @@ public class AdvertisementController {
 
     public final AdvertisementService advertisementService;
 
-
     @PostMapping(value = "/api/advertisement", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE} )
     @Operation(summary = "광고 생성", description = "광고를 생성합니다.", responses = {@ApiResponse(responseCode = "200", description = "정상적으로 생성")})
-    public ResponseEntity<?> createAdvertisement(@RequestPart(value = "adCreateRequest") @Valid AdCreateRequest adCreateRequest, @RequestPart(value = "image", required = false) List<MultipartFile> multipartFiles) throws IOException {
-        Long advertisementId = advertisementService.createAdvertisement(adCreateRequest, multipartFiles);
+    public ResponseEntity<?> createAdvertisement(@Auth AuthUser authUser,
+                                                 @RequestPart(value = "adCreateRequest") @Valid AdCreateRequest adCreateRequest,
+                                                 @RequestPart(value = "image", required = false) List<MultipartFile> multipartFiles) throws IOException {
+        Long advertisementId = advertisementService.createAdvertisement(authUser.getUserId(), adCreateRequest, multipartFiles);
         return ResponseEntity.ok()
                 .body(advertisementId);
     }
@@ -60,6 +63,4 @@ public class AdvertisementController {
         return ResponseEntity.ok()
                 .body(advertisementService.getAdvertisementById(advertisementId));
     }
-
-
 }

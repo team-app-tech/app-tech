@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import server.apptech.auth.Authority;
 import server.apptech.global.domain.BaseEntity;
 import server.apptech.login.domain.OauthUserInfo;
 
@@ -41,7 +42,7 @@ public class User extends BaseEntity {
 
     @Column(name = "role")
     @Enumerated(value = EnumType.STRING)
-    private UserAuthority role;
+    private Authority role;
 
     public static User createTempuser(){
 
