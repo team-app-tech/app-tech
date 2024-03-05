@@ -17,6 +17,7 @@ import server.apptech.file.FIleUploadService;
 import server.apptech.file.domain.File;
 import server.apptech.file.domain.FileType;
 import server.apptech.user.UserRepository;
+import server.apptech.user.UserService;
 import server.apptech.user.domain.SocialType;
 import server.apptech.user.domain.User;
 import server.apptech.auth.Authority;
@@ -40,8 +41,7 @@ class AdvertisementServiceTest {
     @Mock
     AdvertisementRepository advertisementRepository;
     @Mock
-    UserRepository userRepository;
-
+    UserService userService;
     @Mock
     FIleUploadService fIleUploadService;
     
@@ -57,11 +57,11 @@ class AdvertisementServiceTest {
         List<MultipartFile> multipartFiles = Collections.singletonList(mockFile);
 
         given(advertisementRepository.save(any(Advertisement.class))).willReturn(advertisement);
-        given(userRepository.save(any(User.class))).willReturn(user);
+        given(userService.findByUserId(any(Long.class))).willReturn(user);
         given(fIleUploadService.saveFile(any(MultipartFile.class))).willReturn(file);
 
         //when
-        Long advertisementId = advertisementService.createAdvertisement(adCreateRequest, multipartFiles);
+        Long advertisementId = advertisementService.createAdvertisement(user.getId(), adCreateRequest, multipartFiles);
 
         //then
         verify(advertisementRepository, times(1)).save(any(Advertisement.class));
@@ -87,7 +87,7 @@ class AdvertisementServiceTest {
         //when
         AdDetailResponse adDetailResponse = advertisementService.getAdvertisementById(1L);
 
-        //thena
+        //then
         Assertions.assertThat(AdDetailResponse.of(advertisement)).usingRecursiveComparison()
                 .isEqualTo(adDetailResponse);
     }

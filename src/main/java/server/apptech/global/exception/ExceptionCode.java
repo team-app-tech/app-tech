@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 public enum ExceptionCode {
 
     NOT_FOUND_ADVERTISEMENT_ID(HttpStatus.BAD_REQUEST, "요청한 ID에 해당하는 광고가 존재하지 않습니다."),
+    NOT_FOUND_USER_ID(HttpStatus.BAD_REQUEST, "존재하지 않는 사용자 ID입니다. "),
 
     VALID_CHECK_FAIL(HttpStatus.BAD_REQUEST, "값에 대한 유효성 검사 실패"),
 

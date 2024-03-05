@@ -17,8 +17,7 @@ import server.apptech.advertisement.dto.AdDetailResponse;
 import server.apptech.file.FIleUploadService;
 import server.apptech.global.exception.ExceptionCode;
 import server.apptech.global.exception.RestApiException;
-import server.apptech.user.UserRepository;
-import server.apptech.user.domain.User;
+import server.apptech.user.UserService;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -31,18 +30,12 @@ import java.util.List;
 public class AdvertisementService {
 
     private final AdvertisementRepository advertisementRepository;
-
-    private final UserRepository userRepository;
-
     private final FIleUploadService fIleUploadService;
+    private final UserService userService;
 
-    public Long createAdvertisement(AdCreateRequest adCreateRequest, List<MultipartFile> multipartFiles) throws IOException {
+    public Long createAdvertisement(Long userId, AdCreateRequest adCreateRequest, List<MultipartFile> multipartFiles) throws IOException {
 
-
-        User tempUser = User.createTempuser();
-        userRepository.save(tempUser);
-
-        Advertisement advertisement = Advertisement.of(adCreateRequest, tempUser);
+        Advertisement advertisement = Advertisement.of(adCreateRequest, userService.findByUserId(userId));
 
         if(multipartFiles != null){
             for (MultipartFile multipartFile : multipartFiles){

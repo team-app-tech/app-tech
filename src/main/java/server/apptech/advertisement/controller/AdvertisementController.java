@@ -7,7 +7,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -37,7 +36,7 @@ public class AdvertisementController {
     public ResponseEntity<?> createAdvertisement(@Auth AuthUser authUser,
                                                  @RequestPart(value = "adCreateRequest") @Valid AdCreateRequest adCreateRequest,
                                                  @RequestPart(value = "image", required = false) List<MultipartFile> multipartFiles) throws IOException {
-        Long advertisementId = advertisementService.createAdvertisement(adCreateRequest, multipartFiles);
+        Long advertisementId = advertisementService.createAdvertisement(authUser.getUserId(), adCreateRequest, multipartFiles);
         return ResponseEntity.ok()
                 .body(advertisementId);
     }
