@@ -19,9 +19,7 @@ import server.apptech.file.domain.FileType;
 import server.apptech.user.UserRepository;
 import server.apptech.user.domain.SocialType;
 import server.apptech.user.domain.User;
-import server.apptech.user.domain.UserAuthority;
-
-import javax.swing.text.html.Option;
+import server.apptech.auth.Authority;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.*;
@@ -136,7 +134,7 @@ class AdvertisementServiceTest {
         User user = User.builder()
                 .id(1L)
                 .socialType(SocialType.KAKAO)
-                .role(UserAuthority.ROLE_USER)
+                .role(Authority.ROLE_USER)
                 .name("test")
                 .email("test@emaill.com")
                 .authId("1234")

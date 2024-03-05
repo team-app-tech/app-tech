@@ -17,7 +17,13 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
 
     @ExceptionHandler(RestApiException.class)
-    public ResponseEntity<Object> handleCustomException(RestApiException e){
+    public ResponseEntity<Object> handleRestApiException(RestApiException e){
+        ExceptionCode errorCode = e.getExceptionCode();
+        return handleExceptionInternal(errorCode);
+    }
+
+    @ExceptionHandler(AuthException.class)
+    public ResponseEntity<Object> handleAuthException(AuthException e){
         ExceptionCode errorCode = e.getExceptionCode();
         return handleExceptionInternal(errorCode);
     }

@@ -55,7 +55,7 @@ public class JwtProvider {
                 .compact();
     }
 
-    public boolean isValidRefreshToken(String refreshToken) {
+    public void validRefreshToken(String refreshToken) {
         try {
             parseToken(refreshToken);
         } catch (final ExpiredJwtException e) {
@@ -63,12 +63,27 @@ public class JwtProvider {
         } catch (final JwtException | IllegalArgumentException e) {
             throw new AuthException(ExceptionCode.INVALID_REFRESH_TOKEN);
         }
-        return true;
+    }
+
+    public void validAccessToken(String accessToken) {
+        try {
+            parseToken(accessToken);
+        } catch (final ExpiredJwtException e) {
+            throw new AuthException(ExceptionCode.EXPIRED_PERIOD_ACCESS_TOKEN);
+        } catch (final JwtException | IllegalArgumentException e) {
+            throw new AuthException(ExceptionCode.INVALID_ACCESS_TOKEN);
+        }
     }
 
     public AccessTokenResponse regenerateAccessToken(String userId){
         String accessToken = createToken(userId, accessExpirationTime);
         return new AccessTokenResponse(accessToken, accessExpirationTime);
+    }
+
+    public String getSubject(String token){
+        return parseToken(token)
+                .getBody()
+                .getSubject();
     }
 
     private Jws<Claims> parseToken(final String token) {

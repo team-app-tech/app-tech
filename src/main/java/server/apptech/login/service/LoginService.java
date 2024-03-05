@@ -42,12 +42,9 @@ public class LoginService {
 
     public AccessTokenResponse renewalAccessToken(String refreshTokenRequest){
 
-        // refresh token 유효한지 검증
-        if (jwtProvider.isValidRefreshToken(refreshTokenRequest)) {
-            Long userId = refreshTokenRepository.findById(refreshTokenRequest).orElseThrow(()-> new AuthException(ExceptionCode.INVALID_REFRESH_TOKEN));
-            return jwtProvider.regenerateAccessToken(userId.toString());
-        }
-        throw new AuthException(ExceptionCode.FAIL_TO_VALIDATE_TOKEN);
+        jwtProvider.validRefreshToken(refreshTokenRequest);
+        Long userId = refreshTokenRepository.findById(refreshTokenRequest).orElseThrow(()-> new AuthException(ExceptionCode.INVALID_REFRESH_TOKEN));
+        return jwtProvider.regenerateAccessToken(userId.toString());
     }
 
     private User findOrCreateUser(OauthUserInfo oauthUserInfo) {
