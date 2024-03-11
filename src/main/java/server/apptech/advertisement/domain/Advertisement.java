@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import server.apptech.advertisement.dto.AdCreateRequest;
 import server.apptech.advertisementlike.domain.AdvertisementLike;
-import server.apptech.comment.comment.Comment;
+import server.apptech.comment.domain.Comment;
 import server.apptech.advertisement.domain.type.EventStatus;
 import server.apptech.file.domain.File;
 import server.apptech.global.domain.BaseEntity;
@@ -93,5 +93,9 @@ public class Advertisement extends BaseEntity {
     public void addFile(File file){
         files.add(file);
         file.belongToAdvertisement(this);
+    }
+
+    public void addComment(Comment comment) {
+        this.comments.add(comment);
     }
 }

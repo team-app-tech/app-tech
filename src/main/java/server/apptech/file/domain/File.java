@@ -6,7 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import server.apptech.advertisement.domain.Advertisement;
-import server.apptech.comment.comment.Comment;
+import server.apptech.comment.domain.Comment;
 import server.apptech.global.domain.BaseEntity;
 
 @Entity
@@ -25,7 +25,7 @@ public class File extends BaseEntity {
     @JoinColumn(name = "advertisement_id")
     private Advertisement advertisement;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "comment_id")
     private Comment comment;
 
@@ -44,5 +44,9 @@ public class File extends BaseEntity {
 
     public void assignFileType(FileType fileType){
         this.fileType = fileType;
+    }
+
+    public void belongToComment(Comment comment) {
+        this.comment = comment;
     }
 }
