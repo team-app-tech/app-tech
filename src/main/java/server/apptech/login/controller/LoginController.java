@@ -45,7 +45,7 @@ public class LoginController {
     }
 
     @PostMapping(value = "/api/logout")
-    @Operation(summary = "로그인", description = "accessToken으로 로그아웃 합니다.", responses = {
+    @Operation(summary = "로그인", description = "로그아웃 합니다.", responses = {
             @ApiResponse(responseCode = "200", description = "정상적으로 로그아웃 성공")
     })
     public ResponseEntity<Void> login(@Auth AuthUser authUser, @CookieValue("refresh-token") String refreshToken ){
