@@ -12,6 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import server.apptech.auth.Auth;
+import server.apptech.auth.AuthUser;
 import server.apptech.global.exception.ExceptionResponse;
 import server.apptech.login.dto.AccessTokenResponse;
 import server.apptech.login.dto.LoginResponse;
@@ -40,6 +42,15 @@ public class LoginController {
         return ResponseEntity.status(HttpStatus.OK)
                 .header(HttpHeaders.SET_COOKIE, createRefreshTokenCookie(loginUser.getRefreshToken()).toString())
                 .body(LoginResponse.of(loginUser));
+    }
+
+    @PostMapping(value = "/api/logout")
+    @Operation(summary = "로그인", description = "accessToken으로 로그아웃 합니다.", responses = {
+            @ApiResponse(responseCode = "200", description = "정상적으로 로그아웃 성공")
+    })
+    public ResponseEntity<Void> login(@Auth AuthUser authUser, @CookieValue("refresh-token") String refreshToken ){
+        loginService.removeRefreshToken(refreshToken);
+        return ResponseEntity.noContent().build();
     }
 
     @PostMapping(value = "/api/token")

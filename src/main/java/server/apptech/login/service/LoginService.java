@@ -47,6 +47,10 @@ public class LoginService {
         return jwtProvider.regenerateAccessToken(userId.toString());
     }
 
+    public void removeRefreshToken(String refreshToken){
+        refreshTokenRepository.deleteById(refreshToken);
+    }
+
     private User findOrCreateUser(OauthUserInfo oauthUserInfo) {
 
         return userService.findByAuthId(oauthUserInfo.getAuthId()).orElseGet(() -> createUser(oauthUserInfo));

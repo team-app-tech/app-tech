@@ -15,11 +15,15 @@ public class LocalRefreshTokenRepository implements RefreshTokenRepository {
     @Override
     public void save(RefreshToken refreshToken) {
         map.put(refreshToken.getRefreshToken(), refreshToken.getUserId());
-        return;
     }
 
     @Override
     public Optional<Long> findById(String refreshToken) {
         return Optional.of(map.get(refreshToken));
+    }
+
+    @Override
+    public void deleteById(String refreshToken) {
+        map.remove(refreshToken);
     }
 }
