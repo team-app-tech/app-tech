@@ -12,6 +12,7 @@ import server.apptech.comment.domain.Comment;
 import server.apptech.comment.domain.repository.CommentRepository;
 import server.apptech.comment.dto.CommentCreateRequest;
 import server.apptech.file.FileRepository;
+import server.apptech.global.exception.AuthException;
 import server.apptech.global.exception.ExceptionCode;
 import server.apptech.global.exception.RestApiException;
 import server.apptech.user.UserRepository;
@@ -46,7 +47,7 @@ public class CommentService {
         setFileForComment(commentCreateRequest.getFileId(), comment);
         //부모있으면
         if(commentCreateRequest.getParentId() != null){
-            comment.setParent(commentRepository.findById(commentCreateRequest.getParentId()).orElseThrow(() -> new RuntimeException("존재하는 댓글 없음")));
+            comment.setParent(findCommentById(commentCreateRequest.getParentId()));
         }
         return commentRepository.save(comment).getId();
     }
@@ -70,7 +71,7 @@ public class CommentService {
     public Long updateComment(Long userId, Long commentId, CommentUpdateRequest commentUpdateRequest) {
 
 
-        Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new RuntimeException("COMMENT_NOT_FOUND"));
+        Comment comment = findCommentById(commentId);
 
         //검증
         validateUserAccess(userId, comment);
@@ -85,7 +86,7 @@ public class CommentService {
 
     private void setFileForComment(Long fileId, Comment comment) {
         if (fileId != null) {
-            comment.setFile(fileRepository.findById(fileId).orElseThrow(() -> new RuntimeException("존재하는 파일이 없음")));
+            comment.setFile(fileRepository.findById(fileId).orElseThrow(() -> new RestApiException(ExceptionCode.NOT_FOUND_FILE)));
         }
     }
 
@@ -100,14 +101,17 @@ public class CommentService {
 
     private static void validateUserAccess(Long userId, Comment comment) {
         if(comment.getUser().getId() != userId){
-            throw new RuntimeException("UNAUTHORIZED_USER_ACCESS");
+            throw new AuthException(ExceptionCode.UNAUTHORIZED_USER_ACCESS);
         }
     }
 
     public void deleteComment(Long userId, Long commentId) {
-
-        Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new RuntimeException("COMMENT_NOT_FOUND"));
+        Comment comment = findCommentById(commentId);
         validateUserAccess(userId, comment);
         commentRepository.deleteById(commentId);
+    }
+
+    private Comment findCommentById(Long commentId) {
+        return commentRepository.findById(commentId).orElseThrow(() -> new RestApiException(ExceptionCode.NOT_FOUND_COMMENT));
     }
 }

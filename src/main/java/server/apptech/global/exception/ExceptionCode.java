@@ -19,7 +19,12 @@ public enum ExceptionCode {
     INVALID_REFRESH_TOKEN(HttpStatus.BAD_REQUEST,  "유효하지 않은 Refresh Token"),
     EXPIRED_PERIOD_ACCESS_TOKEN(HttpStatus.BAD_REQUEST, "Access Token 유효기간 만료" ),
     INVALID_ACCESS_TOKEN(HttpStatus.BAD_REQUEST, "유효하지 않은 Access Token" ),
-    INVALID_AUTHORIZATION_HEADER(HttpStatus.BAD_REQUEST, "사용자 인증정보가 존재하지 않습니다.");
+    INVALID_AUTHORIZATION_HEADER(HttpStatus.BAD_REQUEST, "사용자 인증정보가 존재하지 않습니다."),
+    UNAUTHORIZED_USER_ACCESS(HttpStatus.UNAUTHORIZED, "권한이 없는 사용자의 접근입니다!"),
+
+    NOT_FOUND_COMMENT(HttpStatus.BAD_REQUEST, "요청한 ID에 해당하는 댓글이 존재하지 않습니다."),
+
+    NOT_FOUND_FILE(HttpStatus.BAD_REQUEST, "요청한 ID에 해당하는 파일이 존재하지 않습니다.");
 
     private final HttpStatus httpStatus;
     private final String message;
