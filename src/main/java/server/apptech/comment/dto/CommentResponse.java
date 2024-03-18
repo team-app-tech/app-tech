@@ -18,6 +18,7 @@ public class CommentResponse {
 
     Long commentId;
     String content;
+    Long fileId;
     String fileUrl;
     String nickName;
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
@@ -31,6 +32,7 @@ public class CommentResponse {
                 .nickName(comment.getUser().getNickName())
                 .createdAt(comment.getCreatedAt());
         if(comment.getFile() != null){
+            builder.fileId(comment.getFile().getId());
             builder.fileUrl(comment.getFile().getUrl());
         }
         if(comment.getChildComments().size() > 0){

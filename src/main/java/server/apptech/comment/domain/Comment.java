@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import server.apptech.advertisement.domain.Advertisement;
 import server.apptech.comment.dto.CommentCreateRequest;
+import server.apptech.comment.dto.CommentUpdateRequest;
 import server.apptech.file.domain.File;
 import server.apptech.global.domain.BaseEntity;
 import server.apptech.user.domain.User;
@@ -45,7 +46,7 @@ public class Comment extends BaseEntity {
     @Column(name="content")
     private String content;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
     @JoinColumn(name="file_id")
     private File file;
     public static Comment of(CommentCreateRequest commentCreateRequest, User user){
@@ -71,5 +72,13 @@ public class Comment extends BaseEntity {
 
     public void addChildComment(Comment comment){
         childComments.add(comment);
+    }
+
+    public void updateComment(CommentUpdateRequest commentUpdateRequest){
+        this.content = commentUpdateRequest.getContent();
+    }
+
+    public void removeFile() {
+        this.file = null;
     }
 }
