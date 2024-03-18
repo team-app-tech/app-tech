@@ -96,3 +96,25 @@ VALUES
     (39, null, 'IMAGE_JPEG', 'ijklmnop', 'https://pangta-bucket.s3.ap-northeast-2.amazonaws.com/Screenshot%202024-03-04%20at%207.24.43%20PM.png', now(), now()),
     (40, null, 'IMAGE_JPEG', 'ijklmnop', 'https://pangta-bucket.s3.ap-northeast-2.amazonaws.com/Screenshot%202024-03-04%20at%207.24.43%20PM.png', now(), now()),
     (41, null, 'IMAGE_JPEG', 'ijklmnop', 'https://pangta-bucket.s3.ap-northeast-2.amazonaws.com/Screenshot%202024-03-04%20at%207.24.43%20PM.png', now(), now());
+
+INSERT INTO Comment (advertisement_id, file_id, parent_id, user_id, content, created_at, modified_at)
+VALUES
+    (1,null,null,1,'댓글입니다',now(),now()),
+    (1,null,null,1,'댓글입니다',now(),now()),
+    (1,null,null,1,'댓글입니다',now(),now()),
+    (1,null,null,1,'댓글입니다',now(),now()),
+
+    (1,null,1,1,'대댓글입니다',now(),now()),
+    (1,null,1,1,'대댓글입니다',now(),now()),
+    (1,null,2,1,'대댓글입니다',now(),now()),
+    (1,null,2,1,'대댓글입니다',now(),now()),
+
+    (2,null,null,1,'댓글입니다',now(),now()),
+    (2,null,null,1,'댓글입니다',now(),now()),
+    (2,null,null,1,'댓글입니다',now(),now()),
+    (2,null,null,1,'댓글입니다',now(),now()),
+
+    (2,null,9,1,'대댓글입니다',now(),now()),
+    (2,null,9,1,'대댓글입니다',now(),now()),
+    (2,null,10,1,'대댓글입니다',now(),now()),
+    (2,null,10,1,'대댓글입니다',now(),now());

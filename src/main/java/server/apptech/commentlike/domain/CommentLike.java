@@ -1,7 +1,7 @@
 package server.apptech.commentlike.domain;
 
 import jakarta.persistence.*;
-import server.apptech.comment.comment.Comment;
+import server.apptech.comment.domain.Comment;
 import server.apptech.global.domain.BaseEntity;
 import server.apptech.user.domain.User;
 
