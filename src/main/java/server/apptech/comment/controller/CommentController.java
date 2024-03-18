@@ -51,7 +51,7 @@ public class CommentController {
     }
 
     @DeleteMapping(value = "/api/advertisement/{advertisementId}/comment/{commentId}")
-    @Operation(summary = "댓글 삭제", description = "댓글을 삭제합니다.", responses = {@ApiResponse(responseCode = "200", description = "삭제")})
+    @Operation(summary = "댓글 삭제", description = "댓글을 삭제합니다.", responses = {@ApiResponse(responseCode = "204", description = "댓글 삭제")})
     public ResponseEntity<?> deleteComment(@Auth AuthUser authUser, @PathVariable(value = "advertisementId", required = true) Long advertisementId, @PathVariable(value = "commentId", required = true) Long commentId){
 
         commentService.deleteComment(authUser.getUserId(),commentId);
