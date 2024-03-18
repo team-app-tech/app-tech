@@ -10,4 +10,5 @@ public interface RefreshTokenRepository {
 
     public void save(RefreshToken refreshToken);
     public Optional<Long> findById(String refreshToken);
+    public void deleteById(String refreshToken);
 }
