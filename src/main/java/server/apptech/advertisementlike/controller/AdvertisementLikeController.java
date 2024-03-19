@@ -1,4 +1,4 @@
-package server.apptech.advertisementlike;
+package server.apptech.advertisementlike.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -9,13 +9,14 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
+import server.apptech.advertisementlike.service.AdvertisementLikeService;
 import server.apptech.auth.Auth;
 import server.apptech.auth.AuthUser;
 
 
 @RestController
 @RequiredArgsConstructor
-@Tag(name = "Advertisement-like")
+@Tag(name = "Advertisement-Like")
 public class AdvertisementLikeController {
 
     private final AdvertisementLikeService advertisementLikeService;
@@ -34,7 +35,7 @@ public class AdvertisementLikeController {
             @ApiResponse(responseCode = "204", description = "정상적으로 좋아요 취소"),
             @ApiResponse(responseCode = "400", description = "좋아요를 누르지 않은 광고입니다.")}
     )
-    public ResponseEntity<Long> cancelAdvertisementLike(@Auth AuthUser authUser, @PathVariable(value = "advertisementId", required = true) Long advertisementId){
+    public ResponseEntity<Void> cancelAdvertisementLike(@Auth AuthUser authUser, @PathVariable(value = "advertisementId", required = true) Long advertisementId){
         advertisementLikeService.cancelAdvertisementLike(authUser.getUserId(), advertisementId);
         return ResponseEntity.noContent().build();
     }

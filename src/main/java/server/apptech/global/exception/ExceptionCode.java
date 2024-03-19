@@ -27,7 +27,10 @@ public enum ExceptionCode {
     NOT_FOUND_FILE(HttpStatus.BAD_REQUEST, "요청한 ID에 해당하는 파일이 존재하지 않습니다."),
 
     ALREADY_LIKED_ADVERTISEMENT(HttpStatus.BAD_REQUEST, "이미 좋아요를 누른 광고 입니다"),
-    ADVERTISEMENT_NOT_LIKED(HttpStatus.BAD_REQUEST, "좋아요를 누르지 않은 광고 입니다.");
+    ADVERTISEMENT_NOT_LIKED(HttpStatus.BAD_REQUEST, "좋아요를 누르지 않은 광고 입니다."),
+
+    COMMENT_NOT_LIKED(HttpStatus.BAD_REQUEST, "좋아요를 누르지 않은 댓글입니다" ),
+    ALREADY_LIKED_COMMENT(HttpStatus.BAD_REQUEST,"이미 좋아요를 누른 댓글입니다.");
 
 
     private final HttpStatus httpStatus;
