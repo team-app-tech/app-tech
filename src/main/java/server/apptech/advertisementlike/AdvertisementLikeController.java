@@ -9,14 +9,13 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
-import server.apptech.advertisement.domain.Advertisement;
 import server.apptech.auth.Auth;
 import server.apptech.auth.AuthUser;
 
 
 @RestController
 @RequiredArgsConstructor
-@Tag(name = "AdvertisementLike")
+@Tag(name = "Advertisement-like")
 public class AdvertisementLikeController {
 
     private final AdvertisementLikeService advertisementLikeService;

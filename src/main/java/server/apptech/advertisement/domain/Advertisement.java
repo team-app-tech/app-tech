@@ -67,7 +67,7 @@ public class Advertisement extends BaseEntity {
     @OneToMany(mappedBy = "advertisement", fetch = FetchType.LAZY)
     private List<File> files = new ArrayList<>();
 
-    @OneToMany(mappedBy = "advertisement", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "advertisement", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<AdvertisementLike> advertisementLikes = new ArrayList<>();
 
     @OneToMany(mappedBy = "advertisement", fetch = FetchType.LAZY)
