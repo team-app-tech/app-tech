@@ -1,10 +1,11 @@
-package server.apptech.advertisementlike;
+package server.apptech.advertisementlike.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import server.apptech.advertisement.domain.Advertisement;
 import server.apptech.advertisement.domain.repository.AdvertisementRepository;
+import server.apptech.advertisementlike.domain.repository.AdvertisementLikeRepository;
 import server.apptech.advertisementlike.domain.AdvertisementLike;
 import server.apptech.global.exception.ExceptionCode;
 import server.apptech.global.exception.RestApiException;

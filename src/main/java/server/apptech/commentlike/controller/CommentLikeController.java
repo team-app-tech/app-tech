@@ -1,4 +1,4 @@
-package server.apptech.commentlike;
+package server.apptech.commentlike.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -11,10 +11,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import server.apptech.auth.Auth;
 import server.apptech.auth.AuthUser;
+import server.apptech.commentlike.service.CommentLikeService;
 
 @RestController
 @RequiredArgsConstructor
-@Tag(name = "comment-like")
+@Tag(name = "Comment-Like")
 public class CommentLikeController {
 
     private final CommentLikeService commentLikeService;
@@ -24,7 +25,7 @@ public class CommentLikeController {
             @ApiResponse(responseCode = "200", description = "정상적으로 좋아요 추가"),
             @ApiResponse(responseCode = "400", description = "이미 좋아요를 누른 댓글입니다.")}
     )
-    public ResponseEntity<Long> addCommentLike(@Auth AuthUser authUser, @PathVariable(value = "commentId", required = true) Long commentId){
+    public ResponseEntity<Long> addCommentLike(@Auth AuthUser authUser, @PathVariable(value = "commentId", required = true) Long commentId, @PathVariable(value = "advertisementId", required = true) Long advertisementId){
         return ResponseEntity.ok(commentLikeService.addCommentLike(authUser.getUserId(), commentId));
     }
 
@@ -33,7 +34,7 @@ public class CommentLikeController {
             @ApiResponse(responseCode = "204", description = "정상적으로 좋아요 취소"),
             @ApiResponse(responseCode = "400", description = "좋아요를 누르지 않은 댓글입니다.")}
     )
-    public ResponseEntity<Void> cancelCommentLike(@Auth AuthUser authUser, @PathVariable(value = "commentId", required = true) Long commentId){
+    public ResponseEntity<Void> cancelCommentLike(@Auth AuthUser authUser, @PathVariable(value = "commentId", required = true) Long commentId, @PathVariable(value = "advertisementId", required = true) Long advertisementId){
         commentLikeService.cancelCommentLike(authUser.getUserId(), commentId);
         return ResponseEntity.noContent().build();
     }

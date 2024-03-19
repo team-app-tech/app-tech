@@ -1,10 +1,11 @@
-package server.apptech.commentlike;
+package server.apptech.commentlike.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import server.apptech.comment.domain.Comment;
 import server.apptech.comment.domain.repository.CommentRepository;
+import server.apptech.commentlike.domain.repository.CommentLikeRepository;
 import server.apptech.commentlike.domain.CommentLike;
 import server.apptech.global.exception.ExceptionCode;
 import server.apptech.global.exception.RestApiException;
