@@ -15,7 +15,7 @@ import server.apptech.auth.AuthUser;
 
 @RestController
 @RequiredArgsConstructor
-@Tag(name = "Advertisement-like")
+@Tag(name = "advertisement-Like")
 public class AdvertisementLikeController {
 
     private final AdvertisementLikeService advertisementLikeService;
@@ -34,7 +34,7 @@ public class AdvertisementLikeController {
             @ApiResponse(responseCode = "204", description = "정상적으로 좋아요 취소"),
             @ApiResponse(responseCode = "400", description = "좋아요를 누르지 않은 광고입니다.")}
     )
-    public ResponseEntity<Long> cancelAdvertisementLike(@Auth AuthUser authUser, @PathVariable(value = "advertisementId", required = true) Long advertisementId){
+    public ResponseEntity<Void> cancelAdvertisementLike(@Auth AuthUser authUser, @PathVariable(value = "advertisementId", required = true) Long advertisementId){
         advertisementLikeService.cancelAdvertisementLike(authUser.getUserId(), advertisementId);
         return ResponseEntity.noContent().build();
     }

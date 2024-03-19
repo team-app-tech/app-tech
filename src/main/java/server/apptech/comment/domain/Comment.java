@@ -49,6 +49,9 @@ public class Comment extends BaseEntity {
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name="file_id")
     private File file;
+
+//    @OneToMany(mappedBy = "comment", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+
     public static Comment of(CommentCreateRequest commentCreateRequest, User user){
         return Comment.builder()
                 .content(commentCreateRequest.getContent())
