@@ -13,6 +13,9 @@ on:
   pull_request:
     branches: [ "main" ]
 
+
+permissions: write-all
+
 jobs:
   build-docker-image:
     runs-on: ubuntu-latest
