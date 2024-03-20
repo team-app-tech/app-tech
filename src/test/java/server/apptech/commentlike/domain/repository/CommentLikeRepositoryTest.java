@@ -1,6 +1,6 @@
-package server.apptech.advertisementlike.domain.repository;
+package server.apptech.commentlike.domain.repository;
 
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,8 +9,12 @@ import org.springframework.test.context.ActiveProfiles;
 import server.apptech.advertisement.domain.Advertisement;
 import server.apptech.advertisement.domain.repository.AdvertisementRepository;
 import server.apptech.advertisement.dto.AdCreateRequest;
-import server.apptech.advertisementlike.domain.AdvertisementLike;
+import server.apptech.advertisementlike.domain.repository.AdvertisementLikeRepository;
 import server.apptech.auth.Authority;
+import server.apptech.comment.domain.Comment;
+import server.apptech.comment.domain.repository.CommentRepository;
+import server.apptech.comment.dto.CommentCreateRequest;
+import server.apptech.commentlike.domain.CommentLike;
 import server.apptech.user.UserRepository;
 import server.apptech.user.domain.SocialType;
 import server.apptech.user.domain.User;
@@ -19,110 +23,92 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 @ActiveProfiles("test")
-class AdvertisementLikeRepositoryTest {
+class CommentLikeRepositoryTest {
 
     @Autowired
-    private AdvertisementLikeRepository advertisementLikeRepository;
+    private CommentLikeRepository commentLikeRepository;
+    @Autowired
+    private AdvertisementRepository advertisementRepository;
     @Autowired
     private UserRepository userRepository;
     @Autowired
-    private AdvertisementRepository advertisementRepository;
-
+    private CommentRepository commentRepository;
     @Test
-    @DisplayName("광고 ID와 USERID에 해당하는 advertisementLike가 있음")
-    void exists_by_advertisement_id_and_userId() {
+    @DisplayName("댓글 ID와 USER ID에 해당하는 commentLike가 있음")
+    void existsByCommentIdAndUserId() {
 
         // given
         User user = createUser();
         Advertisement advertisement = createAdvertisement(createtAdCreateRequest(), user);
-
-        AdvertisementLike advertisementLike = AdvertisementLike.of(advertisement,user);
-        advertisementRepository.save(advertisement);
+        Comment comment = createComment(user, advertisement, createCommentRequest());
+        CommentLike commentLike = CommentLike.of(comment, user);
         userRepository.save(user);
-        advertisementLikeRepository.save(advertisementLike);
+        advertisementRepository.save(advertisement);
+        commentRepository.save(comment);
+        commentLikeRepository.save(commentLike);
         // when
-        boolean flag = advertisementLikeRepository.existsByAdvertisementIdAndUserId(advertisement.getId(), user.getId());
-
+        boolean flag = commentLikeRepository.existsByCommentIdAndUserId(comment.getId(), user.getId());
         //then
-        assertThat(flag).isTrue();
+        Assertions.assertThat(flag).isTrue();
     }
-
     @Test
-    @DisplayName("광고 ID와 USERID에 해당하는 advertisementLike가 있음, 사용자가 다름")
-    void non_exists_by_advertisement_id_and_userId_1() {
+    @DisplayName("댓글 ID와 USER ID에 해당하는 commentLike가 없음")
+    void non_exists_by_comment_id_and_user_id() {
 
         // given
         User user = createUser();
         User user2 = createUser2();
         Advertisement advertisement = createAdvertisement(createtAdCreateRequest(), user);
-        AdvertisementLike advertisementLike = AdvertisementLike.of(advertisement,user);
-        advertisementRepository.save(advertisement);
+        Comment comment = createComment(user, advertisement, createCommentRequest());
+        CommentLike commentLike = CommentLike.of(comment, user);
         userRepository.save(user);
-        advertisementLikeRepository.save(advertisementLike);
+        advertisementRepository.save(advertisement);
+        commentRepository.save(comment);
+        commentLikeRepository.save(commentLike);
         // when
-        boolean flag = advertisementLikeRepository.existsByAdvertisementIdAndUserId(advertisement.getId(), user2.getId());
-
+        boolean flag = commentLikeRepository.existsByCommentIdAndUserId(comment.getId(), user2.getId());
         //then
-        assertThat(flag).isFalse();
+        Assertions.assertThat(flag).isFalse();
     }
-    @Test
-    @DisplayName("광고 ID와 USERID에 해당하는 advertisementLike가 있음, 광고가 다름")
-    void non_exists_by_advertisement_id_and_userId_2() {
 
+    @Test
+    @DisplayName("광고 ID와 USERID에 해당하는 advertisementLike 찾아서 반환")
+    void find_by_comment_id_and_user_id() {
         // given
         User user = createUser();
         Advertisement advertisement = createAdvertisement(createtAdCreateRequest(), user);
-        Advertisement advertisement2 = createAdvertisement2(createtAdCreateRequest(), user);
-
-        AdvertisementLike advertisementLike = AdvertisementLike.of(advertisement,user);
-        advertisementRepository.save(advertisement);
+        Comment comment = createComment(user, advertisement, createCommentRequest());
+        CommentLike commentLike = CommentLike.of(comment, user);
         userRepository.save(user);
-        advertisementLikeRepository.save(advertisementLike);
+        advertisementRepository.save(advertisement);
+        commentRepository.save(comment);
+        commentLikeRepository.save(commentLike);
         // when
-        boolean flag = advertisementLikeRepository.existsByAdvertisementIdAndUserId(advertisement2.getId(), user.getId());
-
+        CommentLike cl = commentLikeRepository.findByCommentIdAndUserId(comment.getId(), user.getId()).get();
         //then
-        assertThat(flag).isFalse();
+        Assertions.assertThat(cl.getId()).isEqualTo(commentLike.getId());
     }
 
     @Test
-    @DisplayName("광고 ID와 USERID에 해당하는 advertisementLike 찾아서 가져옴")
-    void find_by_advertisement_id_and_user_id() {
-
-        // given
-        User user = createUser();
-        Advertisement advertisement = createAdvertisement(createtAdCreateRequest(), user);
-        AdvertisementLike advertisementLike = AdvertisementLike.of(advertisement,user);
-        advertisementRepository.save(advertisement);
-        userRepository.save(user);
-        advertisementLikeRepository.save(advertisementLike);
-        // when
-        AdvertisementLike adlike = advertisementLikeRepository.findByAdvertisementIdAndUserId(advertisement.getId(), user.getId()).get();
-        //then
-        assertThat(adlike.getId()).isEqualTo(adlike.getId());
-    }
-
-    @Test
-    @DisplayName("광고 ID와 USERID에 일치하는 advertisementLike 없음")
-    void not_find_by_advertisement_id_and_user_id() {
-
+    @DisplayName("댓글 ID와 USERID에 해당하는 advertisementLike 가 존재하지 않음")
+    void fail_find_by_comment_id_and_user_id() {
         // given
         User user = createUser();
         User user2 = createUser2();
         Advertisement advertisement = createAdvertisement(createtAdCreateRequest(), user);
-        AdvertisementLike advertisementLike = AdvertisementLike.of(advertisement,user);
-        advertisementRepository.save(advertisement);
+        Comment comment = createComment(user, advertisement, createCommentRequest());
+        CommentLike commentLike = CommentLike.of(comment, user);
         userRepository.save(user);
-        advertisementLikeRepository.save(advertisementLike);
-
+        advertisementRepository.save(advertisement);
+        commentRepository.save(comment);
+        commentLikeRepository.save(commentLike);
         // when && then
-        assertThatThrownBy(() ->advertisementLikeRepository.findByAdvertisementIdAndUserId(advertisement.getId(), user2.getId()).get())
+        assertThatThrownBy(() ->commentLikeRepository.findByCommentIdAndUserId(comment.getId(), user2.getId()).get())
                 .isInstanceOf(NoSuchElementException.class);
     }
 
@@ -194,5 +180,21 @@ class AdvertisementLikeRepositoryTest {
                 .endDate(LocalDateTime.now().plusHours(1))
                 .build();
         return adCreateRequest;
+    }
+
+    private static CommentCreateRequest createCommentRequest() {
+        return CommentCreateRequest.builder()
+                .content("테스트 content")
+                .build();
+    }
+
+    private static Comment createComment(User user, Advertisement advertisement, CommentCreateRequest commentCreateRequest) {
+        return Comment.builder()
+                .id(1L)
+                .advertisement(advertisement)
+                .childComments(new ArrayList<>())
+                .user(user)
+                .content(commentCreateRequest.getContent())
+                .build();
     }
 }
