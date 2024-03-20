@@ -28,7 +28,7 @@ jobs:
       uses: actions/checkout@v3
       with:
         token: ${{ secrets.SUBMODULE_TOKEN }}
-        submodules: tru가e
+        submodules: true
 
     - name: gradlew 권한부여
       run: chmod +x gradlew    
