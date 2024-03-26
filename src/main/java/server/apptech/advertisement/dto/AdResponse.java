@@ -28,7 +28,6 @@ public class AdResponse {
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime endDate;
 
-    //후에 getAdvertisementLikes().size(), getComments().size() 수정
     public static AdResponse of (Advertisement advertisement){
         return AdResponse.builder()
                 .advertisementId(advertisement.getId())
@@ -36,8 +35,8 @@ public class AdResponse {
                 .totalPrice(advertisement.getTotalPrice())
                 .prizeWinnerCnt(advertisement.getPrizeWinnerCnt())
                 .viewCnt(advertisement.getViewCnt())
-                .likeCnt(advertisement.getAdvertisementLikes().size())
-                .commentCnt(advertisement.getComments().size())
+                .likeCnt(advertisement.getLikeCnt())
+                .commentCnt(advertisement.getCommentCnt())
                 .startDate(advertisement.getStartDate())
                 .endDate(advertisement.getEndDate())
                 .fileUrl(advertisement.getFiles().stream().map(file -> file.getUrl()).findAny().orElse("null"))
