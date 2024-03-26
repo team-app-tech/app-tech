@@ -105,8 +105,30 @@ public class AdvertisementService {
                 }
                 break;
             case COMMENTS_DESCENDING:
+                if(eventStatus == EventStatus.UPCOMING){
+                    advertisements =  advertisementRepository.findByUpComingOrderByCommentCnt(pageable, LocalDateTime.now(), keyword);
+
+                }
+                if(eventStatus == EventStatus.ONGOING){
+                    advertisements =  advertisementRepository.findByOngoingOrderCommentCnt(pageable, LocalDateTime.now(), keyword);
+
+                }
+                if(eventStatus == EventStatus.FINISHED){
+                    advertisements =  advertisementRepository.findByFinishedOrderCommentCnt(pageable, LocalDateTime.now(), keyword);
+                }
                 break;
             case LIKES_DESCENDING:
+                if(eventStatus == EventStatus.UPCOMING){
+                    advertisements =  advertisementRepository.findByUpComingOrderByLikeCnt(pageable, LocalDateTime.now(), keyword);
+
+                }
+                if(eventStatus == EventStatus.ONGOING){
+                    advertisements =  advertisementRepository.findByOngoingOrderByLikeCnt(pageable, LocalDateTime.now(), keyword);
+
+                }
+                if(eventStatus == EventStatus.FINISHED){
+                    advertisements =  advertisementRepository.findByFinishedOrderByLikeCnt(pageable, LocalDateTime.now(), keyword);
+                }
                 break;
             default:
                 throw new RuntimeException("존재하지 않는 타입");

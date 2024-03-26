@@ -50,32 +50,28 @@ public interface AdvertisementRepository extends JpaRepository<Advertisement, Lo
     @Query(value = "select a from Advertisement a where a.endDate <= :now and a.title like %:keyword% order by a.endDate ASC ")
     Page<Advertisement> findByFinishedOrderByEndDateAsc(PageRequest pageable, @Param("now")LocalDateTime now, @Param("keyword")String keyword);
 
-    //댓글순
-//    @Query(value = "select a from Advertisement a join fetch a.comments where a.startDate >= :now order by a.comments.size desc ")
-//    Page<Advertisement> findByUpComingOrderByCommentCnt(PageRequest pageable, LocalDateTime now);
-//
-//    @Query(value = "select a from Advertisement a join fetch a.comments where :now between a.startDate and a.endDate order by a.comments.size desc ")
-//    Page<Advertisement> findByOngoingOrderByCommentCnt(PageRequest pageable, LocalDateTime now);
-//
-//    @Query(value = "select a from Advertisement a join fetch a.comments where a.endDate <= :now order by a.comments.size desc ")
-//    Page<Advertisement> findByFinishedOrderByCommentsCnt(PageRequest pageable, LocalDateTime now);
-//
-//    //좋아요순
-//    @Query(value = "select a from Advertisement a join fetch a.comments where a.startDate >= :now order by a.advertisementLikes.size desc ")
-//    Page<Advertisement> findByUpComingOrderByLikeCnt(PageRequest pageable, LocalDateTime now);
-//    @Query(value = "select a from Advertisement a join fetch a.comments where :now between a.startDate and a.endDate order by a.advertisementLikes.size desc ")
-//    Page<Advertisement> findByOngoingOrderByLikeCnt(PageRequest pageable, LocalDateTime now);
-//
-//    @Query(value = "select a from Advertisement a join fetch a.comments where a.endDate <= :now order by a.advertisementLikes.size desc ")
-//    Page<Advertisement> findByFinishedOrderByLikeCnt(PageRequest pageable, LocalDateTime now);
-
     //조회순
-    @Query(value = "select a from Advertisement a join fetch a.comments where a.startDate >= :now and a.title like %:keyword% order by a.viewCnt desc ")
+    @Query(value = "select a from Advertisement a where a.startDate >= :now and a.title like %:keyword% order by a.viewCnt desc ")
     Page<Advertisement> findByUpComingOrderByViewCnt(PageRequest pageable, @Param("now")LocalDateTime now, @Param("keyword")String keyword);
-    @Query(value = "select a from Advertisement a join fetch a.comments where :now between a.startDate and a.endDate and a.title like %:keyword% order by a.viewCnt desc ")
+    @Query(value = "select a from Advertisement a where :now between a.startDate and a.endDate and a.title like %:keyword% order by a.viewCnt desc ")
     Page<Advertisement> findByOngoingOrderByViewCnt(PageRequest pageable, @Param("now")LocalDateTime now, @Param("keyword")String keyword);
-    @Query(value = "select a from Advertisement a join fetch a.comments where a.endDate <= :now and a.title like %:keyword% order by a.viewCnt desc ")
+    @Query(value = "select a from Advertisement a where a.endDate <= :now and a.title like %:keyword% order by a.viewCnt desc ")
     Page<Advertisement> findByFinishedOrderByViewCnt(PageRequest pageable, @Param("now")LocalDateTime now,@Param("keyword")String keyword );
 
+    //댓글순
+    @Query(value = "select a from Advertisement a where a.endDate <= :now and a.title like %:keyword% order by a.commentCnt desc ")
+    Page<Advertisement> findByUpComingOrderByCommentCnt(PageRequest pageable, @Param("now")LocalDateTime now,@Param("keyword")String keyword);
+    @Query(value = "select a from Advertisement a where :now between a.startDate and a.endDate and a.title like %:keyword% order by a.commentCnt desc ")
+    Page<Advertisement> findByOngoingOrderCommentCnt(PageRequest pageable,  @Param("now")LocalDateTime now,@Param("keyword")String keyword);
+    @Query(value = "select a from Advertisement a where a.endDate <= :now and a.title like %:keyword% order by a.commentCnt desc ")
+    Page<Advertisement> findByFinishedOrderCommentCnt(PageRequest pageable,  @Param("now")LocalDateTime now,@Param("keyword")String keyword);
+
+    //좋아요순
+    @Query(value = "select a from Advertisement a where a.endDate <= :now and a.title like %:keyword% order by a.likeCnt desc ")
+    Page<Advertisement> findByUpComingOrderByLikeCnt(PageRequest pageable,  @Param("now")LocalDateTime now,@Param("keyword")String keyword);
+    @Query(value = "select a from Advertisement a where :now between a.startDate and a.endDate and a.title like %:keyword% order by a.likeCnt desc ")
+    Page<Advertisement> findByOngoingOrderByLikeCnt(PageRequest pageable,  @Param("now")LocalDateTime now,@Param("keyword")String keyword);
+    @Query(value = "select a from Advertisement a where a.endDate <= :now and a.title like %:keyword% order by a.likeCnt desc ")
+    Page<Advertisement> findByFinishedOrderByLikeCnt(PageRequest pageable,  @Param("now")LocalDateTime now,@Param("keyword")String keyword);
 }
 

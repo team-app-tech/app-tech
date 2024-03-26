@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Formula;
 import org.springframework.format.annotation.DateTimeFormat;
 import server.apptech.advertisement.dto.AdCreateRequest;
 import server.apptech.advertisementlike.domain.AdvertisementLike;
@@ -72,6 +73,10 @@ public class Advertisement extends BaseEntity {
 
     @OneToMany(mappedBy = "advertisement", fetch = FetchType.LAZY)
     private List<Comment> comments = new ArrayList<>();
+    @Formula("(SELECT count(*) FROM comment c WHERE c.ADVERTISEMENT_ID = id)")
+    private int commentCnt;
+    @Formula("(SELECT count(*) FROM advertisement_like al WHERE al.ADVERTISEMENT_ID = id)")
+    private int likeCnt;
 
     public static Advertisement of(AdCreateRequest adCreateRequest, User user){
         return Advertisement.builder()
