@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import server.apptech.advertisement.domain.Advertisement;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Repository
 public interface AdvertisementRepository extends JpaRepository<Advertisement, Long> {
@@ -73,5 +74,8 @@ public interface AdvertisementRepository extends JpaRepository<Advertisement, Lo
     Page<Advertisement> findByOngoingOrderByLikeCnt(PageRequest pageable,  @Param("now")LocalDateTime now,@Param("keyword")String keyword);
     @Query(value = "select a from Advertisement a where a.endDate <= :now and a.title like %:keyword% order by a.likeCnt desc ")
     Page<Advertisement> findByFinishedOrderByLikeCnt(PageRequest pageable,  @Param("now")LocalDateTime now,@Param("keyword")String keyword);
+
+    @Query(value = "select a from Advertisement a join fetch a.user u where a.id = :id")
+    Optional<Advertisement> findWithUserById(@Param("id") Long id);
 }
 

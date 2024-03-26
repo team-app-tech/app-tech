@@ -82,7 +82,7 @@ class AdvertisementServiceTest {
         AdCreateRequest adCreateRequest = createtAdCreateRequest();
         User user = createUser();
         Advertisement advertisement = createAdvertisement(adCreateRequest, user);
-        given(advertisementRepository.findById(any(Long.class))).willReturn(Optional.of(advertisement));
+        given(advertisementRepository.findWithUserById(any(Long.class))).willReturn(Optional.of(advertisement));
 
         //when
         AdDetailResponse adDetailResponse = advertisementService.getAdvertisementById(1L);
