@@ -1,14 +1,11 @@
 package server.apptech.comment.dto;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import org.springframework.format.annotation.DateTimeFormat;
 import server.apptech.comment.domain.Comment;
-import server.apptech.comment.dto.ChildComment;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,6 +18,7 @@ public class CommentResponse {
     Long fileId;
     String fileUrl;
     String nickName;
+    Integer likeCnt;
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime createdAt;
     private List<ChildComment> childComments;
@@ -30,6 +28,7 @@ public class CommentResponse {
                 .commentId(comment.getId())
                 .content(comment.getContent())
                 .nickName(comment.getUser().getNickName())
+                .likeCnt(comment.getCommentLikes().size())
                 .createdAt(comment.getCreatedAt());
         if(comment.getFile() != null){
             builder.fileId(comment.getFile().getId());

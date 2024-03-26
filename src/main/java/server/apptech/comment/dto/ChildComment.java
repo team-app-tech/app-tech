@@ -14,6 +14,7 @@ public class ChildComment{
     Long commentId;
     String content;
     String nickName;
+    Integer likeCnt;
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime createdAt;
 
@@ -22,6 +23,7 @@ public class ChildComment{
                 .commentId(comment.getId())
                 .content(comment.getContent())
                 .nickName(comment.getUser().getNickName())
+                .likeCnt(comment.getCommentLikes().size())
                 .createdAt(comment.getCreatedAt())
                 .build();
     }

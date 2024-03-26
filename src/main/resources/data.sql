@@ -99,22 +99,22 @@ VALUES
 
 INSERT INTO comment (advertisement_id, file_id, parent_id, user_id, content, created_at, modified_at)
 VALUES
-    (1,null,null,1,'댓글입니다',now(),now()),
-    (1,null,null,1,'댓글입니다',now(),now()),
-    (1,null,null,1,'댓글입니다',now(),now()),
-    (1,null,null,1,'댓글입니다',now(),now()),
+    (1,null,null,1,'1번광고 1번댓글',now(),now()),
+    (1,null,null,1,'1번광고 2번댓글',now(),now()),
+    (1,null,null,1,'1번광고 3번댓글',now(),now()),
+    (1,null,null,1,'1번광고 4번댓글',now(),now()),
 
-    (1,null,1,1,'대댓글입니다',now(),now()),
-    (1,null,1,1,'대댓글입니다',now(),now()),
-    (1,null,2,1,'대댓글입니다',now(),now()),
-    (1,null,2,1,'대댓글입니다',now(),now()),
+    (1,null,1,1,'1번광고 1번 대댓글',now(),now()),
+    (1,null,1,1,'1번광고 1번 대댓글',now(),now()),
+    (1,null,2,1,'1번광고 2번 대댓글',now(),now()),
+    (1,null,2,1,'1번광고 2번 대댓글',now(),now()),
 
-    (2,null,null,1,'댓글입니다',now(),now()),
-    (2,null,null,1,'댓글입니다',now(),now()),
-    (2,null,null,1,'댓글입니다',now(),now()),
-    (2,null,null,1,'댓글입니다',now(),now()),
+    (2,null,null,1,'2번광고 1번댓글',now(),now()),
+    (2,null,null,1,'2번광고 2번댓글',now(),now()),
+    (2,null,null,1,'2번광고 3번댓글',now(),now()),
+    (2,null,null,1,'2번광고 4번댓글',now(),now()),
 
-    (2,null,9,1,'대댓글입니다',now(),now()),
-    (2,null,9,1,'대댓글입니다',now(),now()),
-    (2,null,10,1,'대댓글입니다',now(),now()),
-    (2,null,10,1,'대댓글입니다',now(),now());
+    (2,null,9,1,'2번광고 1번 대댓글',now(),now()),
+    (2,null,9,1,'2번광고 1번 대댓글',now(),now()),
+    (2,null,10,1,'2번광고 2번 대댓글',now(),now()),
+    (2,null,10,1,'2번광고 2번 대댓글',now(),now());

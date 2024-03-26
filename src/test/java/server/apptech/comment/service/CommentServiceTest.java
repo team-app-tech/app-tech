@@ -295,6 +295,7 @@ class CommentServiceTest {
                 .id(1L)
                 .advertisement(advertisement)
                 .childComments(new ArrayList<>())
+                .commentLikes(new ArrayList<>())
                 .user(user)
                 .content(commentCreateRequest.getContent())
                 .build();
@@ -317,6 +318,7 @@ class CommentServiceTest {
                 .user(user)
                 .parent(comment)
                 .childComments(new ArrayList<>())
+                .commentLikes(new ArrayList<>())
                 .content("대댓글")
                 .build();
     }
