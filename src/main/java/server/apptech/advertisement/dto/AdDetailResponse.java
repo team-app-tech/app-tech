@@ -21,8 +21,8 @@ public class AdDetailResponse {
     private Integer likeCnt;
     private String fileUrl;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDateTime createdAt;
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    private LocalDateTime createdDate;
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime startDate;
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
@@ -40,7 +40,7 @@ public class AdDetailResponse {
                 .commentCnt(advertisement.getCommentCnt())
                 .startDate(advertisement.getStartDate())
                 .endDate(advertisement.getEndDate())
-                .createdAt(advertisement.getCreatedAt())
+                .createdDate(advertisement.getCreatedAt())
                 .fileUrl(advertisement.getFiles().stream().map(file -> file.getUrl()).findAny().orElse("null"))
                 .build();
     }
