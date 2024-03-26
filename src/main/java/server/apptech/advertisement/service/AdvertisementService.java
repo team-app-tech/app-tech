@@ -131,7 +131,7 @@ public class AdvertisementService {
                 }
                 break;
             default:
-                throw new RuntimeException("존재하지 않는 타입");
+                throw new RestApiException(ExceptionCode.INVALID_SORT_OPTION);
         }
         return advertisements.map(advertisement -> AdResponse.of(advertisement));
     }
