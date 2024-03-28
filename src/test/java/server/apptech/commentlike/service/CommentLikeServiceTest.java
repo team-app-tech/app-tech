@@ -1,24 +1,21 @@
 package server.apptech.commentlike.service;
 
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import server.apptech.advertisement.domain.Advertisement;
-import server.apptech.advertisement.domain.repository.AdvertisementRepository;
 import server.apptech.advertisement.dto.AdCreateRequest;
-import server.apptech.advertisementlike.domain.repository.AdvertisementLikeRepository;
 import server.apptech.auth.Authority;
+import server.apptech.comment.commentlike.service.CommentLikeService;
 import server.apptech.comment.domain.Comment;
 import server.apptech.comment.domain.repository.CommentRepository;
 import server.apptech.comment.dto.CommentCreateRequest;
-import server.apptech.commentlike.domain.CommentLike;
-import server.apptech.commentlike.domain.repository.CommentLikeRepository;
+import server.apptech.comment.commentlike.domain.CommentLike;
+import server.apptech.comment.commentlike.domain.repository.CommentLikeRepository;
 import server.apptech.global.exception.ExceptionCode;
 import server.apptech.global.exception.RestApiException;
 import server.apptech.user.UserRepository;
@@ -29,7 +26,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;

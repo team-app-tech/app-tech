@@ -1,4 +1,4 @@
-package server.apptech.commentreply.controller;
+package server.apptech.comment.commentreply.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -12,11 +12,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import server.apptech.auth.Auth;
 import server.apptech.auth.AuthUser;
+import server.apptech.comment.commentreply.dto.CommentReplyCreateRequest;
+import server.apptech.comment.commentreply.dto.CommentReplyUpdateRequest;
+import server.apptech.comment.commentreply.dto.PageCommentReplyResponse;
+import server.apptech.comment.commentreply.service.CommentReplyService;
 import server.apptech.comment.dto.PageCommentResponse;
-import server.apptech.commentreply.dto.CommentReplyCreateRequest;
-import server.apptech.commentreply.service.CommentReplyService;
-import server.apptech.commentreply.dto.CommentReplyUpdateRequest;
-import server.apptech.commentreply.dto.PageCommentReplyResponse;
 
 @RestController
 @RequiredArgsConstructor

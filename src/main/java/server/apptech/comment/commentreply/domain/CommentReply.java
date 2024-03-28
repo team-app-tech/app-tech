@@ -1,4 +1,4 @@
-package server.apptech.commentreply.domain;
+package server.apptech.comment.commentreply.domain;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -6,8 +6,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import server.apptech.comment.domain.Comment;
-import server.apptech.commentreply.dto.CommentReplyCreateRequest;
-import server.apptech.commentreply.dto.CommentReplyUpdateRequest;
+import server.apptech.comment.commentreply.dto.CommentReplyCreateRequest;
+import server.apptech.comment.commentreply.dto.CommentReplyUpdateRequest;
 import server.apptech.global.domain.BaseEntity;
 import server.apptech.user.domain.User;
 

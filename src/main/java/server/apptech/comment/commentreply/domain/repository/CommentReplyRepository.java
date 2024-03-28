@@ -1,10 +1,10 @@
-package server.apptech.commentreply.domain.repository;
+package server.apptech.comment.commentreply.domain.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-import server.apptech.commentreply.domain.CommentReply;
+import server.apptech.comment.commentreply.domain.CommentReply;
 
 import java.util.List;
 

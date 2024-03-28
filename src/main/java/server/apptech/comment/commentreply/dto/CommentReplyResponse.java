@@ -1,9 +1,9 @@
-package server.apptech.commentreply.dto;
+package server.apptech.comment.commentreply.dto;
 
 import lombok.Builder;
 import lombok.Getter;
 import org.springframework.format.annotation.DateTimeFormat;
-import server.apptech.commentreply.domain.CommentReply;
+import server.apptech.comment.commentreply.domain.CommentReply;
 
 import java.time.LocalDateTime;
 

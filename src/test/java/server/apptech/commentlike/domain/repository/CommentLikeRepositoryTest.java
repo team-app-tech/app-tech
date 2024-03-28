@@ -9,12 +9,12 @@ import org.springframework.test.context.ActiveProfiles;
 import server.apptech.advertisement.domain.Advertisement;
 import server.apptech.advertisement.domain.repository.AdvertisementRepository;
 import server.apptech.advertisement.dto.AdCreateRequest;
-import server.apptech.advertisementlike.domain.repository.AdvertisementLikeRepository;
 import server.apptech.auth.Authority;
+import server.apptech.comment.commentlike.domain.repository.CommentLikeRepository;
 import server.apptech.comment.domain.Comment;
 import server.apptech.comment.domain.repository.CommentRepository;
 import server.apptech.comment.dto.CommentCreateRequest;
-import server.apptech.commentlike.domain.CommentLike;
+import server.apptech.comment.commentlike.domain.CommentLike;
 import server.apptech.user.UserRepository;
 import server.apptech.user.domain.SocialType;
 import server.apptech.user.domain.User;
@@ -24,7 +24,6 @@ import java.util.ArrayList;
 import java.util.NoSuchElementException;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 @ActiveProfiles("test")

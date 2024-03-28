@@ -28,8 +28,8 @@ public class CommentResponse {
                 .commentId(comment.getId())
                 .content(comment.getContent())
                 .nickName(comment.getUser().getNickName())
-                .replyCnt(comment.getCommentReplies().size())
-                .likeCnt(comment.getCommentLikes().size())
+                .replyCnt(comment.getCommentRepliesCnt())
+                .likeCnt(comment.getLikeCnt())
                 .createdAt(comment.getCreatedAt());
         if(comment.getFile() != null){
             builder.fileId(comment.getFile().getId());

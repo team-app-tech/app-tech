@@ -1,8 +1,8 @@
-package server.apptech.commentlike.domain.repository;
+package server.apptech.comment.commentlike.domain.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import server.apptech.commentlike.domain.CommentLike;
+import server.apptech.comment.commentlike.domain.CommentLike;
 
 import java.util.Optional;
 

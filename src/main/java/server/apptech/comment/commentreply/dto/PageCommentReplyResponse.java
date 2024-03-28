@@ -1,4 +1,4 @@
-package server.apptech.commentreply.dto;
+package server.apptech.comment.commentreply.dto;
 
 import lombok.Builder;
 import lombok.Getter;
