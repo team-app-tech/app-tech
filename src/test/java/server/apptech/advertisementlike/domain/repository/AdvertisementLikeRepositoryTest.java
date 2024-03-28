@@ -1,15 +1,15 @@
 package server.apptech.advertisementlike.domain.repository;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
+import server.apptech.advertisement.advertisementlike.domain.repository.AdvertisementLikeRepository;
 import server.apptech.advertisement.domain.Advertisement;
 import server.apptech.advertisement.domain.repository.AdvertisementRepository;
 import server.apptech.advertisement.dto.AdCreateRequest;
-import server.apptech.advertisementlike.domain.AdvertisementLike;
+import server.apptech.advertisement.advertisementlike.domain.AdvertisementLike;
 import server.apptech.auth.Authority;
 import server.apptech.user.UserRepository;
 import server.apptech.user.domain.SocialType;
@@ -21,7 +21,6 @@ import java.util.NoSuchElementException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 @ActiveProfiles("test")
