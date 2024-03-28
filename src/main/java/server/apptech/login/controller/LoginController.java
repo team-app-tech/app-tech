@@ -23,7 +23,7 @@ import server.apptech.login.dto.LoginRequest;
 
 @RestController
 @RequiredArgsConstructor
-@Tag(name = "Login")
+@Tag(name = "Login / 로그인")
 @Slf4j
 public class LoginController {
 

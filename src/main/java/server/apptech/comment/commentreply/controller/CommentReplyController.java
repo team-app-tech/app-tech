@@ -20,7 +20,7 @@ import server.apptech.comment.dto.PageCommentResponse;
 
 @RestController
 @RequiredArgsConstructor
-@Tag(name = "Comment-Reply")
+@Tag(name = "Comment-Reply / 답글")
 public class CommentReplyController {
 
     private final CommentReplyService commentReplyService;

@@ -1,14 +1,12 @@
-package server.apptech.comment.commentreply.commentreplylike;
+package server.apptech.comment.commentreply.commentreplylike.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import server.apptech.comment.commentlike.domain.CommentLike;
-import server.apptech.comment.commentlike.domain.repository.CommentLikeRepository;
+import server.apptech.comment.commentreply.commentreplylike.CommentReplyLike;
+import server.apptech.comment.commentreply.commentreplylike.repository.CommentReplyLikeRepository;
 import server.apptech.comment.commentreply.domain.CommentReply;
 import server.apptech.comment.commentreply.domain.repository.CommentReplyRepository;
-import server.apptech.comment.domain.Comment;
-import server.apptech.comment.domain.repository.CommentRepository;
 import server.apptech.global.exception.ExceptionCode;
 import server.apptech.global.exception.RestApiException;
 import server.apptech.user.UserRepository;

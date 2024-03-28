@@ -23,6 +23,7 @@ public class CommentReplyResponse {
                 .commentReplyId(commentReply.getId())
                 .content(commentReply.getContent())
                 .nickName(commentReply.getUser().getNickName())
+                .likeCnt(commentReply.getLikeCnt())
                 .createdAt(commentReply.getCreatedAt())
                 .build();
     }

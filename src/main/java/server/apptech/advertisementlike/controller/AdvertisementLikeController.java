@@ -16,7 +16,7 @@ import server.apptech.auth.AuthUser;
 
 @RestController
 @RequiredArgsConstructor
-@Tag(name = "Advertisement-Like")
+@Tag(name = "Advertisement-Like / 광고 좋아요")
 public class AdvertisementLikeController {
 
     private final AdvertisementLikeService advertisementLikeService;
@@ -26,7 +26,7 @@ public class AdvertisementLikeController {
             @ApiResponse(responseCode = "200", description = "정상적으로 좋아요 추가"),
             @ApiResponse(responseCode = "400", description = "이미 좋아요를 누른 광고입니다.")}
     )
-    public ResponseEntity<Long> addAdvertisementLik(@Auth AuthUser authUser, @PathVariable(value = "advertisementId", required = true) Long advertisementId){
+    public ResponseEntity<Long> addAdvertisementLike(@Auth AuthUser authUser, @PathVariable(value = "advertisementId", required = true) Long advertisementId){
         return ResponseEntity.ok(advertisementLikeService.addAdvertisementLike(authUser.getUserId(), advertisementId));
     }
 

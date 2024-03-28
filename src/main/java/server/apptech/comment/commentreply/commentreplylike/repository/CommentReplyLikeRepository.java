@@ -1,7 +1,8 @@
-package server.apptech.comment.commentreply.commentreplylike;
+package server.apptech.comment.commentreply.commentreplylike.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+import server.apptech.comment.commentreply.commentreplylike.CommentReplyLike;
 
 import java.util.Optional;
 

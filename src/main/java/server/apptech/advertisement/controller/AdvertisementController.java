@@ -26,7 +26,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@Tag(name = "Advertisement")
+@Tag(name = "Advertisement / 광고")
 public class AdvertisementController {
 
     public final AdvertisementService advertisementService;

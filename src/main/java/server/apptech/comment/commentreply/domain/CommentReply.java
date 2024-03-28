@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Formula;
 import server.apptech.comment.domain.Comment;
 import server.apptech.comment.commentreply.dto.CommentReplyCreateRequest;
 import server.apptech.comment.commentreply.dto.CommentReplyUpdateRequest;
@@ -32,6 +33,9 @@ public class CommentReply extends BaseEntity {
 
     @Column(name="content")
     private String content;
+
+    @Formula("(SELECT count(*) FROM comment_reply_like crl WHERE crl.COMMENT_REPLY_ID = id)")
+    private int likeCnt;
 
     public static CommentReply of(User user, Comment comment, CommentReplyCreateRequest commentReplyCreateRequest){
         return CommentReply.builder()

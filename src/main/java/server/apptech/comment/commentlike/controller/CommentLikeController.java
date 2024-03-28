@@ -15,7 +15,7 @@ import server.apptech.comment.commentlike.service.CommentLikeService;
 
 @RestController
 @RequiredArgsConstructor
-@Tag(name = "Comment-Like")
+@Tag(name = "Comment-Like / 댓글 좋아요")
 public class CommentLikeController {
 
     private final CommentLikeService commentLikeService;
