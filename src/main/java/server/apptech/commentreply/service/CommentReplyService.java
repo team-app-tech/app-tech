@@ -42,7 +42,7 @@ public class CommentReplyService {
 
     public void updateCommentReply(Long userId, Long commentReplyId, CommentReplyUpdateRequest commentReplyUpdateRequest) {
 
-        CommentReply commentReply = commentReplyRepository.findById(commentReplyId).orElseThrow(() -> new RuntimeException("NOT_FOUND_COMMENT_REPLY"));
+        CommentReply commentReply = commentReplyRepository.findById(commentReplyId).orElseThrow(() -> new RestApiException(ExceptionCode.NOT_FOUND_COMMENT_REPLY));
 
         //검증
         validateUserAccess(userId, commentReply);
@@ -59,7 +59,7 @@ public class CommentReplyService {
     }
 
     public void deleteCommentReply(Long userId, Long commentReplyId) {
-        CommentReply commentReply = commentReplyRepository.findById(commentReplyId).orElseThrow(() -> new RuntimeException("NOT_FOUND_COMMENT_REPLY"));
+        CommentReply commentReply = commentReplyRepository.findById(commentReplyId).orElseThrow(() -> new RestApiException(ExceptionCode.NOT_FOUND_COMMENT_REPLY));
         validateUserAccess(userId, commentReply);
         commentReplyRepository.delete(commentReply);
     }
