@@ -19,7 +19,9 @@ import server.apptech.file.domain.File;
 import server.apptech.global.exception.AuthException;
 import server.apptech.global.exception.ExceptionCode;
 import server.apptech.global.exception.RestApiException;
-import server.apptech.user.UserService;
+import server.apptech.user.UserRepository;
+import server.apptech.user.domain.User;
+
 import java.time.LocalDateTime;
 
 @Service
@@ -30,13 +32,14 @@ public class AdvertisementService {
 
     private final AdvertisementRepository advertisementRepository;
     private final FileRepository fileRepository;
-    private final UserService userService;
+    private final UserRepository userRepository;
 
     public Long createAdvertisement(Long userId, AdCreateRequest adCreateRequest) {
 
         File thumbNailImage = fileRepository.findById(adCreateRequest.getThumbNailImageId()).orElseThrow(() -> new RestApiException(ExceptionCode.NOT_FOUND_IMAGE));
         File contentImage = fileRepository.findById(adCreateRequest.getContentImageId()).orElseThrow(() -> new RestApiException(ExceptionCode.NOT_FOUND_IMAGE));
-        Advertisement advertisement = Advertisement.of(adCreateRequest, userService.findByUserId(userId), thumbNailImage, contentImage);
+        User user = userRepository.findById(userId).orElseThrow(() -> new RestApiException(ExceptionCode.NOT_FOUND_USER_ID));
+        Advertisement advertisement = Advertisement.of(adCreateRequest, user, thumbNailImage, contentImage);
 
         return advertisementRepository.save(advertisement).getId();
     }
@@ -137,7 +140,7 @@ public class AdvertisementService {
     }
 
     public Long updateAdvertisement(Long userId, Long advertisementId, AdUpdateRequest adUpdateRequest) {
-        Advertisement advertisement = advertisementRepository.findById(advertisementId).orElseThrow(() -> new RestApiException(ExceptionCode.NOT_FOUND_ADVERTISEMENT_ID));
+        Advertisement advertisement = advertisementRepository.findWithUserById(advertisementId).orElseThrow(() -> new RestApiException(ExceptionCode.NOT_FOUND_ADVERTISEMENT_ID));
         if(advertisement.getUser().getId() != userId){
             throw new AuthException(ExceptionCode.UNAUTHORIZED_USER_ACCESS);
         }
