@@ -160,7 +160,6 @@ class AdvertisementLikeRepositoryTest {
                 .companyName(adCreateRequest.getCompanyName())
                 .startDate(adCreateRequest.getStartDate())
                 .endDate(adCreateRequest.getEndDate())
-                .files(new ArrayList<>())
                 .advertisementLikes(new ArrayList<>())
                 .comments(new ArrayList<>())
                 .build();
@@ -176,7 +175,6 @@ class AdvertisementLikeRepositoryTest {
                 .companyName(adCreateRequest.getCompanyName())
                 .startDate(adCreateRequest.getStartDate())
                 .endDate(adCreateRequest.getEndDate())
-                .files(new ArrayList<>())
                 .advertisementLikes(new ArrayList<>())
                 .comments(new ArrayList<>())
                 .build();

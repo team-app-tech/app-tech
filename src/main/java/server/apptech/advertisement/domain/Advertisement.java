@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Formula;
 import org.springframework.format.annotation.DateTimeFormat;
+import server.apptech.advertisement.controller.AdUpdateRequest;
 import server.apptech.advertisement.dto.AdCreateRequest;
 import server.apptech.advertisement.advertisementlike.domain.AdvertisementLike;
 import server.apptech.comment.domain.Comment;
@@ -103,5 +104,22 @@ public class Advertisement extends BaseEntity {
 
     public void addComment(Comment comment) {
         this.comments.add(comment);
+    }
+
+    public void updateAdvertisement(AdUpdateRequest adUpdateRequest) {
+        this.title = adUpdateRequest.getTitle();
+        this.content = adUpdateRequest.getContent();
+        this.prizeWinnerCnt = adUpdateRequest.getPrizeWinnerCnt();
+        this.companyName = adUpdateRequest.getCompanyName();
+        this.startDate = adUpdateRequest.getStartDate();
+        this.endDate = adUpdateRequest.getEndDate();
+    }
+
+    public void changeThumbNailImage(File thumbNailImage) {
+        this.thumbNailImage = thumbNailImage;
+    }
+
+    public void changeContentImage(File contentImage) {
+        this.contentImage = contentImage;
     }
 }

@@ -62,4 +62,13 @@ public class AdvertisementController {
         return ResponseEntity.ok()
                 .body(advertisementService.getAdvertisementById(advertisementId));
     }
+
+    @PutMapping(value = "/api/advertisement/{advertisementId}", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE} )
+    @Operation(summary = "광고 수정", description = "광고내용을 수정합니다.", responses = {@ApiResponse(responseCode = "200", description = "정상적으로 수정")})
+    public ResponseEntity<?> updateAdvertisement(@Auth AuthUser authUser,
+                                                 @RequestBody @Valid AdUpdateRequest adUpdateRequest, @PathVariable(value = "advertisementId", required = true) Long advertisementId) {
+        Long updateAdvertisementId = advertisementService.updateAdvertisement(authUser.getUserId(),advertisementId, adUpdateRequest);
+        return ResponseEntity.ok()
+                .body(updateAdvertisementId);
+    }
 }

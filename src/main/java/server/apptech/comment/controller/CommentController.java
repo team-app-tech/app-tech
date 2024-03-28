@@ -42,7 +42,7 @@ public class CommentController {
     }
 
     @PutMapping(value = "/api/advertisement/{advertisementId}/comment/{commentId}",produces ={MediaType.APPLICATION_JSON_VALUE}, consumes = {MediaType.APPLICATION_JSON_VALUE} )
-    @Operation(summary = "댓글 수정", description = "댓글을 수정합니다.", responses = {@ApiResponse(responseCode = "200", description = "정상적으로 생성")})
+    @Operation(summary = "댓글 수정", description = "댓글을 수정합니다.", responses = {@ApiResponse(responseCode = "200", description = "정상적으로 수정")})
     public ResponseEntity<?> updateComment(@Auth AuthUser authUser, @PathVariable(value = "advertisementId", required = true) Long advertisementId,@PathVariable(value = "commentId", required = true) Long commentId, @RequestBody @Valid CommentUpdateRequest commentUpdateRequest){
 
         commentService.updateComment(authUser.getUserId(),commentId,commentUpdateRequest);

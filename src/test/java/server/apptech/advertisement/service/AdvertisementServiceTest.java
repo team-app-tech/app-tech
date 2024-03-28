@@ -7,20 +7,18 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.mock.web.MockMultipartFile;
-import org.springframework.web.multipart.MultipartFile;
 import server.apptech.advertisement.domain.Advertisement;
 import server.apptech.advertisement.domain.repository.AdvertisementRepository;
 import server.apptech.advertisement.dto.AdCreateRequest;
 import server.apptech.advertisement.dto.AdDetailResponse;
-import server.apptech.file.FIleUploadService;
+import server.apptech.file.FileRepository;
 import server.apptech.file.domain.File;
 import server.apptech.file.domain.FileType;
-import server.apptech.user.UserRepository;
 import server.apptech.user.UserService;
 import server.apptech.user.domain.SocialType;
 import server.apptech.user.domain.User;
 import server.apptech.auth.Authority;
+
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.*;
@@ -28,8 +26,6 @@ import static org.mockito.BDDMockito.*;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.util.Optional;
 
 
@@ -43,25 +39,24 @@ class AdvertisementServiceTest {
     @Mock
     UserService userService;
     @Mock
-    FIleUploadService fIleUploadService;
-    
+    FileRepository fileRepository;
     @Test
     @DisplayName("광고가 정상 저장된후 아이디 반환(이미지 없음)")
-    void createAdvertisement() throws IOException {
+    void saveAdvertisement() throws IOException {
         //given
         AdCreateRequest adCreateRequest = createtAdCreateRequest();
         User user = createUser();
-        Advertisement advertisement = createAdvertisement(adCreateRequest, user);
-        File file = craeteFile();
-        MockMultipartFile mockFile = createMockMultipartFile();
-        List<MultipartFile> multipartFiles = Collections.singletonList(mockFile);
+        File file = createFile();
+        File file2 = createFile2();
+        Advertisement advertisement = createAdvertisement(adCreateRequest, user, file, file2);
 
         given(advertisementRepository.save(any(Advertisement.class))).willReturn(advertisement);
         given(userService.findByUserId(any(Long.class))).willReturn(user);
-        given(fIleUploadService.saveFile(any(MultipartFile.class))).willReturn(file);
+        given(fileRepository.findById(file.getId())).willReturn(Optional.of(file));
+        given(fileRepository.findById(file2.getId())).willReturn(Optional.of(file2));
 
         //when
-        Long advertisementId = advertisementService.createAdvertisement(user.getId(), adCreateRequest, multipartFiles);
+        Long advertisementId = advertisementService.createAdvertisement(user.getId(), adCreateRequest);
 
         //then
         verify(advertisementRepository, times(1)).save(any(Advertisement.class));
@@ -81,7 +76,9 @@ class AdvertisementServiceTest {
         //given
         AdCreateRequest adCreateRequest = createtAdCreateRequest();
         User user = createUser();
-        Advertisement advertisement = createAdvertisement(adCreateRequest, user);
+        File file = createFile();
+        File file2 = createFile2();
+        Advertisement advertisement = createAdvertisement(adCreateRequest, user,file, file2);
         given(advertisementRepository.findWithUserById(any(Long.class))).willReturn(Optional.of(advertisement));
 
         //when
@@ -92,17 +89,7 @@ class AdvertisementServiceTest {
                 .isEqualTo(adDetailResponse);
     }
 
-    private static MockMultipartFile createMockMultipartFile() {
-        MockMultipartFile mockFile = new MockMultipartFile(
-                "file",           // parameter name
-                "test_file",       // original file name
-                "IMAGE/JPEG",      // content type
-                "Mock file content".getBytes() // content as bytes
-        );
-        return mockFile;
-    }
-
-    private static File craeteFile() {
+    private static File createFile() {
         File file = File.builder()
                 .id(1L)
                 .fileType(FileType.IMAGE_JPEG)
@@ -112,7 +99,17 @@ class AdvertisementServiceTest {
         return file;
     }
 
-    private static Advertisement createAdvertisement(AdCreateRequest adCreateRequest, User user) {
+    private static File createFile2() {
+        File file = File.builder()
+                .id(2L)
+                .fileType(FileType.IMAGE_JPEG)
+                .uuid("uuid")
+                .url("url")
+                .build();
+        return file;
+    }
+
+    private static Advertisement createAdvertisement(AdCreateRequest adCreateRequest, User user, File file, File file2) {
         return Advertisement.builder()
                 .id(1L)
                 .user(user)
@@ -124,9 +121,10 @@ class AdvertisementServiceTest {
                 .companyName(adCreateRequest.getCompanyName())
                 .startDate(adCreateRequest.getStartDate())
                 .endDate(adCreateRequest.getEndDate())
-                .files(new ArrayList<>())
                 .advertisementLikes(new ArrayList<>())
                 .comments(new ArrayList<>())
+                .thumbNailImage(file)
+                .contentImage(file2)
                 .build();
     }
 
@@ -152,6 +150,8 @@ class AdvertisementServiceTest {
                 .companyName("회사이름")
                 .startDate(LocalDateTime.now())
                 .endDate(LocalDateTime.now().plusHours(1))
+                .thumbNailImageId(1L)
+                .contentImageId(2L)
                 .build();
         return adCreateRequest;
     }
