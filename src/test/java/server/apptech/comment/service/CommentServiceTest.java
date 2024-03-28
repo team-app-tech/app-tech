@@ -95,34 +95,7 @@ class CommentServiceTest {
 
         //then
         assertThat(pageCommentResponse.getCommentResponses().size()).isEqualTo(comments.size());
-        assertThat(pageCommentResponse.getCommentResponses().get(0).getChildComments()).isEqualTo(null);
     }
-
-    @Test
-    @DisplayName("광고 ID에 해당하는 댓글 조회(대댓글 포함 여부 확인)")
-    void getCommentsWithChildCommentsByAdvertisementId() {
-
-        //given
-        User user = createUser();
-        Advertisement advertisement = createAdvertisement(createtAdCreateRequest(), user);
-        Comment comment = createComment(user, advertisement, createCommentRequest());
-        Comment childComment = createChildComment(user, advertisement, comment);
-        comment.addChildComment(childComment);
-
-        List<Comment> comments = new ArrayList<>();
-        comments.add(comment);
-        comments.add(childComment);
-
-        given(commentRepository.findCommentsByAdvertisementId(any(Long.class))).willReturn(comments);
-        //when
-        PageCommentResponse pageCommentResponse = commentService.getCommentsByAdvertisementId(advertisement.getId());
-
-        //then
-        assertThat(pageCommentResponse.getCommentResponses().get(0).getChildComments().get(0).getCommentId()).isEqualTo(childComment.getId());
-        assertThat(pageCommentResponse.getCommentResponses().size()).isEqualTo(1);
-    }
-
-
 
     @Test
     @DisplayName("댓글 성공적으로 수정")
@@ -294,7 +267,6 @@ class CommentServiceTest {
         return Comment.builder()
                 .id(1L)
                 .advertisement(advertisement)
-                .childComments(new ArrayList<>())
                 .commentLikes(new ArrayList<>())
                 .user(user)
                 .content(commentCreateRequest.getContent())
@@ -316,8 +288,6 @@ class CommentServiceTest {
                 .id(2L)
                 .advertisement(advertisement)
                 .user(user)
-                .parent(comment)
-                .childComments(new ArrayList<>())
                 .commentLikes(new ArrayList<>())
                 .content("대댓글")
                 .build();

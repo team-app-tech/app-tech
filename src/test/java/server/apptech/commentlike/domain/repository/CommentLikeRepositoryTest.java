@@ -191,7 +191,6 @@ class CommentLikeRepositoryTest {
         return Comment.builder()
                 .id(1L)
                 .advertisement(advertisement)
-                .childComments(new ArrayList<>())
                 .user(user)
                 .content(commentCreateRequest.getContent())
                 .build();
