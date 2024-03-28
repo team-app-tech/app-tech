@@ -16,7 +16,7 @@ import server.apptech.payment.service.PaymentService;
 
 @RestController
 @RequiredArgsConstructor
-@Tag(name = "Payment")
+@Tag(name = "Payment / 결제")
 public class PaymentController {
 
 

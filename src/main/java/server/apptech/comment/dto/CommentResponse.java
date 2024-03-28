@@ -18,24 +18,22 @@ public class CommentResponse {
     Long fileId;
     String fileUrl;
     String nickName;
+    Integer replyCnt;
     Integer likeCnt;
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime createdAt;
-    private List<ChildComment> childComments;
 
     public static CommentResponse of(Comment comment){
         CommentResponseBuilder builder = CommentResponse.builder()
                 .commentId(comment.getId())
                 .content(comment.getContent())
                 .nickName(comment.getUser().getNickName())
-                .likeCnt(comment.getCommentLikes().size())
+                .replyCnt(comment.getCommentRepliesCnt())
+                .likeCnt(comment.getLikeCnt())
                 .createdAt(comment.getCreatedAt());
         if(comment.getFile() != null){
             builder.fileId(comment.getFile().getId());
             builder.fileUrl(comment.getFile().getUrl());
-        }
-        if(comment.getChildComments().size() > 0){
-            builder.childComments(comment.getChildComments().stream().map(ChildComment::of).collect(Collectors.toList()));
         }
         return builder.build();
     }

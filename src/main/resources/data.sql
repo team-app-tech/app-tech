@@ -97,24 +97,28 @@ VALUES
     (40, null, 'IMAGE_JPEG', 'ijklmnop', 'https://pangta-bucket.s3.ap-northeast-2.amazonaws.com/Screenshot%202024-03-04%20at%207.24.43%20PM.png', now(), now()),
     (41, null, 'IMAGE_JPEG', 'ijklmnop', 'https://pangta-bucket.s3.ap-northeast-2.amazonaws.com/Screenshot%202024-03-04%20at%207.24.43%20PM.png', now(), now());
 
-INSERT INTO comment (advertisement_id, file_id, parent_id, user_id, content, created_at, modified_at)
+INSERT INTO comment (advertisement_id, file_id, user_id, content, created_at, modified_at)
 VALUES
-    (1,null,null,1,'1번광고 1번댓글',now(),now()),
-    (1,null,null,1,'1번광고 2번댓글',now(),now()),
-    (1,null,null,1,'1번광고 3번댓글',now(),now()),
-    (1,null,null,1,'1번광고 4번댓글',now(),now()),
+    (1,null,1,'1번광고 1번댓글',now(),now()),
+    (1,null,1,'1번광고 2번댓글',now(),now()),
+    (1,null,1,'1번광고 3번댓글',now(),now()),
+    (1,null,1,'1번광고 4번댓글',now(),now()),
 
-    (1,null,1,1,'1번광고 1번 대댓글',now(),now()),
-    (1,null,1,1,'1번광고 1번 대댓글',now(),now()),
-    (1,null,2,1,'1번광고 2번 대댓글',now(),now()),
-    (1,null,2,1,'1번광고 2번 대댓글',now(),now()),
+    (2,null,1,'2번광고 1번댓글',now(),now()),
+    (2,null,1,'2번광고 2번댓글',now(),now()),
+    (2,null,1,'2번광고 3번댓글',now(),now()),
+    (2,null,1,'2번광고 4번댓글',now(),now());
 
-    (2,null,null,1,'2번광고 1번댓글',now(),now()),
-    (2,null,null,1,'2번광고 2번댓글',now(),now()),
-    (2,null,null,1,'2번광고 3번댓글',now(),now()),
-    (2,null,null,1,'2번광고 4번댓글',now(),now()),
+INSERT INTO comment_reply (comment_id, user_id, content, created_at, modified_at)
+VALUES
+    (1,1,'1번광고 1번 대댓글',now(),now()),
+    (1,1,'1번광고 1번 대댓글',now(),now()),
+    (2,1,'1번광고 2번 대댓글',now(),now()),
+    (2,1,'1번광고 2번 대댓글',now(),now()),
 
-    (2,null,9,1,'2번광고 1번 대댓글',now(),now()),
-    (2,null,9,1,'2번광고 1번 대댓글',now(),now()),
-    (2,null,10,1,'2번광고 2번 대댓글',now(),now()),
-    (2,null,10,1,'2번광고 2번 대댓글',now(),now());
+    (5,1,'2번광고 1번 대댓글',now(),now()),
+    (5,1,'2번광고 1번 대댓글',now(),now()),
+    (6,1,'2번광고 2번 대댓글',now(),now()),
+    (6,1,'2번광고 2번 대댓글',now(),now());
+
+

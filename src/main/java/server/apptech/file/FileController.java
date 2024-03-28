@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +21,7 @@ import java.io.IOException;
 
 @RestController
 @RequiredArgsConstructor
+@Tag(name = "File / 파일")
 public class FileController {
 
     private final FIleUploadService fIleUploadService;

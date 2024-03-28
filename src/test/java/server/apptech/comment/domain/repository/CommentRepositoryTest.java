@@ -133,7 +133,6 @@ class CommentRepositoryTest {
     private static Comment createComment(User user, Advertisement advertisement, CommentCreateRequest commentCreateRequest) {
         return Comment.builder()
                 .advertisement(advertisement)
-                .childComments(new ArrayList<>())
                 .user(user)
                 .content(commentCreateRequest.getContent())
                 .build();

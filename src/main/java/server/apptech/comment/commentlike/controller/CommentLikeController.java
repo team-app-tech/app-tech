@@ -1,4 +1,4 @@
-package server.apptech.commentlike.controller;
+package server.apptech.comment.commentlike.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -11,11 +11,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import server.apptech.auth.Auth;
 import server.apptech.auth.AuthUser;
-import server.apptech.commentlike.service.CommentLikeService;
+import server.apptech.comment.commentlike.service.CommentLikeService;
 
 @RestController
 @RequiredArgsConstructor
-@Tag(name = "Comment-Like")
+@Tag(name = "Comment-Like / 댓글 좋아요")
 public class CommentLikeController {
 
     private final CommentLikeService commentLikeService;
