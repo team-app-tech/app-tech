@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import server.apptech.advertisement.domain.Advertisement;
 import server.apptech.comment.domain.Comment;
 import server.apptech.global.domain.BaseEntity;
 
@@ -21,10 +20,6 @@ public class File extends BaseEntity {
     @Column(name = "id")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "advertisement_id")
-    private Advertisement advertisement;
-
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "comment_id")
     private Comment comment;
@@ -37,10 +32,6 @@ public class File extends BaseEntity {
 
     @Column(name = "url")
     private String url;
-
-    public void belongToAdvertisement(Advertisement advertisement){
-        this.advertisement = advertisement;
-    }
 
     public void assignFileType(FileType fileType){
         this.fileType = fileType;

@@ -39,7 +39,7 @@ public class AdResponse {
                 .commentCnt(advertisement.getCommentCnt())
                 .startDate(advertisement.getStartDate())
                 .endDate(advertisement.getEndDate())
-                .fileUrl(advertisement.getFiles().stream().map(file -> file.getUrl()).findAny().orElse("null"))
+                .fileUrl(advertisement.getThumbNailImage().getUrl())
                 .build();
     }
 }

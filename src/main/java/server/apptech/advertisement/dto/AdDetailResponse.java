@@ -41,7 +41,7 @@ public class AdDetailResponse {
                 .startDate(advertisement.getStartDate())
                 .endDate(advertisement.getEndDate())
                 .createdDate(advertisement.getCreatedAt())
-                .fileUrl(advertisement.getFiles().stream().map(file -> file.getUrl()).findAny().orElse("null"))
+                .fileUrl(advertisement.getContentImage().getUrl())
                 .build();
     }
 }

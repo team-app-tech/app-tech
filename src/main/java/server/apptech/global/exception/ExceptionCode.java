@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 public enum ExceptionCode {
 
     NOT_FOUND_ADVERTISEMENT_ID(HttpStatus.BAD_REQUEST, "요청한 ID에 해당하는 광고가 존재하지 않습니다."),
+    ALREADY_START_ADVERTISEMENT(HttpStatus.BAD_REQUEST, "이미 시작된 광고는 수정할 수 없습니다."),
     NOT_FOUND_USER_ID(HttpStatus.BAD_REQUEST, "존재하지 않는 사용자 ID입니다. "),
 
     VALID_CHECK_FAIL(HttpStatus.BAD_REQUEST, "값에 대한 유효성 검사 실패"),
@@ -38,7 +39,9 @@ public enum ExceptionCode {
 
     NOT_FOUND_COMMENT_REPLY(HttpStatus.BAD_REQUEST, "존재하지 않는 답글입니다."),
     ALREADY_LIKED_COMMENT_REPLY(HttpStatus.BAD_REQUEST, "이미 좋아요를 누른 답글입니다."),
-    COMMENT_REPLY_NOT_LIKED(HttpStatus.BAD_REQUEST,"좋아요를 누르지 않은 답글입니다.");
+    COMMENT_REPLY_NOT_LIKED(HttpStatus.BAD_REQUEST,"좋아요를 누르지 않은 답글입니다."),
+    NOT_FOUND_IMAGE(HttpStatus.BAD_REQUEST, "요청한 ID에 해당하는 파일이 이미지가 존재하지 않습니다.");
+
 
     private final HttpStatus httpStatus;
     private final String message;

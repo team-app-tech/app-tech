@@ -7,29 +7,25 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.mock.web.MockMultipartFile;
-import org.springframework.web.multipart.MultipartFile;
+import server.apptech.advertisement.controller.AdUpdateRequest;
 import server.apptech.advertisement.domain.Advertisement;
 import server.apptech.advertisement.domain.repository.AdvertisementRepository;
 import server.apptech.advertisement.dto.AdCreateRequest;
 import server.apptech.advertisement.dto.AdDetailResponse;
-import server.apptech.file.FIleUploadService;
+import server.apptech.file.FileRepository;
 import server.apptech.file.domain.File;
 import server.apptech.file.domain.FileType;
+import server.apptech.global.exception.AuthException;
+import server.apptech.global.exception.ExceptionCode;
+import server.apptech.global.exception.RestApiException;
 import server.apptech.user.UserRepository;
-import server.apptech.user.UserService;
 import server.apptech.user.domain.SocialType;
 import server.apptech.user.domain.User;
 import server.apptech.auth.Authority;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.*;
-
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.util.Optional;
 
 
@@ -41,27 +37,26 @@ class AdvertisementServiceTest {
     @Mock
     AdvertisementRepository advertisementRepository;
     @Mock
-    UserService userService;
+    UserRepository userRepository;
     @Mock
-    FIleUploadService fIleUploadService;
-    
+    FileRepository fileRepository;
     @Test
     @DisplayName("광고가 정상 저장된후 아이디 반환(이미지 없음)")
-    void createAdvertisement() throws IOException {
+    void saveAdvertisement() {
         //given
         AdCreateRequest adCreateRequest = createtAdCreateRequest();
         User user = createUser();
-        Advertisement advertisement = createAdvertisement(adCreateRequest, user);
-        File file = craeteFile();
-        MockMultipartFile mockFile = createMockMultipartFile();
-        List<MultipartFile> multipartFiles = Collections.singletonList(mockFile);
+        File file = createFile();
+        File file2 = createFile2();
+        Advertisement advertisement = createAdvertisement(adCreateRequest, user, file, file2);
 
         given(advertisementRepository.save(any(Advertisement.class))).willReturn(advertisement);
-        given(userService.findByUserId(any(Long.class))).willReturn(user);
-        given(fIleUploadService.saveFile(any(MultipartFile.class))).willReturn(file);
+        given(userRepository.findById(any(Long.class))).willReturn(Optional.of(user));
+        given(fileRepository.findById(file.getId())).willReturn(Optional.of(file));
+        given(fileRepository.findById(file2.getId())).willReturn(Optional.of(file2));
 
         //when
-        Long advertisementId = advertisementService.createAdvertisement(user.getId(), adCreateRequest, multipartFiles);
+        Long advertisementId = advertisementService.createAdvertisement(user.getId(), adCreateRequest);
 
         //then
         verify(advertisementRepository, times(1)).save(any(Advertisement.class));
@@ -81,7 +76,9 @@ class AdvertisementServiceTest {
         //given
         AdCreateRequest adCreateRequest = createtAdCreateRequest();
         User user = createUser();
-        Advertisement advertisement = createAdvertisement(adCreateRequest, user);
+        File file = createFile();
+        File file2 = createFile2();
+        Advertisement advertisement = createAdvertisement(adCreateRequest, user,file, file2);
         given(advertisementRepository.findWithUserById(any(Long.class))).willReturn(Optional.of(advertisement));
 
         //when
@@ -92,17 +89,100 @@ class AdvertisementServiceTest {
                 .isEqualTo(adDetailResponse);
     }
 
-    private static MockMultipartFile createMockMultipartFile() {
-        MockMultipartFile mockFile = new MockMultipartFile(
-                "file",           // parameter name
-                "test_file",       // original file name
-                "IMAGE/JPEG",      // content type
-                "Mock file content".getBytes() // content as bytes
-        );
-        return mockFile;
+    @Test
+    @DisplayName("광고 정상적으로 수정")
+    void updateAdvertisement(){
+        //given
+        AdCreateRequest adCreateRequest = createtAdCreateRequest();
+        AdUpdateRequest adUpdateRequest = createUpdateRequest();
+        User user = createUser();
+        File file = createFile();
+        File file2 = createFile2();
+        Advertisement advertisement = createAdvertisement(adCreateRequest, user,file, file2);
+        given(advertisementRepository.findWithUserById(any(Long.class))).willReturn(Optional.of(advertisement));
+        given(advertisementRepository.save(any(Advertisement.class))).willReturn(advertisement);
+        given(fileRepository.findById(file.getId())).willReturn(Optional.of(file));
+        given(fileRepository.findById(file2.getId())).willReturn(Optional.of(file2));
+
+        //when
+        Long updateAdvertisementId = advertisementService.updateAdvertisement(user.getId(), advertisement.getId(), adUpdateRequest);
+
+        //then
+        verify(advertisementRepository, times(1)).save(any(Advertisement.class));
+        assertThat(updateAdvertisementId).isEqualTo(1L);
     }
 
-    private static File craeteFile() {
+    @Test
+    @DisplayName("본인이 생성하지 않은 광고를 수정하려 할 때 예외 발생")
+    void failUpdateAdvertisement(){
+        //given
+        AdCreateRequest adCreateRequest = createtAdCreateRequest();
+        AdUpdateRequest adUpdateRequest = createUpdateRequest();
+        User user = createUser();
+        User user2 = createUser2();
+        File file = createFile();
+        File file2 = createFile2();
+        Advertisement advertisement = createAdvertisement(adCreateRequest, user,file, file2);
+        given(advertisementRepository.findWithUserById(any(Long.class))).willReturn(Optional.of(advertisement));
+
+        //when && given
+        Assertions.assertThatThrownBy(() -> advertisementService.updateAdvertisement(user2.getId(), advertisement.getId(), adUpdateRequest))
+                .isInstanceOf(AuthException.class)
+                .hasFieldOrPropertyWithValue("exceptionCode", ExceptionCode.UNAUTHORIZED_USER_ACCESS);
+    }
+
+    @Test
+    @DisplayName("이미 시작된 광고를 수정하려 할 때 예외 발생")
+    void failUpdateAdvertisementByAlreadyStarted(){
+        //given
+        AdCreateRequest adCreateRequest = createAdCreateRequestAlreadyStarted();
+        AdUpdateRequest adUpdateRequest = createUpdateRequest();
+        User user = createUser();
+        File file = createFile();
+        File file2 = createFile2();
+        Advertisement advertisement = createAdvertisement(adCreateRequest, user,file, file2);
+        given(advertisementRepository.findWithUserById(any(Long.class))).willReturn(Optional.of(advertisement));
+
+        //when && given
+        Assertions.assertThatThrownBy(() -> advertisementService.updateAdvertisement(user.getId(), advertisement.getId(), adUpdateRequest))
+                .isInstanceOf(RestApiException.class)
+                .hasFieldOrPropertyWithValue("exceptionCode", ExceptionCode.ALREADY_START_ADVERTISEMENT);
+    }
+
+    private AdCreateRequest createAdCreateRequestAlreadyStarted() {
+
+        AdCreateRequest adCreateRequest = AdCreateRequest.builder()
+                .title("제목")
+                .content("내용")
+                .totalPrice(10000L)
+                .prizeWinnerCnt(10)
+                .companyName("회사이름")
+                .startDate(LocalDateTime.now().minusHours(1))
+                .endDate(LocalDateTime.now().plusHours(2))
+                .thumbNailImageId(1L)
+                .contentImageId(2L)
+                .build();
+        return adCreateRequest;
+    }
+
+
+    private AdUpdateRequest createUpdateRequest() {
+
+        AdUpdateRequest adUpdateRequest = AdUpdateRequest.builder()
+                .title("수정")
+                .content("수정내용")
+                .prizeWinnerCnt(10)
+                .companyName("회사이름")
+                .startDate(LocalDateTime.now())
+                .endDate(LocalDateTime.now().plusHours(1))
+                .thumbNailImageId(1L)
+                .contentImageId(2L)
+                .build();
+        return adUpdateRequest;
+
+    }
+
+    private static File createFile() {
         File file = File.builder()
                 .id(1L)
                 .fileType(FileType.IMAGE_JPEG)
@@ -112,7 +192,17 @@ class AdvertisementServiceTest {
         return file;
     }
 
-    private static Advertisement createAdvertisement(AdCreateRequest adCreateRequest, User user) {
+    private static File createFile2() {
+        File file = File.builder()
+                .id(2L)
+                .fileType(FileType.IMAGE_JPEG)
+                .uuid("uuid")
+                .url("url")
+                .build();
+        return file;
+    }
+
+    private static Advertisement createAdvertisement(AdCreateRequest adCreateRequest, User user, File file, File file2) {
         return Advertisement.builder()
                 .id(1L)
                 .user(user)
@@ -124,15 +214,29 @@ class AdvertisementServiceTest {
                 .companyName(adCreateRequest.getCompanyName())
                 .startDate(adCreateRequest.getStartDate())
                 .endDate(adCreateRequest.getEndDate())
-                .files(new ArrayList<>())
                 .advertisementLikes(new ArrayList<>())
                 .comments(new ArrayList<>())
+                .thumbNailImage(file)
+                .contentImage(file2)
                 .build();
     }
 
     private static User createUser() {
         User user = User.builder()
                 .id(1L)
+                .socialType(SocialType.KAKAO)
+                .role(Authority.ROLE_USER)
+                .name("test")
+                .email("test@emaill.com")
+                .authId("1234")
+                .nickName("nickName")
+                .build();
+        return user;
+    }
+
+    private static User createUser2() {
+        User user = User.builder()
+                .id(2L)
                 .socialType(SocialType.KAKAO)
                 .role(Authority.ROLE_USER)
                 .name("test")
@@ -150,8 +254,10 @@ class AdvertisementServiceTest {
                 .totalPrice(10000L)
                 .prizeWinnerCnt(10)
                 .companyName("회사이름")
-                .startDate(LocalDateTime.now())
-                .endDate(LocalDateTime.now().plusHours(1))
+                .startDate(LocalDateTime.now().plusHours(1))
+                .endDate(LocalDateTime.now().plusHours(2))
+                .thumbNailImageId(1L)
+                .contentImageId(2L)
                 .build();
         return adCreateRequest;
     }

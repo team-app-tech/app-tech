@@ -1,8 +1,8 @@
-package server.apptech.advertisementlike.domain.repository;
+package server.apptech.advertisement.advertisementlike.domain.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import server.apptech.advertisementlike.domain.AdvertisementLike;
+import server.apptech.advertisement.advertisementlike.domain.AdvertisementLike;
 
 import java.util.Optional;
 

@@ -1,4 +1,4 @@
-package server.apptech.advertisementlike.domain;
+package server.apptech.advertisement.advertisementlike.domain;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
