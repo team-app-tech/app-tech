@@ -24,10 +24,8 @@ public class PaymentService {
     private final PaymentProvider paymentProvider;
     public Long confirmPayment(Long userId, PaymentRequest paymentRequest) {
 
-        PaymentInfo paymentInfo = paymentProvider.confirmPayment(paymentRequest);
-
         User user = userRepository.findById(userId).orElseThrow(() -> new RestApiException(ExceptionCode.NOT_FOUND_USER_ID));
-
+        PaymentInfo paymentInfo = paymentProvider.confirmPayment(paymentRequest);
         return paymentRepository.save(Payment.of(paymentInfo, user)).getId();
     }
 }

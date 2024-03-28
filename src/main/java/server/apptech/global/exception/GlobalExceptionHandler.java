@@ -28,6 +28,12 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return handleExceptionInternal(errorCode);
     }
 
+    @ExceptionHandler(InvalidPaymentException.class)
+    public ResponseEntity<Object> handleInvalidPaymentException(InvalidPaymentException e){
+        ExceptionCode errorCode = e.getExceptionCode();
+        return handleExceptionInternal(errorCode);
+    }
+
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
         ExceptionCode errorCode = ExceptionCode.VALID_CHECK_FAIL;
