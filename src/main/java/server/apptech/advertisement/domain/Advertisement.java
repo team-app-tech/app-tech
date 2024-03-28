@@ -65,8 +65,13 @@ public class Advertisement extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private EventStatus eventStatus;
 
-    @OneToMany(mappedBy = "advertisement", fetch = FetchType.LAZY)
-    private List<File> files = new ArrayList<>();
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "thumb_nail_image_id")
+    private File thumbNailImage;
+
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "content_image_id")
+    private File contentImage;
 
     @OneToMany(mappedBy = "advertisement", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<AdvertisementLike> advertisementLikes = new ArrayList<>();
@@ -78,7 +83,7 @@ public class Advertisement extends BaseEntity {
     @Formula("(SELECT count(*) FROM advertisement_like al WHERE al.ADVERTISEMENT_ID = id)")
     private int likeCnt;
 
-    public static Advertisement of(AdCreateRequest adCreateRequest, User user){
+    public static Advertisement of(AdCreateRequest adCreateRequest, User user, File thumbNailImage, File contentImage){
         return Advertisement.builder()
                 .user(user)
                 .title(adCreateRequest.getTitle())
@@ -89,15 +94,11 @@ public class Advertisement extends BaseEntity {
                 .companyName(adCreateRequest.getCompanyName())
                 .startDate(adCreateRequest.getStartDate())
                 .endDate(adCreateRequest.getEndDate())
-                .files(new ArrayList<>())
+                .thumbNailImage(thumbNailImage)
+                .contentImage(contentImage)
                 .advertisementLikes(new ArrayList<>())
                 .comments(new ArrayList<>())
                 .build();
-    }
-
-    public void addFile(File file){
-        files.add(file);
-        file.belongToAdvertisement(this);
     }
 
     public void addComment(Comment comment) {

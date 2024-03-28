@@ -34,9 +34,8 @@ public class AdvertisementController {
     @PostMapping(value = "/api/advertisement", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE} )
     @Operation(summary = "광고 생성", description = "광고를 생성합니다.", responses = {@ApiResponse(responseCode = "200", description = "정상적으로 생성")})
     public ResponseEntity<?> createAdvertisement(@Auth AuthUser authUser,
-                                                 @RequestPart(value = "adCreateRequest") @Valid AdCreateRequest adCreateRequest,
-                                                 @RequestPart(value = "image", required = false) List<MultipartFile> multipartFiles) throws IOException {
-        Long advertisementId = advertisementService.createAdvertisement(authUser.getUserId(), adCreateRequest, multipartFiles);
+                                                 @RequestBody @Valid AdCreateRequest adCreateRequest) {
+        Long advertisementId = advertisementService.createAdvertisement(authUser.getUserId(), adCreateRequest);
         return ResponseEntity.ok()
                 .body(advertisementId);
     }

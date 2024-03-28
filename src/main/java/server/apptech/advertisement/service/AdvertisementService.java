@@ -6,7 +6,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 import server.apptech.advertisement.domain.Advertisement;
 import server.apptech.advertisement.domain.type.SortOption;
 import server.apptech.advertisement.dto.AdCreateRequest;
@@ -14,14 +13,12 @@ import server.apptech.advertisement.dto.AdResponse;
 import server.apptech.advertisement.domain.repository.AdvertisementRepository;
 import server.apptech.advertisement.domain.type.EventStatus;
 import server.apptech.advertisement.dto.AdDetailResponse;
-import server.apptech.file.FIleUploadService;
+import server.apptech.file.FileRepository;
+import server.apptech.file.domain.File;
 import server.apptech.global.exception.ExceptionCode;
 import server.apptech.global.exception.RestApiException;
 import server.apptech.user.UserService;
-
-import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -30,18 +27,15 @@ import java.util.List;
 public class AdvertisementService {
 
     private final AdvertisementRepository advertisementRepository;
-    private final FIleUploadService fIleUploadService;
+    private final FileRepository fileRepository;
     private final UserService userService;
 
-    public Long createAdvertisement(Long userId, AdCreateRequest adCreateRequest, List<MultipartFile> multipartFiles) throws IOException {
+    public Long createAdvertisement(Long userId, AdCreateRequest adCreateRequest) {
 
-        Advertisement advertisement = Advertisement.of(adCreateRequest, userService.findByUserId(userId));
+        File thumbNailImage = fileRepository.findById(adCreateRequest.getThumbNailImageId()).orElseThrow(() -> new RestApiException(ExceptionCode.NOT_FOUND_IMAGE));
+        File contentImage = fileRepository.findById(adCreateRequest.getContentImageId()).orElseThrow(() -> new RestApiException(ExceptionCode.NOT_FOUND_IMAGE));
+        Advertisement advertisement = Advertisement.of(adCreateRequest, userService.findByUserId(userId), thumbNailImage, contentImage);
 
-        if(multipartFiles != null){
-            for (MultipartFile multipartFile : multipartFiles){
-                advertisement.addFile(fIleUploadService.saveFile(multipartFile));
-            }
-        }
         return advertisementRepository.save(advertisement).getId();
     }
 
