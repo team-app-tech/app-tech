@@ -109,3 +109,16 @@ VALUES
     (2,null,1,'2번광고 3번댓글',now(),now()),
     (2,null,1,'2번광고 4번댓글',now(),now());
 
+INSERT INTO comment_reply (comment_id, user_id, content, created_at, modified_at)
+VALUES
+    (1,1,'1번광고 1번 대댓글',now(),now()),
+    (1,1,'1번광고 1번 대댓글',now(),now()),
+    (2,1,'1번광고 2번 대댓글',now(),now()),
+    (2,1,'1번광고 2번 대댓글',now(),now()),
+
+    (5,1,'2번광고 1번 대댓글',now(),now()),
+    (5,1,'2번광고 1번 대댓글',now(),now()),
+    (6,1,'2번광고 2번 대댓글',now(),now()),
+    (6,1,'2번광고 2번 대댓글',now(),now());
+
+
