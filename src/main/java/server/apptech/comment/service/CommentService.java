@@ -45,27 +45,13 @@ public class CommentService {
 
         //file 설정
         setFileForComment(commentCreateRequest.getFileId(), comment);
-        //부모있으면
-        if(commentCreateRequest.getParentId() != null){
-            comment.setParent(findCommentById(commentCreateRequest.getParentId()));
-        }
         return commentRepository.save(comment).getId();
     }
 
     public PageCommentResponse getCommentsByAdvertisementId(Long advertisementId) {
 
-        List<Comment> rootComments = findRootComment(commentRepository.findCommentsByAdvertisementId(advertisementId));
-        return PageCommentResponse.of(rootComments.stream().map(CommentResponse::of).collect(Collectors.toList()));
-    }
-
-    private List<Comment> findRootComment(List<Comment> flatComments){
-        List<Comment> rootComments = new ArrayList<>();
-        for (Comment comment : flatComments) {
-            if (comment.getParent() == null) { //부모없음
-                rootComments.add(comment);
-            }
-        }
-        return rootComments;
+        List<Comment> comments = commentRepository.findCommentsByAdvertisementId(advertisementId);
+        return PageCommentResponse.of(comments.stream().map(CommentResponse::of).collect(Collectors.toList()));
     }
 
     public Long updateComment(Long userId, Long commentId, CommentUpdateRequest commentUpdateRequest) {

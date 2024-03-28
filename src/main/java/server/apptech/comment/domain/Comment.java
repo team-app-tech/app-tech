@@ -10,6 +10,7 @@ import server.apptech.advertisement.domain.Advertisement;
 import server.apptech.comment.dto.CommentCreateRequest;
 import server.apptech.comment.dto.CommentUpdateRequest;
 import server.apptech.commentlike.domain.CommentLike;
+import server.apptech.commentreply.domain.CommentReply;
 import server.apptech.file.domain.File;
 import server.apptech.global.domain.BaseEntity;
 import server.apptech.user.domain.User;
@@ -37,13 +38,6 @@ public class Comment extends BaseEntity {
     @JoinColumn(name="user_id")
     private User user;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="parent_id")
-    private Comment parent;
-
-    @OneToMany(mappedBy = "parent", fetch = FetchType.LAZY)
-    private List<Comment> childComments = new ArrayList<>();
-
     @Column(name="content")
     private String content;
 
@@ -53,6 +47,11 @@ public class Comment extends BaseEntity {
 
     @OneToMany(mappedBy = "comment", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CommentLike> commentLikes = new ArrayList<>();
+
+    @OneToMany(mappedBy = "comment", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CommentReply> commentReplies = new ArrayList<>();
+//    private int likeCnt;
+//    private int commentRepliesCnt;
 
     public static Comment of(CommentCreateRequest commentCreateRequest, User user){
         return Comment.builder()
@@ -66,17 +65,9 @@ public class Comment extends BaseEntity {
         advertisement.addComment(this);
     }
 
-    public void setParent(Comment comment){
-        this.parent = comment;
-        comment.addChildComment(comment);
-    }
     public void setFile(File file){
         this.file = file;
         file.belongToComment(this);
-    }
-
-    public void addChildComment(Comment comment){
-        childComments.add(comment);
     }
 
     public void updateComment(CommentUpdateRequest commentUpdateRequest){

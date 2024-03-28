@@ -9,6 +9,5 @@ import lombok.*;
 public class CommentCreateRequest {
 
     private String content;
-    private Long parentId;
     private Long fileId;
 }
