@@ -1,10 +1,11 @@
-package server.apptech.payment;
+package server.apptech.payment.domain;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import server.apptech.payment.infrastructure.PaymentInfo;
 import server.apptech.user.domain.User;
 
 @Builder

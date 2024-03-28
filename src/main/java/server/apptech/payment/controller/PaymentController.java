@@ -1,4 +1,4 @@
-package server.apptech.payment;
+package server.apptech.payment.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import server.apptech.auth.Auth;
 import server.apptech.auth.AuthUser;
+import server.apptech.payment.dto.PaymentRequest;
+import server.apptech.payment.service.PaymentService;
 
 @RestController
 @RequiredArgsConstructor

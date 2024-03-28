@@ -1,4 +1,4 @@
-package server.apptech.payment;
+package server.apptech.payment.infrastructure;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;

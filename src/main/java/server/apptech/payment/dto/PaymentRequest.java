@@ -1,4 +1,4 @@
-package server.apptech.payment;
+package server.apptech.payment.dto;
 
 import lombok.Getter;
 
