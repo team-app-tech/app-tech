@@ -1,12 +1,21 @@
 package server.apptech.prize.domain;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import server.apptech.advertisement.domain.Advertisement;
 import server.apptech.comment.domain.Comment;
 import server.apptech.global.domain.BaseEntity;
 import server.apptech.user.domain.User;
 
+
 @Entity
+@NoArgsConstructor
+@Builder
+@AllArgsConstructor
+@Getter
 public class Prize extends BaseEntity {
 
     @Id
@@ -27,7 +36,7 @@ public class Prize extends BaseEntity {
     private Comment comment;
 
     @Column(name = "price")
-    private Long price;
+    private Integer price;
 
     @Column(name = "ranking")
     private Integer ranking;
