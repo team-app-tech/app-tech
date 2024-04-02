@@ -43,9 +43,9 @@ public class User extends BaseEntity {
     @Column(name = "role")
     @Enumerated(value = EnumType.STRING)
     private Authority role;
+    private Integer point;
 
     public static User createTempuser(){
-
         User user = new User();
         return user;
     }
@@ -57,7 +57,12 @@ public class User extends BaseEntity {
                 .email(oauthUserInfo.getEmail())
                 .nickName(oauthUserInfo.getNickname())
                 .profileImageUrl(oauthUserInfo.getImageUrl())
+                .point(0)
                 .build();
+    }
+
+    public void addPoint(int amount){
+        this.point += amount;
     }
 
 }
