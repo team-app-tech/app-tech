@@ -18,6 +18,7 @@ import server.apptech.file.domain.FileType;
 import server.apptech.global.exception.AuthException;
 import server.apptech.global.exception.ExceptionCode;
 import server.apptech.global.exception.RestApiException;
+import server.apptech.global.scheduler.PrizeScheduler;
 import server.apptech.user.UserRepository;
 import server.apptech.user.domain.SocialType;
 import server.apptech.user.domain.User;
@@ -40,6 +41,9 @@ class AdvertisementServiceTest {
     UserRepository userRepository;
     @Mock
     FileRepository fileRepository;
+
+    @Mock
+    PrizeScheduler prizeScheduler;
     @Test
     @DisplayName("광고가 정상 저장된후 아이디 반환(이미지 없음)")
     void saveAdvertisement() {
@@ -54,6 +58,7 @@ class AdvertisementServiceTest {
         given(userRepository.findById(any(Long.class))).willReturn(Optional.of(user));
         given(fileRepository.findById(file.getId())).willReturn(Optional.of(file));
         given(fileRepository.findById(file2.getId())).willReturn(Optional.of(file2));
+        willDoNothing().given(prizeScheduler).reservePrizeDistributionTask(advertisement.getId(), adCreateRequest.getEndDate());
 
         //when
         Long advertisementId = advertisementService.createAdvertisement(user.getId(), adCreateRequest);
@@ -103,6 +108,7 @@ class AdvertisementServiceTest {
         given(advertisementRepository.save(any(Advertisement.class))).willReturn(advertisement);
         given(fileRepository.findById(file.getId())).willReturn(Optional.of(file));
         given(fileRepository.findById(file2.getId())).willReturn(Optional.of(file2));
+        willDoNothing().given(prizeScheduler).modifyPrizeDistributionTask(advertisement.getId(), adUpdateRequest.getEndDate());
 
         //when
         Long updateAdvertisementId = advertisementService.updateAdvertisement(user.getId(), advertisement.getId(), adUpdateRequest);
