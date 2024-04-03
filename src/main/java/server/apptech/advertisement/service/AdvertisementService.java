@@ -6,7 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import server.apptech.advertisement.controller.AdUpdateRequest;
+import server.apptech.advertisement.dto.AdUpdateRequest;
 import server.apptech.advertisement.domain.Advertisement;
 import server.apptech.advertisement.domain.type.SortOption;
 import server.apptech.advertisement.dto.AdCreateRequest;
@@ -152,7 +152,9 @@ public class AdvertisementService {
         checkIfAdvertisementModifiable(advertisement);
         advertisement.updateAdvertisement(adUpdateRequest);
         handleFileUpdate(adUpdateRequest, advertisement);
-        return advertisementRepository.save(advertisement).getId();
+        prizeScheduler.modifyPrizeDistributionTask(advertisementId, adUpdateRequest.getEndDate());
+        Long updatedId = advertisementRepository.save(advertisement).getId();
+        return updatedId;
     }
 
     private void handleFileUpdate(AdUpdateRequest adUpdateRequest, Advertisement advertisement) {

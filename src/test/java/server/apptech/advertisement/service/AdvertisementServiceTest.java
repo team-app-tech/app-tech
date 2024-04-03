@@ -7,7 +7,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import server.apptech.advertisement.controller.AdUpdateRequest;
+import server.apptech.advertisement.dto.AdUpdateRequest;
 import server.apptech.advertisement.domain.Advertisement;
 import server.apptech.advertisement.domain.repository.AdvertisementRepository;
 import server.apptech.advertisement.dto.AdCreateRequest;

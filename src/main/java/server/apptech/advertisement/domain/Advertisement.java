@@ -7,7 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Formula;
 import org.springframework.format.annotation.DateTimeFormat;
-import server.apptech.advertisement.controller.AdUpdateRequest;
+import server.apptech.advertisement.dto.AdUpdateRequest;
 import server.apptech.advertisement.dto.AdCreateRequest;
 import server.apptech.advertisement.advertisementlike.domain.AdvertisementLike;
 import server.apptech.comment.domain.Comment;

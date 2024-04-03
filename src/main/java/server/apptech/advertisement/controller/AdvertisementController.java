@@ -10,19 +10,16 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import server.apptech.advertisement.domain.type.SortOption;
 import server.apptech.advertisement.dto.AdCreateRequest;
 import server.apptech.advertisement.domain.type.EventStatus;
 import server.apptech.advertisement.dto.AdDetailResponse;
+import server.apptech.advertisement.dto.AdUpdateRequest;
 import server.apptech.advertisement.dto.PageAdResponse;
 import server.apptech.advertisement.service.AdvertisementService;
 import server.apptech.global.exception.ExceptionResponse;
 import server.apptech.auth.AuthUser;
 import server.apptech.auth.Auth;
-
-import java.io.IOException;
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor

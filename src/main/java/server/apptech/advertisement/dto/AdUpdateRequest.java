@@ -1,4 +1,4 @@
-package server.apptech.advertisement.controller;
+package server.apptech.advertisement.dto;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;

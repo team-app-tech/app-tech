@@ -1,22 +1,20 @@
 package server.apptech.global.job;
 
 import lombok.RequiredArgsConstructor;
-import org.quartz.JobBuilder;
-import org.quartz.JobDataMap;
-import org.quartz.JobDetail;
+import org.quartz.*;
 import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
 public class JobDetailService {
 
-    public JobDetail getPrizeDistributionJobDetail(Long advertisementId) {
+    public JobDetail getPrizeDistributionJobDetail(Long advertisementId, JobKey jobKey) {
         //JobData
         JobDataMap jobDataMap = getJobDataMap(advertisementId);
         // Job
         return JobBuilder
                 .newJob(PrizeDistributionJob.class)
-                .withIdentity("PrizeDistributionJob")
+                .withIdentity(jobKey)
                 .usingJobData(jobDataMap)
                 .build();
     }
