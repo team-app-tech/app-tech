@@ -11,7 +11,7 @@ import server.apptech.advertisement.domain.repository.AdvertisementRepository;
 import server.apptech.advertisement.dto.AdCreateRequest;
 import server.apptech.advertisement.advertisementlike.domain.AdvertisementLike;
 import server.apptech.auth.Authority;
-import server.apptech.user.UserRepository;
+import server.apptech.user.domain.repository.UserRepository;
 import server.apptech.user.domain.SocialType;
 import server.apptech.user.domain.User;
 

@@ -21,12 +21,10 @@ import server.apptech.global.exception.RestApiException;
 import server.apptech.global.scheduler.PrizeScheduler;
 import server.apptech.payment.domain.Payment;
 import server.apptech.payment.domain.repository.PaymentRepository;
-import server.apptech.user.UserRepository;
+import server.apptech.user.domain.repository.UserRepository;
 import server.apptech.user.domain.SocialType;
 import server.apptech.user.domain.User;
 import server.apptech.auth.Authority;
-
-import javax.swing.text.html.Option;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.*;

@@ -11,7 +11,7 @@ import server.apptech.comment.domain.Comment;
 import server.apptech.comment.domain.repository.CommentRepository;
 import server.apptech.prize.domain.repository.PrizeRepository;
 import server.apptech.prize.domain.Prize;
-import server.apptech.user.UserRepository;
+import server.apptech.user.domain.repository.UserRepository;
 import server.apptech.user.domain.User;
 
 import java.util.List;

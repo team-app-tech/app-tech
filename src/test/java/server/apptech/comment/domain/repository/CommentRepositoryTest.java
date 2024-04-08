@@ -15,7 +15,7 @@ import server.apptech.comment.dto.CommentCreateRequest;
 import server.apptech.file.FileRepository;
 import server.apptech.file.domain.File;
 import server.apptech.file.domain.FileType;
-import server.apptech.user.UserRepository;
+import server.apptech.user.domain.repository.UserRepository;
 import server.apptech.user.domain.SocialType;
 import server.apptech.user.domain.User;
 

@@ -9,7 +9,7 @@ import server.apptech.comment.commentreply.domain.CommentReply;
 import server.apptech.comment.commentreply.domain.repository.CommentReplyRepository;
 import server.apptech.global.exception.ExceptionCode;
 import server.apptech.global.exception.RestApiException;
-import server.apptech.user.UserRepository;
+import server.apptech.user.domain.repository.UserRepository;
 import server.apptech.user.domain.User;
 
 @Service

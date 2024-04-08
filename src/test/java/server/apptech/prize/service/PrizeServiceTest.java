@@ -15,21 +15,13 @@ import server.apptech.comment.domain.Comment;
 import server.apptech.comment.domain.repository.CommentRepository;
 import server.apptech.file.domain.File;
 import server.apptech.file.domain.FileType;
-import server.apptech.prize.domain.Prize;
 import server.apptech.prize.domain.repository.PrizeRepository;
-import server.apptech.user.UserRepository;
+import server.apptech.user.domain.repository.UserRepository;
 import server.apptech.user.domain.SocialType;
 import server.apptech.user.domain.User;
 
-import javax.swing.text.html.Option;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.BDDMockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class PrizeServiceTest {

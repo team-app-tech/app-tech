@@ -55,14 +55,23 @@ public class User extends BaseEntity {
                 .authId(oauthUserInfo.getAuthId())
                 .socialType(oauthUserInfo.getSocialType())
                 .email(oauthUserInfo.getEmail())
-                .nickName(oauthUserInfo.getNickname())
+                .nickName(oauthUserInfo.getNickname() + generateRandomFourDigitCode())
                 .profileImageUrl(oauthUserInfo.getImageUrl())
                 .point(0)
                 .build();
     }
 
+
+
+    public void changeNickName(String nickName){
+        this.nickName = nickName;
+    }
     public void addPoint(int amount){
         this.point += amount;
     }
 
+    private static String generateRandomFourDigitCode(){
+        final int randomNumber = (int) (Math.random() * 10000);
+        return "#" + String.format("%04d", randomNumber);
+    }
 }
