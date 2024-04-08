@@ -27,6 +27,8 @@ public class AdCreateRequest {
     private Long thumbNailImageId;
     @NotNull(message = "광고의 컨텐츠 이미지는 필수 입니다.")
     private Long contentImageId;
+    @NotNull(message = "광고의 해당하는 결제 ID는 필수 입니다.")
+    private Long paymentId;
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime startDate;
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
