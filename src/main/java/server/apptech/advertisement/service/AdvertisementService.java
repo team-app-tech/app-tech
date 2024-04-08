@@ -16,10 +16,13 @@ import server.apptech.advertisement.domain.type.EventStatus;
 import server.apptech.advertisement.dto.AdDetailResponse;
 import server.apptech.file.FileRepository;
 import server.apptech.file.domain.File;
+import server.apptech.global.exception.InvalidPaymentException;
 import server.apptech.global.scheduler.PrizeScheduler;
 import server.apptech.global.exception.AuthException;
 import server.apptech.global.exception.ExceptionCode;
 import server.apptech.global.exception.RestApiException;
+import server.apptech.payment.domain.Payment;
+import server.apptech.payment.domain.repository.PaymentRepository;
 import server.apptech.user.UserRepository;
 import server.apptech.user.domain.User;
 
@@ -35,13 +38,16 @@ public class AdvertisementService {
     private final FileRepository fileRepository;
     private final UserRepository userRepository;
     private final PrizeScheduler prizeScheduler;
+    private final PaymentRepository paymentRepository;
 
     public Long createAdvertisement(Long userId, AdCreateRequest adCreateRequest) {
 
         File thumbNailImage = fileRepository.findById(adCreateRequest.getThumbNailImageId()).orElseThrow(() -> new RestApiException(ExceptionCode.NOT_FOUND_IMAGE));
         File contentImage = fileRepository.findById(adCreateRequest.getContentImageId()).orElseThrow(() -> new RestApiException(ExceptionCode.NOT_FOUND_IMAGE));
         User user = userRepository.findById(userId).orElseThrow(() -> new RestApiException(ExceptionCode.NOT_FOUND_USER_ID));
-        Advertisement advertisement = Advertisement.of(adCreateRequest, user, thumbNailImage, contentImage);
+        Payment payment = paymentRepository.findById(adCreateRequest.getPaymentId()).orElseThrow(() -> new InvalidPaymentException(ExceptionCode.NOT_FOUND_PAYMENT));
+
+        Advertisement advertisement = Advertisement.of(adCreateRequest, user, thumbNailImage, contentImage, payment);
 
         Long advertisementId = advertisementRepository.save(advertisement).getId();
 

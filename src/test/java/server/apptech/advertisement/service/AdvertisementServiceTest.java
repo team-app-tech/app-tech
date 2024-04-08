@@ -19,10 +19,15 @@ import server.apptech.global.exception.AuthException;
 import server.apptech.global.exception.ExceptionCode;
 import server.apptech.global.exception.RestApiException;
 import server.apptech.global.scheduler.PrizeScheduler;
+import server.apptech.payment.domain.Payment;
+import server.apptech.payment.domain.repository.PaymentRepository;
 import server.apptech.user.UserRepository;
 import server.apptech.user.domain.SocialType;
 import server.apptech.user.domain.User;
 import server.apptech.auth.Authority;
+
+import javax.swing.text.html.Option;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.*;
 import java.time.LocalDateTime;
@@ -41,9 +46,10 @@ class AdvertisementServiceTest {
     UserRepository userRepository;
     @Mock
     FileRepository fileRepository;
-
     @Mock
     PrizeScheduler prizeScheduler;
+    @Mock
+    PaymentRepository paymentRepository;
     @Test
     @DisplayName("광고가 정상 저장된후 아이디 반환(이미지 없음)")
     void saveAdvertisement() {
@@ -52,12 +58,14 @@ class AdvertisementServiceTest {
         User user = createUser();
         File file = createFile();
         File file2 = createFile2();
-        Advertisement advertisement = createAdvertisement(adCreateRequest, user, file, file2);
+        Payment payment = createPayment(user);
+        Advertisement advertisement = createAdvertisement(adCreateRequest, user, file, file2, payment);
 
         given(advertisementRepository.save(any(Advertisement.class))).willReturn(advertisement);
         given(userRepository.findById(any(Long.class))).willReturn(Optional.of(user));
         given(fileRepository.findById(file.getId())).willReturn(Optional.of(file));
         given(fileRepository.findById(file2.getId())).willReturn(Optional.of(file2));
+        given(paymentRepository.findById(payment.getId())).willReturn(Optional.of(payment));
         willDoNothing().given(prizeScheduler).reservePrizeDistributionTask(advertisement.getId(), adCreateRequest.getEndDate());
 
         //when
@@ -66,6 +74,17 @@ class AdvertisementServiceTest {
         //then
         verify(advertisementRepository, times(1)).save(any(Advertisement.class));
         assertThat(advertisementId).isEqualTo(1L);
+    }
+
+    private static Payment createPayment(User user) {
+        return Payment.builder()
+                .id(1L)
+                .paymentKey("paymentKey")
+                .orderId("orderId")
+                .orderName("orderName")
+                .amount("10000")
+                .user(user)
+                .build();
     }
 
     @Test
@@ -83,7 +102,8 @@ class AdvertisementServiceTest {
         User user = createUser();
         File file = createFile();
         File file2 = createFile2();
-        Advertisement advertisement = createAdvertisement(adCreateRequest, user,file, file2);
+        Payment payment = createPayment(user);
+        Advertisement advertisement = createAdvertisement(adCreateRequest, user,file, file2,payment);
         given(advertisementRepository.findWithUserById(any(Long.class))).willReturn(Optional.of(advertisement));
 
         //when
@@ -103,7 +123,8 @@ class AdvertisementServiceTest {
         User user = createUser();
         File file = createFile();
         File file2 = createFile2();
-        Advertisement advertisement = createAdvertisement(adCreateRequest, user,file, file2);
+        Payment payment = createPayment(user);
+        Advertisement advertisement = createAdvertisement(adCreateRequest, user,file, file2, payment);
         given(advertisementRepository.findWithUserById(any(Long.class))).willReturn(Optional.of(advertisement));
         given(advertisementRepository.save(any(Advertisement.class))).willReturn(advertisement);
         given(fileRepository.findById(file.getId())).willReturn(Optional.of(file));
@@ -128,7 +149,9 @@ class AdvertisementServiceTest {
         User user2 = createUser2();
         File file = createFile();
         File file2 = createFile2();
-        Advertisement advertisement = createAdvertisement(adCreateRequest, user,file, file2);
+        Payment payment = createPayment(user);
+
+        Advertisement advertisement = createAdvertisement(adCreateRequest, user,file, file2,payment);
         given(advertisementRepository.findWithUserById(any(Long.class))).willReturn(Optional.of(advertisement));
 
         //when && given
@@ -146,7 +169,8 @@ class AdvertisementServiceTest {
         User user = createUser();
         File file = createFile();
         File file2 = createFile2();
-        Advertisement advertisement = createAdvertisement(adCreateRequest, user,file, file2);
+        Payment payment = createPayment(user);
+        Advertisement advertisement = createAdvertisement(adCreateRequest, user,file, file2, payment);
         given(advertisementRepository.findWithUserById(any(Long.class))).willReturn(Optional.of(advertisement));
 
         //when && given
@@ -208,7 +232,7 @@ class AdvertisementServiceTest {
         return file;
     }
 
-    private static Advertisement createAdvertisement(AdCreateRequest adCreateRequest, User user, File file, File file2) {
+    private static Advertisement createAdvertisement(AdCreateRequest adCreateRequest, User user, File file, File file2, Payment payment) {
         return Advertisement.builder()
                 .id(1L)
                 .user(user)
@@ -222,6 +246,7 @@ class AdvertisementServiceTest {
                 .endDate(adCreateRequest.getEndDate())
                 .advertisementLikes(new ArrayList<>())
                 .comments(new ArrayList<>())
+                .payment(payment)
                 .thumbNailImage(file)
                 .contentImage(file2)
                 .build();
@@ -264,6 +289,7 @@ class AdvertisementServiceTest {
                 .endDate(LocalDateTime.now().plusHours(2))
                 .thumbNailImageId(1L)
                 .contentImageId(2L)
+                .paymentId(1L)
                 .build();
         return adCreateRequest;
     }

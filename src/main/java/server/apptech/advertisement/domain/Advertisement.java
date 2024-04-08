@@ -14,6 +14,7 @@ import server.apptech.comment.domain.Comment;
 import server.apptech.advertisement.domain.type.EventStatus;
 import server.apptech.file.domain.File;
 import server.apptech.global.domain.BaseEntity;
+import server.apptech.payment.domain.Payment;
 import server.apptech.user.domain.User;
 
 import java.time.LocalDateTime;
@@ -74,6 +75,10 @@ public class Advertisement extends BaseEntity {
     @JoinColumn(name = "content_image_id")
     private File contentImage;
 
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "payment_id")
+    private Payment payment;
+
     @OneToMany(mappedBy = "advertisement", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<AdvertisementLike> advertisementLikes = new ArrayList<>();
 
@@ -84,7 +89,7 @@ public class Advertisement extends BaseEntity {
     @Formula("(SELECT count(*) FROM advertisement_like al WHERE al.ADVERTISEMENT_ID = id)")
     private int likeCnt;
 
-    public static Advertisement of(AdCreateRequest adCreateRequest, User user, File thumbNailImage, File contentImage){
+    public static Advertisement of(AdCreateRequest adCreateRequest, User user, File thumbNailImage, File contentImage, Payment payment){
         return Advertisement.builder()
                 .user(user)
                 .title(adCreateRequest.getTitle())
@@ -97,6 +102,7 @@ public class Advertisement extends BaseEntity {
                 .endDate(adCreateRequest.getEndDate())
                 .thumbNailImage(thumbNailImage)
                 .contentImage(contentImage)
+                .payment(payment)
                 .advertisementLikes(new ArrayList<>())
                 .comments(new ArrayList<>())
                 .build();
