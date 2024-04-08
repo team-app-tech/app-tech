@@ -1,8 +1,8 @@
-INSERT INTO users (auth_id, created_at, email, name, nickname, role, social_type, modified_at)
+INSERT INTO users (auth_id, created_at, email, name, nickname, role, social_type, point, modified_at)
 VALUES
-    ('12345', NOW(), 'john.doe@example.com', '김영상', '영사미', 'ROLE_USER',  'KAKAO', NOW()),
-    ('67890', NOW(), 'jane.smith@example.com', '한승헌', 'hhh', 'ROLE_USER', 'KAKAO', NOW()),
-    ('29308', NOW(), 'jane.smith@example.com', '유환', 'hwan', 'ROLE_USER', 'KAKAO', NOW());
+    ('12345', NOW(), 'john.doe@example.com', '김영상', '영사미', 'ROLE_USER',  'KAKAO',0, NOW()),
+    ('67890', NOW(), 'jane.smith@example.com', '한승헌', 'hhh', 'ROLE_USER', 'KAKAO',0, NOW()),
+    ('29308', NOW(), 'jane.smith@example.com', '유환', 'hwan', 'ROLE_USER', 'KAKAO',0, NOW());
 
 -- Inserting data into File table
 INSERT INTO file (comment_id, file_type, uuid, url, created_at, modified_at)

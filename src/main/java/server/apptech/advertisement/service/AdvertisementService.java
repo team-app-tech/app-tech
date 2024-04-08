@@ -6,7 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import server.apptech.advertisement.controller.AdUpdateRequest;
+import server.apptech.advertisement.dto.AdUpdateRequest;
 import server.apptech.advertisement.domain.Advertisement;
 import server.apptech.advertisement.domain.type.SortOption;
 import server.apptech.advertisement.dto.AdCreateRequest;
@@ -16,6 +16,7 @@ import server.apptech.advertisement.domain.type.EventStatus;
 import server.apptech.advertisement.dto.AdDetailResponse;
 import server.apptech.file.FileRepository;
 import server.apptech.file.domain.File;
+import server.apptech.global.scheduler.PrizeScheduler;
 import server.apptech.global.exception.AuthException;
 import server.apptech.global.exception.ExceptionCode;
 import server.apptech.global.exception.RestApiException;
@@ -33,6 +34,7 @@ public class AdvertisementService {
     private final AdvertisementRepository advertisementRepository;
     private final FileRepository fileRepository;
     private final UserRepository userRepository;
+    private final PrizeScheduler prizeScheduler;
 
     public Long createAdvertisement(Long userId, AdCreateRequest adCreateRequest) {
 
@@ -41,7 +43,10 @@ public class AdvertisementService {
         User user = userRepository.findById(userId).orElseThrow(() -> new RestApiException(ExceptionCode.NOT_FOUND_USER_ID));
         Advertisement advertisement = Advertisement.of(adCreateRequest, user, thumbNailImage, contentImage);
 
-        return advertisementRepository.save(advertisement).getId();
+        Long advertisementId = advertisementRepository.save(advertisement).getId();
+
+        prizeScheduler.reservePrizeDistributionTask(advertisementId,advertisement.getEndDate());
+        return advertisementId;
     }
 
     public Page<AdResponse> getAdvertisements(int page, int size, EventStatus eventStatus, SortOption sortOption, String keyword) {
@@ -147,7 +152,9 @@ public class AdvertisementService {
         checkIfAdvertisementModifiable(advertisement);
         advertisement.updateAdvertisement(adUpdateRequest);
         handleFileUpdate(adUpdateRequest, advertisement);
-        return advertisementRepository.save(advertisement).getId();
+        prizeScheduler.modifyPrizeDistributionTask(advertisementId, adUpdateRequest.getEndDate());
+        Long updatedId = advertisementRepository.save(advertisement).getId();
+        return updatedId;
     }
 
     private void handleFileUpdate(AdUpdateRequest adUpdateRequest, Advertisement advertisement) {
