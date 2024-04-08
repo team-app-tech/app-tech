@@ -15,7 +15,7 @@ import server.apptech.comment.domain.Comment;
 import server.apptech.comment.domain.repository.CommentRepository;
 import server.apptech.comment.dto.CommentCreateRequest;
 import server.apptech.comment.commentlike.domain.CommentLike;
-import server.apptech.user.UserRepository;
+import server.apptech.user.domain.repository.UserRepository;
 import server.apptech.user.domain.SocialType;
 import server.apptech.user.domain.User;
 

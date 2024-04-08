@@ -10,7 +10,7 @@ import server.apptech.payment.domain.PaymentProvider;
 import server.apptech.payment.dto.PaymentRequest;
 import server.apptech.payment.domain.Payment;
 import server.apptech.payment.domain.repository.PaymentRepository;
-import server.apptech.user.UserRepository;
+import server.apptech.user.domain.repository.UserRepository;
 import server.apptech.user.domain.User;
 
 

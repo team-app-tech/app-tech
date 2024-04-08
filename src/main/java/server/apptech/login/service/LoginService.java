@@ -10,7 +10,7 @@ import server.apptech.login.dto.AccessTokenResponse;
 import server.apptech.login.infrastructrue.JwtProvider;
 import server.apptech.login.domain.repository.RefreshTokenRepository;
 import server.apptech.login.dto.LoginRequest;
-import server.apptech.user.UserService;
+import server.apptech.user.service.UserService;
 import server.apptech.user.domain.User;
 
 @Service

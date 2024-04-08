@@ -44,7 +44,9 @@ public enum ExceptionCode {
     COMMENT_REPLY_NOT_LIKED(HttpStatus.BAD_REQUEST,"좋아요를 누르지 않은 답글입니다."),
     NOT_FOUND_IMAGE(HttpStatus.BAD_REQUEST, "요청한 ID에 해당하는 파일이 이미지가 존재하지 않습니다."),
 
-    NOT_FOUND_JOB_KEY(HttpStatus.BAD_REQUEST, "Scheduler에 해당하는 JOB_KEY가 없습니다." );
+    NOT_FOUND_JOB_KEY(HttpStatus.BAD_REQUEST, "Scheduler에 해당하는 JOB_KEY가 없습니다." ),
+
+    ALREADY_EXIST_NICKNAME(HttpStatus.BAD_REQUEST, "해당 닉네임의 사용자가 이미 존재합니다." );
 
 
     private final HttpStatus httpStatus;

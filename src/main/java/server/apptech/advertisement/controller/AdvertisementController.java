@@ -26,7 +26,7 @@ import server.apptech.auth.Auth;
 @Tag(name = "Advertisement / 광고")
 public class AdvertisementController {
 
-    public final AdvertisementService advertisementService;
+    private final AdvertisementService advertisementService;
 
     @PostMapping(value = "/api/advertisement", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE} )
     @Operation(summary = "광고 생성", description = "광고를 생성합니다.", responses = {@ApiResponse(responseCode = "200", description = "정상적으로 생성")})

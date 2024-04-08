@@ -14,7 +14,7 @@ import server.apptech.comment.commentreply.dto.CommentReplyUpdateRequest;
 import server.apptech.global.exception.AuthException;
 import server.apptech.global.exception.ExceptionCode;
 import server.apptech.global.exception.RestApiException;
-import server.apptech.user.UserRepository;
+import server.apptech.user.domain.repository.UserRepository;
 import server.apptech.user.domain.User;
 
 import java.util.List;

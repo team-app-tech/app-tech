@@ -9,7 +9,7 @@ import server.apptech.advertisement.advertisementlike.domain.repository.Advertis
 import server.apptech.advertisement.advertisementlike.domain.AdvertisementLike;
 import server.apptech.global.exception.ExceptionCode;
 import server.apptech.global.exception.RestApiException;
-import server.apptech.user.UserRepository;
+import server.apptech.user.domain.repository.UserRepository;
 import server.apptech.user.domain.User;
 
 @Service
