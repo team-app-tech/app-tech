@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import server.apptech.advertisement.domain.Advertisement;
 import server.apptech.advertisement.domain.repository.AdvertisementRepository;
 import server.apptech.comment.domain.Comment;
@@ -18,6 +19,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Slf4j
+@Transactional
 public class PrizeService {
 
     private final PrizeRepository prizeRepository;
@@ -41,21 +43,31 @@ public class PrizeService {
             Comment comment = prizeComments.get(i);
             User user = comment.getUser();
             int likeCnt = comment.getLikeCnt();
-            double likeRatio = (double) likeCnt / totalLikeCnt;
-            int prizePoint = (int)(totalPrice * likeRatio);
+            int prizePoint = getPrizePoint(totalPrice, totalLikeCnt, likeCnt);
             if(prizePoint > 0){
                 user.addPoint(prizePoint);
-                Prize prize = Prize.builder()
-                        .advertisement(advertisement)
-                        .user(user)
-                        .comment(comment)
-                        .price(prizePoint)
-                        .ranking(i+1)
-                        .build();
-                prizeRepository.save(prize);
+                savePrize(advertisement, i, comment, user, prizePoint);
                 userRepository.save(user);
             }
         }
+    }
+
+    private void savePrize(Advertisement advertisement, int i, Comment comment, User user, int prizePoint) {
+        Prize prize = Prize.builder()
+                .advertisement(advertisement)
+                .user(user)
+                .comment(comment)
+                .price(prizePoint)
+                .ranking(i +1)
+                .build();
+        prizeRepository.save(prize);
+    }
+
+    public int getPrizePoint(Long totalPrice, int totalLikeCnt, int likeCnt) {
+        // 소수 3번째 자리에서 반올림
+        double likeRatio =  Math.round(((double)likeCnt / totalLikeCnt) * 1000) /1000.0;
+        int prizePoint = (int)(totalPrice * likeRatio);
+        return prizePoint;
     }
 
     private int getTotalLikeCnt(List<Comment> prizeComments) {
