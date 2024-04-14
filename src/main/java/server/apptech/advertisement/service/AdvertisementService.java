@@ -147,7 +147,10 @@ public class AdvertisementService {
     }
 
     public AdDetailResponse getAdvertisementById(Long advertisementId) {
-        return AdDetailResponse.of(advertisementRepository.findWithUserById(advertisementId).orElseThrow(() -> new RestApiException(ExceptionCode.NOT_FOUND_ADVERTISEMENT_ID)));
+
+        Advertisement advertisement = advertisementRepository.findWithUserById(advertisementId).orElseThrow(() -> new RestApiException(ExceptionCode.NOT_FOUND_ADVERTISEMENT_ID));
+        advertisement.plusViewCnt();
+        return AdDetailResponse.of(advertisement);
     }
 
     public Long updateAdvertisement(Long userId, Long advertisementId, AdUpdateRequest adUpdateRequest) {
@@ -179,5 +182,4 @@ public class AdvertisementService {
             throw new RestApiException(ExceptionCode.ALREADY_START_ADVERTISEMENT);
         }
     }
-
 }
