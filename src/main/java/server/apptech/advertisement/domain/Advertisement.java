@@ -128,4 +128,8 @@ public class Advertisement extends BaseEntity {
     public void changeContentImage(File contentImage) {
         this.contentImage = contentImage;
     }
+
+    public void plusViewCnt(){
+        this.viewCnt++;
+    }
 }
