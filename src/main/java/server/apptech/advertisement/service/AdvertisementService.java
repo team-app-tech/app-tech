@@ -148,7 +148,7 @@ public class AdvertisementService {
 
     public AdDetailResponse getAdvertisementById(Long advertisementId) {
 
-        Advertisement advertisement = advertisementRepository.findById(advertisementId).orElseThrow(() -> new RestApiException(ExceptionCode.NOT_FOUND_ADVERTISEMENT_ID));
+        Advertisement advertisement = advertisementRepository.findWithUserById(advertisementId).orElseThrow(() -> new RestApiException(ExceptionCode.NOT_FOUND_ADVERTISEMENT_ID));
         advertisement.plusViewCnt();
         return AdDetailResponse.of(advertisement);
     }
