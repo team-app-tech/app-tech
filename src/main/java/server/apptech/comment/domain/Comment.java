@@ -39,6 +39,9 @@ public class Comment extends BaseEntity {
     @JoinColumn(name="user_id")
     private User user;
 
+    @Column(name="comment_user_nickname")
+    private String commentUserNickName;
+
     @Column(name="content")
     private String content;
 
@@ -60,6 +63,7 @@ public class Comment extends BaseEntity {
     public static Comment of(CommentCreateRequest commentCreateRequest, User user){
         return Comment.builder()
                 .content(commentCreateRequest.getContent())
+                .commentUserNickName(user.getNickName())
                 .user(user)
                 .build();
     }
