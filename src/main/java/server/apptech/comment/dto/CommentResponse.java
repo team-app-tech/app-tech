@@ -27,7 +27,7 @@ public class CommentResponse {
         CommentResponseBuilder builder = CommentResponse.builder()
                 .commentId(comment.getId())
                 .content(comment.getContent())
-                .nickName(comment.getUser().getNickName())
+                .nickName(comment.getCommentUserNickName())
                 .replyCnt(comment.getCommentRepliesCnt())
                 .likeCnt(comment.getLikeCnt())
                 .createdAt(comment.getCreatedAt());

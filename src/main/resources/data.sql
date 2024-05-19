@@ -150,17 +150,17 @@ VALUES
     (2, '트레비로 3행시를 지어주세요', '트레비로 3행시를 지어주세요', 300, 1000000, 6, '트레비', '2022-02-18T18:30:00', '2024-02-28T02:30:00',79,80, NOW(), NOW());
 
 
-INSERT INTO comment (advertisement_id, file_id, user_id, content, created_at, modified_at)
+INSERT INTO comment (advertisement_id, file_id, user_id, content, comment_user_nickname, created_at, modified_at)
 VALUES
-    (1,null,1,'1번광고 1번댓글',now(),now()),
-    (1,null,1,'1번광고 2번댓글',now(),now()),
-    (1,null,1,'1번광고 3번댓글',now(),now()),
-    (1,null,1,'1번광고 4번댓글',now(),now()),
+    (1,null,1,'1번광고 1번댓글','김영상#4215',now(),now()),
+    (1,null,1,'1번광고 2번댓글','김영상#4215',now(),now()),
+    (1,null,1,'1번광고 3번댓글','김영상#4215',now(),now()),
+    (1,null,1,'1번광고 4번댓글','김영상#4215',now(),now()),
 
-    (2,null,1,'2번광고 1번댓글',now(),now()),
-    (2,null,1,'2번광고 2번댓글',now(),now()),
-    (2,null,1,'2번광고 3번댓글',now(),now()),
-    (2,null,1,'2번광고 4번댓글',now(),now());
+    (2,null,1,'2번광고 1번댓글','김영상#4215',now(),now()),
+    (2,null,1,'2번광고 2번댓글','김영상#4215',now(),now()),
+    (2,null,1,'2번광고 3번댓글','김영상#4215',now(),now()),
+    (2,null,1,'2번광고 4번댓글','김영상#4215',now(),now());
 
 INSERT INTO comment_reply (comment_id, user_id, content, created_at, modified_at)
 VALUES
