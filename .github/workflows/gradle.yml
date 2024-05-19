@@ -72,6 +72,12 @@ jobs:
     runs-on: self-hosted
 
     steps:
+
+      # 0. 도커 시스템 정리
+      - name: Clean up Docker system
+        run: |
+          sudo docker system prune -af --volumes
+          
       # 1. 최신 이미지를 풀받습니다
       - name: docker pull
         run: sudo docker pull ${{ secrets.DOCKER_USERNAME }}/panta-dev:latest
