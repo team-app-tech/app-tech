@@ -14,13 +14,14 @@ import server.apptech.file.domain.FileType;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 @Transactional
 @Slf4j
-public class FIleUploadService {
+public class FileService {
 
     private final AmazonS3 amazonS3;
 
@@ -57,4 +58,19 @@ public class FIleUploadService {
                 .uuid(uuid)
                 .build();
     }
+
+    public void deleteFile(String fileUrl) {
+
+        Optional<File> optionalFile = fileRepository.findByUrl(fileUrl);
+        //파일이 없으면
+        if(optionalFile.isEmpty()){
+            log.info("fileRepository에 저장되어있는게 없음");
+            return;
+        }
+
+        File file = optionalFile.get();
+        amazonS3.deleteObject(bucket, file.getUuid().substring(file.getUuid().lastIndexOf("-") + 1));
+        fileRepository.delete(file);
+    }
+
 }
