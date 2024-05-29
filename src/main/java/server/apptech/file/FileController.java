@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import server.apptech.auth.Auth;
 import server.apptech.auth.AuthUser;
-import server.apptech.comment.dto.PageCommentResponse;
 
 import java.io.IOException;
 
@@ -24,7 +23,7 @@ import java.io.IOException;
 @Tag(name = "File / 파일")
 public class FileController {
 
-    private final FIleUploadService fIleUploadService;
+    private final FileService fIleUploadService;
 
     @PostMapping(value = "/api/image", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE} )
     @Operation(summary = "이미지 저장", description = "이미지를 저장합니다.", responses = {@ApiResponse(responseCode = "200", description = "정상적으로 생성 fileId 값을 반환합니다", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Long.class)))})

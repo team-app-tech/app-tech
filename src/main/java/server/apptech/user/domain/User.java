@@ -66,6 +66,10 @@ public class User extends BaseEntity {
     public void changeNickName(String nickName){
         this.nickName = nickName;
     }
+
+    public void updateProfileImageUrl(String profileImageUrl){
+        this.profileImageUrl = profileImageUrl;
+    }
     public void addPoint(int amount){
         this.point += amount;
     }
