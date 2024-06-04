@@ -11,10 +11,11 @@ import java.time.LocalDateTime;
 @Builder
 public class CommentReplyResponse {
 
-    Long commentReplyId;
-    String content;
-    String nickName;
-    Integer likeCnt;
+    private Long commentReplyId;
+    private String content;
+    private String nickName;
+    private Integer likeCnt;
+    private String authId;
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime createdAt;
 
@@ -24,6 +25,7 @@ public class CommentReplyResponse {
                 .content(commentReply.getContent())
                 .nickName(commentReply.getUser().getNickName())
                 .likeCnt(commentReply.getLikeCnt())
+                .authId(commentReply.getUser().getAuthId())
                 .createdAt(commentReply.getCreatedAt())
                 .build();
     }
