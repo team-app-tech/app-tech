@@ -20,6 +20,7 @@ public class LoginUser {
     private String nickName;
     private String email;
     private String profileImageUrl;
+    private String authId;
 
     public static LoginUser of(User user, UserToken userToken){
         return LoginUser.builder()
@@ -30,6 +31,7 @@ public class LoginUser {
                 .nickName(user.getNickName())
                 .email(user.getEmail())
                 .profileImageUrl(user.getProfileImageUrl())
+                .authId(user.getAuthId())
                 .build();
     }
 }

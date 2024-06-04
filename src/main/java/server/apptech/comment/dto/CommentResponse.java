@@ -13,13 +13,14 @@ import java.util.stream.Collectors;
 @Builder
 public class CommentResponse {
 
-    Long commentId;
-    String content;
-    Long fileId;
-    String fileUrl;
-    String nickName;
-    Integer replyCnt;
-    Integer likeCnt;
+    private Long commentId;
+    private String content;
+    private Long fileId;
+    private String fileUrl;
+    private String nickName;
+    private Integer replyCnt;
+    private Integer likeCnt;
+    private String authId;
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime createdAt;
 
@@ -30,6 +31,7 @@ public class CommentResponse {
                 .nickName(comment.getCommentUserNickName())
                 .replyCnt(comment.getCommentRepliesCnt())
                 .likeCnt(comment.getLikeCnt())
+                .authId(comment.getUser().getAuthId())
                 .createdAt(comment.getCreatedAt());
         if(comment.getFile() != null){
             builder.fileId(comment.getFile().getId());

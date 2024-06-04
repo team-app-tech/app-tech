@@ -20,6 +20,7 @@ public class AdDetailResponse {
     private Integer commentCnt;
     private Integer likeCnt;
     private String fileUrl;
+    private String authId;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime createdDate;
@@ -42,6 +43,7 @@ public class AdDetailResponse {
                 .endDate(advertisement.getEndDate())
                 .createdDate(advertisement.getCreatedAt())
                 .fileUrl(advertisement.getContentImage().getUrl())
+                .authId(advertisement.getUser().getAuthId())
                 .build();
     }
 }

@@ -19,6 +19,7 @@ public class LoginResponse {
     private String nickName;
     private String email;
     private String profileImageUrl;
+    private String authId;
 
     public static LoginResponse of(LoginUser loginUser){
         return LoginResponse.builder()
@@ -27,6 +28,7 @@ public class LoginResponse {
                 .nickName(loginUser.getNickName())
                 .email(loginUser.getEmail())
                 .profileImageUrl(loginUser.getProfileImageUrl())
+                .authId(loginUser.getAuthId())
                 .build();
     }
 }
