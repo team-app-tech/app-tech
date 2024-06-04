@@ -21,6 +21,7 @@ public class AdResponse {
     private Integer likeCnt;
 
     private String fileUrl;
+    private String authId;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime startDate;
@@ -40,6 +41,7 @@ public class AdResponse {
                 .startDate(advertisement.getStartDate())
                 .endDate(advertisement.getEndDate())
                 .fileUrl(advertisement.getThumbNailImage().getUrl())
+                .authId(advertisement.getUser().getAuthId())
                 .build();
     }
 }
