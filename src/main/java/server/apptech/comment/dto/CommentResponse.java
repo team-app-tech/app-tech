@@ -20,6 +20,7 @@ public class CommentResponse {
     String nickName;
     Integer replyCnt;
     Integer likeCnt;
+    String authId;
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime createdAt;
 
@@ -30,6 +31,7 @@ public class CommentResponse {
                 .nickName(comment.getUser().getNickName())
                 .replyCnt(comment.getCommentRepliesCnt())
                 .likeCnt(comment.getLikeCnt())
+                .authId(comment.getUser().getAuthId())
                 .createdAt(comment.getCreatedAt());
         if(comment.getFile() != null){
             builder.fileId(comment.getFile().getId());
