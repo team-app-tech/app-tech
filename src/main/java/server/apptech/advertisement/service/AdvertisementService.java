@@ -162,8 +162,6 @@ public class AdvertisementService {
                 advertisementLikeRepository.findByUserIdAndAdvertisementIdIn(user.getUserId(), advertisementIds) :
                 Collections.emptyList();
 
-//        List<AdvertisementLike> likes = advertisementLikeRepository.findByUserIdAndAdvertisementIdIn(user.getUserId(), advertisementIds);
-
         // 좋아요 정보를 Map으로 변환
         Map<Long, Boolean> likeMap = likes.stream()
                 .collect(Collectors.toMap(
@@ -180,11 +178,15 @@ public class AdvertisementService {
         });
     }
 
-    public AdDetailResponse getAdvertisementById(Long advertisementId) {
+    public AdDetailResponse getAdvertisementById(AuthUser user, Long advertisementId) {
 
         Advertisement advertisement = advertisementRepository.findWithUserById(advertisementId).orElseThrow(() -> new RestApiException(ExceptionCode.NOT_FOUND_ADVERTISEMENT_ID));
         advertisement.plusViewCnt();
-        return AdDetailResponse.of(advertisement);
+        AdDetailResponse adDetailResponse = AdDetailResponse.of(advertisement);
+        if(user.getUserAuthority() != Authority.ROLE_VISITOR && advertisementLikeRepository.existsByAdvertisementIdAndUserId(advertisementId, user.getUserId())){
+            adDetailResponse.setIsLiked(Boolean.TRUE);
+        }
+        return adDetailResponse;
     }
 
     public Long updateAdvertisement(Long userId, Long advertisementId, AdUpdateRequest adUpdateRequest) {

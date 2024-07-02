@@ -56,9 +56,9 @@ public class AdvertisementController {
             @ApiResponse(responseCode = "400", description = "존재하지 않는 광고에 대한 조회 ", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ExceptionResponse.class))
             )})
     @GetMapping("/api/advertisement/{advertisementId}")
-    public ResponseEntity<AdDetailResponse> getAdvertisementDetail(@PathVariable(value = "advertisementId", required = true) Long advertisementId) {
+    public ResponseEntity<AdDetailResponse> getAdvertisementDetail(@Auth AuthUser user, @PathVariable(value = "advertisementId", required = true) Long advertisementId) {
         return ResponseEntity.ok()
-                .body(advertisementService.getAdvertisementById(advertisementId));
+                .body(advertisementService.getAdvertisementById(user,advertisementId));
     }
 
     @PutMapping(value = "/api/advertisement/{advertisementId}", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE} )
