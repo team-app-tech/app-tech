@@ -23,6 +23,8 @@ public class AdResponse {
     private String fileUrl;
     private String authId;
 
+    private Boolean isLiked;
+
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime startDate;
 
@@ -43,5 +45,9 @@ public class AdResponse {
                 .fileUrl(advertisement.getThumbNailImage().getUrl())
                 .authId(advertisement.getUser().getAuthId())
                 .build();
+    }
+
+    public void setIsLiked(Boolean isLiked) {
+        this.isLiked = isLiked;
     }
 }

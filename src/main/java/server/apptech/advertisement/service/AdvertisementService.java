@@ -6,6 +6,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import server.apptech.advertisement.advertisementlike.domain.AdvertisementLike;
+import server.apptech.advertisement.advertisementlike.domain.repository.AdvertisementLikeRepository;
 import server.apptech.advertisement.dto.AdUpdateRequest;
 import server.apptech.advertisement.domain.Advertisement;
 import server.apptech.advertisement.domain.type.SortOption;
@@ -14,6 +16,8 @@ import server.apptech.advertisement.dto.AdResponse;
 import server.apptech.advertisement.domain.repository.AdvertisementRepository;
 import server.apptech.advertisement.domain.type.EventStatus;
 import server.apptech.advertisement.dto.AdDetailResponse;
+import server.apptech.auth.AuthUser;
+import server.apptech.auth.Authority;
 import server.apptech.file.FileRepository;
 import server.apptech.file.domain.File;
 import server.apptech.global.exception.InvalidPaymentException;
@@ -27,6 +31,10 @@ import server.apptech.user.domain.repository.UserRepository;
 import server.apptech.user.domain.User;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -39,6 +47,7 @@ public class AdvertisementService {
     private final UserRepository userRepository;
     private final PrizeScheduler prizeScheduler;
     private final PaymentRepository paymentRepository;
+    private final AdvertisementLikeRepository advertisementLikeRepository;
 
     public Long createAdvertisement(Long userId, AdCreateRequest adCreateRequest) {
 
@@ -55,7 +64,7 @@ public class AdvertisementService {
         return advertisementId;
     }
 
-    public Page<AdResponse> getAdvertisements(int page, int size, EventStatus eventStatus, SortOption sortOption, String keyword) {
+    public Page<AdResponse> getAdvertisements(AuthUser user, int page, int size, EventStatus eventStatus, SortOption sortOption, String keyword) {
 
         PageRequest pageable = PageRequest.of(page, size);
 
@@ -143,7 +152,32 @@ public class AdvertisementService {
             default:
                 throw new RestApiException(ExceptionCode.INVALID_SORT_OPTION);
         }
-        return advertisements.map(advertisement -> AdResponse.of(advertisement));
+
+
+        List<Long> advertisementIds = advertisements.getContent().stream()
+                .map(Advertisement::getId)
+                .collect(Collectors.toList());
+
+        List<AdvertisementLike> likes = (user.getUserAuthority() != Authority.ROLE_VISITOR) ?
+                advertisementLikeRepository.findByUserIdAndAdvertisementIdIn(user.getUserId(), advertisementIds) :
+                Collections.emptyList();
+
+//        List<AdvertisementLike> likes = advertisementLikeRepository.findByUserIdAndAdvertisementIdIn(user.getUserId(), advertisementIds);
+
+        // 좋아요 정보를 Map으로 변환
+        Map<Long, Boolean> likeMap = likes.stream()
+                .collect(Collectors.toMap(
+                        like -> like.getAdvertisement().getId(),
+                        like -> true,
+                        (v1, v2) -> v1
+                ));
+
+        // AdResponse로 변환 및 좋아요 정보 설정
+        return advertisements.map(ad -> {
+            AdResponse adResponse = AdResponse.of(ad);
+            adResponse.setIsLiked(likeMap.getOrDefault(ad.getId(), false));
+            return adResponse;
+        });
     }
 
     public AdDetailResponse getAdvertisementById(Long advertisementId) {
