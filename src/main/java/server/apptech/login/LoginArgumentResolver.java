@@ -37,8 +37,12 @@ public class LoginArgumentResolver implements HandlerMethodArgumentResolver {
                                   WebDataBinderFactory binderFactory)
     {
         final HttpServletRequest request = webRequest.getNativeRequest(HttpServletRequest.class);
+        String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
 
-        String accessToken = extractAccessToken(request.getHeader(HttpHeaders.AUTHORIZATION));
+        if (authHeader == null || !authHeader.startsWith(BEARER_TYPE)) {
+            return AuthUser.visitor();
+        }
+        String accessToken = extractAccessToken(authHeader);
         jwtProvider.validAccessToken(accessToken);
         return AuthUser.user(Long.valueOf(jwtProvider.getSubject(accessToken)));
     }
