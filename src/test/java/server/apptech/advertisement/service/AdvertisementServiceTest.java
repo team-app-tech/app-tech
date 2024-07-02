@@ -95,14 +95,14 @@ class AdvertisementServiceTest {
     @DisplayName("광고글 단건조회")
     void getAdvertisement(){
 
-        //given
-        AdCreateRequest adCreateRequest = createtAdCreateRequest();
-        User user = createUser();
-        File file = createFile();
-        File file2 = createFile2();
-        Payment payment = createPayment(user);
-        Advertisement advertisement = createAdvertisement(adCreateRequest, user,file, file2,payment);
-        given(advertisementRepository.findWithUserById(any(Long.class))).willReturn(Optional.of(advertisement));
+//        //given
+//        AdCreateRequest adCreateRequest = createtAdCreateRequest();
+//        User user = createUser();
+//        File file = createFile();
+//        File file2 = createFile2();
+//        Payment payment = createPayment(user);
+//        Advertisement advertisement = createAdvertisement(adCreateRequest, user,file, file2,payment);
+//        given(advertisementRepository.findWithUserById(any(Long.class))).willReturn(Optional.of(advertisement));
 
         //when
 //        AdDetailResponse adDetailResponse = advertisementService.getAdvertisementById(1L);

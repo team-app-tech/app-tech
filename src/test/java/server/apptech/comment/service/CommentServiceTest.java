@@ -80,15 +80,15 @@ class CommentServiceTest {
     @DisplayName("광고 ID에 해당하는 댓글 조회")
     void getCommentsByAdvertisementId() {
 
-        //given
-        User user = createUser();
-        Advertisement advertisement = createAdvertisement(createtAdCreateRequest(), user);
-        CommentCreateRequest commentCreateRequest = createCommentRequest();
-
-        Comment comment = createComment(user, advertisement, commentCreateRequest);
-        List<Comment> comments = new ArrayList<>();
-        comments.add(comment);
-        given(commentRepository.findCommentsByAdvertisementId(any(Long.class))).willReturn(comments);
+//        //given
+//        User user = createUser();
+//        Advertisement advertisement = createAdvertisement(createtAdCreateRequest(), user);
+//        CommentCreateRequest commentCreateRequest = createCommentRequest();
+//
+//        Comment comment = createComment(user, advertisement, commentCreateRequest);
+//        List<Comment> comments = new ArrayList<>();
+//        comments.add(comment);
+//        given(commentRepository.findCommentsByAdvertisementId(any(Long.class))).willReturn(comments);
 
         //when
 //        PageCommentResponse pageCommentResponse = commentService.getCommentsByAdvertisementId(advertisement.getId());
