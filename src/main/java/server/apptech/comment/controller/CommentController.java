@@ -36,9 +36,9 @@ public class CommentController {
 
     @GetMapping(value = "/api/advertisement/{advertisementId}/comment")
     @Operation(summary = "댓글 조회", description = "댓글을 조회합니다.", responses = {@ApiResponse(responseCode = "200", description = "정상적으로 조회",content = @Content(mediaType = "application/json", schema = @Schema(implementation = PageCommentResponse.class)))})
-    public ResponseEntity<PageCommentResponse> getComments(@PathVariable(value = "advertisementId", required = true) Long advertisementId){
+    public ResponseEntity<PageCommentResponse> getComments(@Auth AuthUser user, @PathVariable(value = "advertisementId", required = true) Long advertisementId){
         return ResponseEntity.ok()
-                .body(commentService.getCommentsByAdvertisementId(advertisementId));
+                .body(commentService.getCommentsByAdvertisementId(user, advertisementId));
     }
 
     @PutMapping(value = "/api/advertisement/{advertisementId}/comment/{commentId}",produces ={MediaType.APPLICATION_JSON_VALUE}, consumes = {MediaType.APPLICATION_JSON_VALUE} )

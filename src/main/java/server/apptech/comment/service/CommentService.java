@@ -3,8 +3,14 @@ package server.apptech.comment.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import server.apptech.advertisement.advertisementlike.domain.AdvertisementLike;
 import server.apptech.advertisement.domain.Advertisement;
 import server.apptech.advertisement.domain.repository.AdvertisementRepository;
+import server.apptech.advertisement.dto.AdResponse;
+import server.apptech.auth.AuthUser;
+import server.apptech.auth.Authority;
+import server.apptech.comment.commentlike.domain.CommentLike;
+import server.apptech.comment.commentlike.domain.repository.CommentLikeRepository;
 import server.apptech.comment.dto.CommentResponse;
 import server.apptech.comment.dto.CommentUpdateRequest;
 import server.apptech.comment.dto.PageCommentResponse;
@@ -18,7 +24,9 @@ import server.apptech.global.exception.RestApiException;
 import server.apptech.user.domain.repository.UserRepository;
 import server.apptech.user.domain.User;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -30,6 +38,7 @@ public class CommentService {
     private final AdvertisementRepository advertisementRepository;
     private final CommentRepository commentRepository;
     private final FileRepository fileRepository;
+    private final CommentLikeRepository commentLikeRepository;
 
     public Long createComment(Long userId, Long advertisementId, CommentCreateRequest commentCreateRequest) {
 
@@ -47,10 +56,30 @@ public class CommentService {
         return commentRepository.save(comment).getId();
     }
 
-    public PageCommentResponse getCommentsByAdvertisementId(Long advertisementId) {
+    public PageCommentResponse getCommentsByAdvertisementId(AuthUser user, Long advertisementId) {
 
         List<Comment> comments = commentRepository.findCommentsByAdvertisementId(advertisementId);
-        return PageCommentResponse.of(comments.stream().map(CommentResponse::of).collect(Collectors.toList()));
+
+        List<Long> commentIds = comments.stream()
+                .map(Comment::getId)
+                .collect(Collectors.toList());
+
+
+        List<CommentLike> commentLikes = (user.getUserAuthority() != Authority.ROLE_VISITOR) ?
+                commentLikeRepository.findByUserIdAndCommentIdIn(user.getUserId(), commentIds) :
+                Collections.emptyList();
+
+        Map<Long, Boolean> likeMap = commentLikes.stream()
+                .collect(Collectors.toMap(
+                        like -> like.getComment().getId(),
+                        like -> true,
+                        (v1, v2) -> v1
+                ));
+        return PageCommentResponse.of(comments.stream().map(comment -> {
+            CommentResponse commentResponse = CommentResponse.of(comment);
+            commentResponse.setLiked(likeMap.getOrDefault(comment.getId(), false));
+            return commentResponse;
+        }).collect(Collectors.toList()));
     }
 
     public Long updateComment(Long userId, Long commentId, CommentUpdateRequest commentUpdateRequest) {
