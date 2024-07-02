@@ -21,6 +21,7 @@ public class AdDetailResponse {
     private Integer likeCnt;
     private String fileUrl;
     private String authId;
+    private Boolean isLiked;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime createdDate;
@@ -43,7 +44,12 @@ public class AdDetailResponse {
                 .endDate(advertisement.getEndDate())
                 .createdDate(advertisement.getCreatedAt())
                 .fileUrl(advertisement.getContentImage().getUrl())
+                .isLiked(Boolean.FALSE)
                 .authId(advertisement.getUser().getAuthId())
                 .build();
     }
+    public void setIsLiked(Boolean isLiked) {
+        this.isLiked = isLiked;
+    }
+
 }

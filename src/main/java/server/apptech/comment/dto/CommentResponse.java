@@ -21,6 +21,7 @@ public class CommentResponse {
     private Integer replyCnt;
     private Integer likeCnt;
     private String authId;
+    private Boolean isLiked;
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime createdAt;
 
@@ -40,4 +41,7 @@ public class CommentResponse {
         return builder.build();
     }
 
+    public void setLiked(Boolean liked) {
+        isLiked = liked;
+    }
 }

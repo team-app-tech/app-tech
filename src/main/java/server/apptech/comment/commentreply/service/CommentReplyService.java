@@ -3,6 +3,10 @@ package server.apptech.comment.commentreply.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import server.apptech.auth.AuthUser;
+import server.apptech.auth.Authority;
+import server.apptech.comment.commentreply.commentreplylike.CommentReplyLike;
+import server.apptech.comment.commentreply.commentreplylike.repository.CommentReplyLikeRepository;
 import server.apptech.comment.commentreply.domain.CommentReply;
 import server.apptech.comment.commentreply.domain.repository.CommentReplyRepository;
 import server.apptech.comment.commentreply.dto.CommentReplyCreateRequest;
@@ -17,7 +21,9 @@ import server.apptech.global.exception.RestApiException;
 import server.apptech.user.domain.repository.UserRepository;
 import server.apptech.user.domain.User;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -27,6 +33,7 @@ public class CommentReplyService {
 
     private final CommentReplyRepository commentReplyRepository;
     private final CommentRepository commentRepository;
+    private final CommentReplyLikeRepository commentReplyLikeRepository;
     private final UserRepository userRepository;
     public Long createCommentReply(Long userId, Long commentId, CommentReplyCreateRequest commentReplyCreateRequest) {
 
@@ -35,9 +42,29 @@ public class CommentReplyService {
         return commentReplyRepository.save(CommentReply.of(user, comment, commentReplyCreateRequest)).getId();
     }
 
-    public PageCommentReplyResponse getCommentRepliesByCommentId(Long commentId) {
+    public PageCommentReplyResponse getCommentRepliesByCommentId(AuthUser user, Long commentId) {
         List<CommentReply> commentReplies = commentReplyRepository.findCommentRepliesByCommentId(commentId);
-        return PageCommentReplyResponse.of(commentReplies.stream().map(commentReply -> CommentReplyResponse.of(commentReply)).collect(Collectors.toList()));
+
+        List<Long> commentReplyIds = commentReplies.stream()
+                .map(CommentReply::getId)
+                .collect(Collectors.toList());
+
+
+        List<CommentReplyLike> commentReplyLikes = (user.getUserAuthority() != Authority.ROLE_VISITOR) ?
+                commentReplyLikeRepository.findByUserIdAndCommentReplyIdIn(user.getUserId(), commentReplyIds) :
+                Collections.emptyList();
+
+        Map<Long, Boolean> likeMap = commentReplyLikes.stream()
+                .collect(Collectors.toMap(
+                        like -> like.getCommentReply().getId(),
+                        like -> true,
+                        (v1, v2) -> v1
+                ));
+        return PageCommentReplyResponse.of(commentReplies.stream().map(commentReply -> {
+            CommentReplyResponse commentReplyResponse = CommentReplyResponse.of(commentReply);
+            commentReplyResponse.setLiked(likeMap.getOrDefault(commentReply.getId(), false));
+            return commentReplyResponse;
+        }).collect(Collectors.toList()));
     }
 
     public void updateCommentReply(Long userId, Long commentReplyId, CommentReplyUpdateRequest commentReplyUpdateRequest) {

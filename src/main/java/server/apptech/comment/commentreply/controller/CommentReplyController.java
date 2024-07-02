@@ -35,9 +35,9 @@ public class CommentReplyController {
 
     @GetMapping(value = "/api/advertisement/{advertisementId}/comment/{commentId}/reply")
     @Operation(summary = "답글 조회", description = "댓글에 해당하는 답글을 조회합니다.", responses = {@ApiResponse(responseCode = "200", description = "정상적으로 조회",content = @Content(mediaType = "application/json", schema = @Schema(implementation = PageCommentResponse.class)))})
-    public ResponseEntity<PageCommentReplyResponse> getCommentReplies(@PathVariable(value = "advertisementId", required = true) Long advertisementId, @PathVariable(value = "commentId") Long commentId ){
+    public ResponseEntity<PageCommentReplyResponse> getCommentReplies(@Auth AuthUser user, @PathVariable(value = "advertisementId", required = true) Long advertisementId, @PathVariable(value = "commentId") Long commentId ){
         return ResponseEntity.ok()
-                .body(commentReplyService.getCommentRepliesByCommentId(commentId));
+                .body(commentReplyService.getCommentRepliesByCommentId(user, commentId));
     }
 
     @PutMapping(value = "/api/advertisement/{advertisementId}/comment/{commentId}/reply/{commentReplyId}",produces ={MediaType.APPLICATION_JSON_VALUE}, consumes = {MediaType.APPLICATION_JSON_VALUE} )

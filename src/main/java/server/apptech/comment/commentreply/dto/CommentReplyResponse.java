@@ -16,6 +16,7 @@ public class CommentReplyResponse {
     private String nickName;
     private Integer likeCnt;
     private String authId;
+    private Boolean isLiked;
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime createdAt;
 
@@ -28,5 +29,9 @@ public class CommentReplyResponse {
                 .authId(commentReply.getUser().getAuthId())
                 .createdAt(commentReply.getCreatedAt())
                 .build();
+    }
+
+    public void setLiked(Boolean liked) {
+        isLiked = liked;
     }
 }

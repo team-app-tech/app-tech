@@ -16,4 +16,12 @@ public class AuthUser {
     public static AuthUser user(Long userId){
         return new AuthUser(userId, Authority.ROLE_USER);
     }
+
+    public static AuthUser visitor(){
+        return new AuthUser(null, Authority.ROLE_VISITOR);
+    }
+
+    public boolean isVisitor() {
+        return this.userAuthority == Authority.ROLE_VISITOR;
+    }
 }

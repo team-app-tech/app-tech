@@ -40,6 +40,7 @@ public class AdvertisementController {
     @Operation(summary = "광고글 목록 조회", description = "광고글 목록을 조회합니다", responses = {@ApiResponse(responseCode = "200", description = "정상적으로 조회", content = @Content(mediaType = "application/json", schema = @Schema(implementation = PageAdResponse.class)))})
     @GetMapping("/api/advertisement")
     public ResponseEntity<PageAdResponse> getAdvertisements(
+            @Auth AuthUser user,
             @RequestParam(value = "page", required = false,defaultValue = "0") int page,
             @RequestParam(value = "size", required = false, defaultValue = "5") int size,
             @RequestParam(value = "eventStatus", required = false, defaultValue = "ONGOING") EventStatus eventStatus,
@@ -47,7 +48,7 @@ public class AdvertisementController {
             @RequestParam(value = "keyword", required = false, defaultValue = "") String keyword
     ) {
         return ResponseEntity.ok()
-                .body(PageAdResponse.of(advertisementService.getAdvertisements(page,size, eventStatus, sortOption, keyword)));
+                .body(PageAdResponse.of(advertisementService.getAdvertisements(user, page,size, eventStatus, sortOption, keyword)));
     }
 
     @Operation(summary = "광고 상세 조회", description = "광고글 단건 상세 조회합니다", responses = {
@@ -55,9 +56,9 @@ public class AdvertisementController {
             @ApiResponse(responseCode = "400", description = "존재하지 않는 광고에 대한 조회 ", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ExceptionResponse.class))
             )})
     @GetMapping("/api/advertisement/{advertisementId}")
-    public ResponseEntity<AdDetailResponse> getAdvertisementDetail(@PathVariable(value = "advertisementId", required = true) Long advertisementId) {
+    public ResponseEntity<AdDetailResponse> getAdvertisementDetail(@Auth AuthUser user, @PathVariable(value = "advertisementId", required = true) Long advertisementId) {
         return ResponseEntity.ok()
-                .body(advertisementService.getAdvertisementById(advertisementId));
+                .body(advertisementService.getAdvertisementById(user,advertisementId));
     }
 
     @PutMapping(value = "/api/advertisement/{advertisementId}", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE} )
