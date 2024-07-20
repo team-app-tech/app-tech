@@ -9,8 +9,10 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import server.apptech.advertisement.domain.Advertisement;
+import server.apptech.user.domain.User;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -77,5 +79,9 @@ public interface AdvertisementRepository extends JpaRepository<Advertisement, Lo
 
     @Query(value = "select a from Advertisement a join fetch a.user u where a.id = :id")
     Optional<Advertisement> findWithUserById(@Param("id") Long id);
+
+    //내가 게사한 광고
+    @Query(value = "select a from Advertisement a join fetch a.user u where a.user.id = :userId")
+    List<Advertisement> findWithUserByUserId(@Param("userId") Long userId);
 }
 
