@@ -13,6 +13,9 @@ public interface CommentReplyRepository extends JpaRepository<CommentReply, Long
 
     @Query(value = "select c from CommentReply c join fetch c.user u where c.comment.id = :commentId")
     List<CommentReply> findCommentRepliesByCommentId(@Param("commentId") Long commentId);
+
+    @Query(value = "select c from CommentReply c join fetch c.user u where c.user.id = :userId")
+    List<CommentReply> findCommentRepliesByUserId(@Param("userId") Long userId);
 }
 
 //left join fetch c.commentLikes cl

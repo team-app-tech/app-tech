@@ -13,7 +13,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import server.apptech.auth.Auth;
 import server.apptech.auth.AuthUser;
+import server.apptech.comment.commentreply.dto.PageCommentReplyResponse;
+import server.apptech.comment.dto.PageCommentResponse;
 import server.apptech.user.MyAdvertisementResponse;
+import server.apptech.user.PageMyCommentResponse;
 import server.apptech.user.service.UserService;
 
 import java.io.IOException;
@@ -52,5 +55,19 @@ public class UserController {
     public ResponseEntity<MyAdvertisementResponse> getMyAdvertisements(@Auth AuthUser authUser) {
         return ResponseEntity.ok()
                 .body(MyAdvertisementResponse.of(userService.getMyAdvertisements(authUser)));
+    }
+
+    @Operation(summary = "내가 게시한 댓글 목록 조회", description = "내가 게시한 댓글 목록을 조회합니다", responses = {@ApiResponse(responseCode = "200", description = "정상적으로 조회", content = @Content(mediaType = "application/json", schema = @Schema(implementation = MyAdvertisementResponse.class)))})
+    @GetMapping("/api/users/comment")
+    public ResponseEntity<PageMyCommentResponse> getMyComments(@Auth AuthUser authUser) {
+        return ResponseEntity.ok()
+                .body(PageMyCommentResponse.of(userService.getMyComments(authUser)));
+    }
+
+    @Operation(summary = "내가 게시한 댓글 목록 조회", description = "내가 게시한 댓글 목록을 조회합니다", responses = {@ApiResponse(responseCode = "200", description = "정상적으로 조회", content = @Content(mediaType = "application/json", schema = @Schema(implementation = MyAdvertisementResponse.class)))})
+    @GetMapping("/api/users/reply")
+    public ResponseEntity<PageCommentReplyResponse> getMyCommentReplies(@Auth AuthUser authUser) {
+        return ResponseEntity.ok()
+                .body(PageCommentReplyResponse.of(userService.getMyCommentReplies(authUser)));
     }
 }
