@@ -62,7 +62,7 @@ public interface AdvertisementRepository extends JpaRepository<Advertisement, Lo
     Page<Advertisement> findByFinishedOrderByViewCnt(PageRequest pageable, @Param("now")LocalDateTime now,@Param("keyword")String keyword );
 
     //댓글순
-    @Query(value = "select a from Advertisement a join fetch a.user u where a.endDate <= :now and a.title like %:keyword% order by a.commentCnt desc ")
+    @Query(value = "select a from Advertisement a join fetch a.user u where a.startDate >= :now and a.title like %:keyword% order by a.commentCnt desc ")
     Page<Advertisement> findByUpComingOrderByCommentCnt(PageRequest pageable, @Param("now")LocalDateTime now,@Param("keyword")String keyword);
     @Query(value = "select a from Advertisement a join fetch a.user u where :now between a.startDate and a.endDate and a.title like %:keyword% order by a.commentCnt desc ")
     Page<Advertisement> findByOngoingOrderCommentCnt(PageRequest pageable,  @Param("now")LocalDateTime now,@Param("keyword")String keyword);
@@ -70,7 +70,7 @@ public interface AdvertisementRepository extends JpaRepository<Advertisement, Lo
     Page<Advertisement> findByFinishedOrderCommentCnt(PageRequest pageable,  @Param("now")LocalDateTime now,@Param("keyword")String keyword);
 
     //좋아요순
-    @Query(value = "select a from Advertisement a join fetch a.user u where a.endDate <= :now and a.title like %:keyword% order by a.likeCnt desc ")
+    @Query(value = "select a from Advertisement a join fetch a.user u where a.startDate >= :now and a.title like %:keyword% order by a.likeCnt desc ")
     Page<Advertisement> findByUpComingOrderByLikeCnt(PageRequest pageable,  @Param("now")LocalDateTime now,@Param("keyword")String keyword);
     @Query(value = "select a from Advertisement a join fetch a.user u where :now between a.startDate and a.endDate and a.title like %:keyword% order by a.likeCnt desc ")
     Page<Advertisement> findByOngoingOrderByLikeCnt(PageRequest pageable,  @Param("now")LocalDateTime now,@Param("keyword")String keyword);
