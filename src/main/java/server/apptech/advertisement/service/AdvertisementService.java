@@ -68,96 +68,14 @@ public class AdvertisementService {
 
         PageRequest pageable = PageRequest.of(page, size);
 
-        Page<Advertisement> advertisements = null;
-
-        switch (sortOption){
-            case PRIZE_DESCENDING:
-                if(eventStatus == EventStatus.UPCOMING){
-                    advertisements =advertisementRepository.findByUpComingOrderByPrizeDesc(pageable,LocalDateTime.now(),keyword);
-
-                }
-                if(eventStatus == EventStatus.ONGOING){
-                    advertisements =advertisementRepository.findByOnGoingOrderByPrizeDesc(pageable,LocalDateTime.now(), keyword);
-
-                }
-                if(eventStatus == EventStatus.FINISHED){
-                    advertisements = advertisementRepository.findByFinishedOrderByPrizeDesc(pageable,LocalDateTime.now(), keyword);
-                }
-                break;
-            case START_ASCENDING:
-                if(eventStatus == EventStatus.UPCOMING){
-                    advertisements =advertisementRepository.findByUpComingOrderByStartDateAsc(pageable,LocalDateTime.now(), keyword);
-
-                }
-                if(eventStatus == EventStatus.ONGOING){
-                    advertisements =advertisementRepository.findByOnGoingOrderByStartDateAsc(pageable,LocalDateTime.now(), keyword);
-
-                }
-                if(eventStatus == EventStatus.FINISHED){
-                    advertisements =advertisementRepository.findByFinishedOrderByStartDateAsc(pageable,LocalDateTime.now(), keyword);
-                }
-                break;
-            case END_ASCENDING:
-                if(eventStatus == EventStatus.UPCOMING){
-                    advertisements =advertisementRepository.findByUpComingOrderByEndDateAsc(pageable,LocalDateTime.now(), keyword);
-
-                }
-                if(eventStatus == EventStatus.ONGOING){
-                    advertisements =advertisementRepository.findByOnGoingOrderByEndDateAsc(pageable,LocalDateTime.now(), keyword);
-
-                }
-                if(eventStatus == EventStatus.FINISHED){
-                    advertisements =advertisementRepository.findByFinishedOrderByEndDateAsc(pageable,LocalDateTime.now(), keyword);
-                }
-                break;
-            case VIEWS_DESCENDING:
-                if(eventStatus == EventStatus.UPCOMING){
-                    advertisements =  advertisementRepository.findByUpComingOrderByViewCnt(pageable, LocalDateTime.now(), keyword);
-
-                }
-                if(eventStatus == EventStatus.ONGOING){
-                    advertisements =  advertisementRepository.findByOngoingOrderByViewCnt(pageable, LocalDateTime.now(), keyword);
-
-                }
-                if(eventStatus == EventStatus.FINISHED){
-                    advertisements =  advertisementRepository.findByFinishedOrderByViewCnt(pageable, LocalDateTime.now(), keyword);
-                }
-                break;
-            case COMMENTS_DESCENDING:
-                if(eventStatus == EventStatus.UPCOMING){
-                    advertisements =  advertisementRepository.findByUpComingOrderByCommentCnt(pageable, LocalDateTime.now(), keyword);
-
-                }
-                if(eventStatus == EventStatus.ONGOING){
-                    advertisements =  advertisementRepository.findByOngoingOrderCommentCnt(pageable, LocalDateTime.now(), keyword);
-
-                }
-                if(eventStatus == EventStatus.FINISHED){
-                    advertisements =  advertisementRepository.findByFinishedOrderCommentCnt(pageable, LocalDateTime.now(), keyword);
-                }
-                break;
-            case LIKES_DESCENDING:
-                if(eventStatus == EventStatus.UPCOMING){
-                    advertisements =  advertisementRepository.findByUpComingOrderByLikeCnt(pageable, LocalDateTime.now(), keyword);
-
-                }
-                if(eventStatus == EventStatus.ONGOING){
-                    advertisements =  advertisementRepository.findByOngoingOrderByLikeCnt(pageable, LocalDateTime.now(), keyword);
-
-                }
-                if(eventStatus == EventStatus.FINISHED){
-                    advertisements =  advertisementRepository.findByFinishedOrderByLikeCnt(pageable, LocalDateTime.now(), keyword);
-                }
-                break;
-            default:
-                throw new RestApiException(ExceptionCode.INVALID_SORT_OPTION);
-        }
-
+        // 광고 가져오기
+        Page<Advertisement> advertisements = advertisementRepository.findAdvertisements(pageable, eventStatus, sortOption, LocalDateTime.now(), keyword);
 
         List<Long> advertisementIds = advertisements.getContent().stream()
                 .map(Advertisement::getId)
                 .collect(Collectors.toList());
 
+        // 현재 사용자가 누른 좋아요 조회
         List<AdvertisementLike> likes = (user.getUserAuthority() != Authority.ROLE_VISITOR) ?
                 advertisementLikeRepository.findByUserIdAndAdvertisementIdIn(user.getUserId(), advertisementIds) :
                 Collections.emptyList();
